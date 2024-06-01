@@ -89,6 +89,7 @@ public partial class Goemon : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();		
+		
 	}
 
 	void setParametersToFalse() {

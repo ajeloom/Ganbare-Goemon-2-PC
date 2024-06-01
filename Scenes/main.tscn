@@ -8,12 +8,13 @@
 [node name="StaticBody2D" parent="." instance=ExtResource("2_eqs6o")]
 position = Vector2(4096, 50)
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_u5jt3")]
-position = Vector2(158, 248)
+[node name="Goemon" parent="." instance=ExtResource("1_u5jt3")]
+position = Vector2(1699, 248)
 Speed = 145.0
+JumpVelocity = -380.0
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-position = Vector2(-98.75, -155)
-scale = Vector2(0.625, 0.625)
-anchor_mode = 0
+[node name="Camera2D" type="Camera2D" parent="Goemon"]
+offset = Vector2(0, 100)
 zoom = Vector2(3, 3)
+limit_top = -100
+limit_bottom = 100

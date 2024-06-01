@@ -263,6 +263,7 @@ graph_offset = Vector2(-86, 33)
 
 [node name="Goemon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "animTree")]
 scale = Vector2(1.6, 1.6)
+floor_snap_length = 2.0
 script = ExtResource("1_5g463")
 sprite = NodePath("Sprite2D")
 animTree = NodePath("AnimationTree")
