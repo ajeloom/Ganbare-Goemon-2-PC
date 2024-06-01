@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://do87prko86xvb"]
+[gd_scene load_steps=20 format=3 uid="uid://do87prko86xvb"]
 
+[ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stage/Level1_Background1.png" id="1_8nk3a"]
 [ext_resource type="Texture2D" uid="uid://bd8pvmgtjfpbp" path="res://Sprites/Stage/Level1_Background.png" id="1_mvij7"]
 [ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stage/Level1_Ryukyu_Resort.png" id="1_xxir4"]
+[ext_resource type="Texture2D" uid="uid://cgfn6qxbt45wl" path="res://Sprites/Stage/Level1_Background2.png" id="2_5gjpm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yaex7"]
 size = Vector2(5121, 11)
@@ -9,43 +11,115 @@ size = Vector2(5121, 11)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7frt"]
 size = Vector2(128, 5)
 
-[sub_resource type="Animation" id="Animation_fmptt"]
-resource_name = "Background"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Background:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-
 [sub_resource type="Animation" id="Animation_qmsj1"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Background:frame")
+tracks/0/path = NodePath("Background2:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_m2gqd"]
+resource_name = "Background1"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_ean14"]
+resource_name = "Background2"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_500ca"]
+resource_name = "Background"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0ax2v"]
 _data = {
-"Background": SubResource("Animation_fmptt"),
+"Background": SubResource("Animation_500ca"),
+"Background1": SubResource("Animation_m2gqd"),
+"Background2": SubResource("Animation_ean14"),
 "RESET": SubResource("Animation_qmsj1")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3hkq6"]
+animation = &"Background"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1kb4s"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_necar"]
+states/Background/node = SubResource("AnimationNodeAnimation_3hkq6")
+states/Background/position = Vector2(300, 101)
+states/Start/position = Vector2(178, 100)
+transitions = ["Start", "Background", SubResource("AnimationNodeStateMachineTransition_1kb4s")]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_12f0i"]
 size = Vector2(223, 14)
@@ -53,18 +127,48 @@ size = Vector2(223, 14)
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_ksexn"]
 points = PackedVector2Array(0, 0, 100, -51, 100, 29, 0, 29)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ot57v"]
+atlas = ExtResource("1_mvij7")
+region = Rect2(0, 0, 256, 173)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rudd"]
+atlas = ExtResource("1_mvij7")
+region = Rect2(256, 0, 256, 173)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t3gyv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ot57v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rudd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Level 1" type="StaticBody2D"]
 scale = Vector2(1.6, 1.6)
 
 [node name="Background" type="Sprite2D" parent="."]
 texture_repeat = 2
 position = Vector2(0, 55)
-texture = ExtResource("1_mvij7")
-hframes = 2
+texture = ExtResource("1_8nk3a")
 region_enabled = true
-region_rect = Rect2(0, 0, 10240, 173)
+region_rect = Rect2(0, 0, 5120, 173)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background2" type="Sprite2D" parent="."]
+visible = false
+texture_repeat = 2
+position = Vector2(0, 55)
+scale = Vector2(1, 1)
+texture = ExtResource("2_5gjpm")
+region_enabled = true
+region_rect = Rect2(0, 0, 5120, 173)
+
+[node name="Ground" type="Sprite2D" parent="."]
 texture = ExtResource("1_xxir4")
 
 [node name="Base" type="CollisionShape2D" parent="."]
@@ -86,6 +190,13 @@ libraries = {
 "": SubResource("AnimationLibrary_0ax2v")
 }
 
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0ax2v")
+}
+tree_root = SubResource("AnimationNodeStateMachine_necar")
+anim_player = NodePath("../AnimationPlayer")
+
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2(-1262.5, 73)
 shape = SubResource("RectangleShape2D_12f0i")
@@ -93,3 +204,9 @@ shape = SubResource("RectangleShape2D_12f0i")
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
 position = Vector2(-1474, 117)
 shape = SubResource("ConvexPolygonShape2D_ksexn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_repeat = 2
+sprite_frames = SubResource("SpriteFrames_t3gyv")
+frame_progress = 0.446524
