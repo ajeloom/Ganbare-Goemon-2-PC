@@ -10,13 +10,12 @@ public partial class Goemon : CharacterBody2D
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
 	[Export] private Sprite2D sprite;
-	[Export] private AnimationTree animTree;
+	[Export] private AnimationPlayer animPlayer;
 
 	public override void _Ready()
 	{
-		sprite.FlipH = false;
-		setParametersToFalse();
-		animTree.Set("parameters/conditions/isIdle", true);
+		sprite.FlipH = false;	
+		animPlayer.Play("Idle");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -32,12 +31,13 @@ public partial class Goemon : CharacterBody2D
 
 			// The player is in the air
 			if (velocity.Y < 0.0f) {
-				setParametersToFalse();
-				animTree.Set("parameters/conditions/isJumping", true);
+				animPlayer.Play("Jump");
 			}
 			else {
-				setParametersToFalse();
-				animTree.Set("parameters/conditions/isFalling", true);
+				if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
+					animPlayer.Play("Fall1");
+					animPlayer.Queue("Fall2");
+				}	
 			}
 			
 		}
@@ -45,9 +45,7 @@ public partial class Goemon : CharacterBody2D
 		// Handle Jump.
 		if (Input.IsActionJustPressed("jump") && IsOnFloor()) {
 			velocity.Y = JumpVelocity;
-
-			setParametersToFalse();
-			animTree.Set("parameters/conditions/isJumping", true);
+			animPlayer.Play("Jump");
 		}
 			
 
@@ -58,24 +56,28 @@ public partial class Goemon : CharacterBody2D
 			sprite.FlipH = false;
 			direction = new Vector2(1.0f, 0.0f);
 
-			if (IsOnFloor()) {
+			if (IsOnFloor())
 				selectAnimationForWalking();
-			}
 		}
 		else if (Input.IsActionPressed("walkLeft")) {
 			sprite.FlipH = true;
 			direction = new Vector2(-1.0f, 0.0f);
 			
-			if (IsOnFloor()) {
+			if (IsOnFloor())
 				selectAnimationForWalking();
-			}
+		}
+		else if (Input.IsActionPressed("lookUp")) {
+			if (IsOnFloor())
+				animPlayer.Play("LookUp");
+		}
+		else if (Input.IsActionPressed("crouch")) {
+			if (IsOnFloor())
+				animPlayer.Play("Crouch");
 		}
 		else {
 			// If nothing is pressed then go to idle animation
-			if (IsOnFloor()) {
-				setParametersToFalse();
-				animTree.Set("parameters/conditions/isIdle", true);
-			}
+			if (IsOnFloor())
+				animPlayer.Play("Idle");
 		}
 
 		if (direction != Vector2.Zero)
@@ -91,24 +93,12 @@ public partial class Goemon : CharacterBody2D
 		MoveAndSlide();		
 	}
 
-	void setParametersToFalse() {
-		animTree.Set("parameters/conditions/isIdle", false);
-		animTree.Set("parameters/conditions/isWalking", false);
-		animTree.Set("parameters/conditions/isCrawling", false);
-		animTree.Set("parameters/conditions/isJumping", false);
-		animTree.Set("parameters/conditions/isFalling", false);
-	}
-
 	void selectAnimationForWalking() {
 		// Crawl if player holds down while walking
-		if (Input.IsActionPressed("crouch")) {
-			setParametersToFalse();
-			animTree.Set("parameters/conditions/isCrawling", true);
-		}
-		else {
-			setParametersToFalse();
-			animTree.Set("parameters/conditions/isWalking", true);
-		}
+		if (Input.IsActionPressed("crouch"))
+			animPlayer.Play("Crawl");
+		else
+			animPlayer.Play("Walk");
 	}
 
 }
