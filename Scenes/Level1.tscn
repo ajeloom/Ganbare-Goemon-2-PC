@@ -166,7 +166,6 @@ shape = SubResource("RectangleShape2D_yaex7")
 
 [node name="Platform 1" type="CollisionShape2D" parent="."]
 position = Vector2(-1790.94, 99.5)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_p7frt")
 one_way_collision = true
 
@@ -190,12 +189,10 @@ anim_player = NodePath("../AnimationPlayer")
 
 [node name="Slope 1" type="CollisionShape2D" parent="."]
 position = Vector2(-1474, 117)
-scale = Vector2(1, 1)
 shape = SubResource("ConvexPolygonShape2D_ksexn")
 
 [node name="Ground 1" type="CollisionShape2D" parent="."]
 position = Vector2(-1262.5, 73)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_12f0i")
 
 [node name="Wall 1" type="CollisionShape2D" parent="."]

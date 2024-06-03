@@ -1,7 +1,8 @@
-[gd_scene load_steps=40 format=3 uid="uid://dcmg4010lym4k"]
+[gd_scene load_steps=43 format=3 uid="uid://dcmg4010lym4k"]
 
 [ext_resource type="Script" path="res://Scripts/Goemon.cs" id="1_5g463"]
 [ext_resource type="Texture2D" uid="uid://77u7en8c3ouh" path="res://Sprites/Characters/Goemon.png" id="1_obp7q"]
+[ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="3_pb73u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pprda"]
 radius = 7.5
@@ -44,6 +45,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_6m3tm"]
 resource_name = "Fall1"
 length = 0.05
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -51,7 +53,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.8, 0.9),
+"times": PackedFloat32Array(0, 0.05, 0.8, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [16, 17, 18, 19]
@@ -59,8 +61,9 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_l4ei6"]
 resource_name = "Fall2"
-length = 0.2
+length = 0.1
 loop_mode = 1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -68,10 +71,26 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.05),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [18, 19]
+"values": [19, 18]
+}
+
+[sub_resource type="Animation" id="Animation_cboi1"]
+resource_name = "Hurt"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
 }
 
 [sub_resource type="Animation" id="Animation_a8bus"]
@@ -108,6 +127,23 @@ tracks/0/keys = {
 "values": [15]
 }
 
+[sub_resource type="Animation" id="Animation_br4jg"]
+resource_name = "LookUp"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
 [sub_resource type="Animation" id="Animation_mepd2"]
 length = 0.001
 tracks/0/type = "value"
@@ -140,29 +176,13 @@ tracks/0/keys = {
 "values": [5, 6, 7, 8, 9, 7]
 }
 
-[sub_resource type="Animation" id="Animation_br4jg"]
-resource_name = "LookUp"
-length = 0.1
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t18eo"]
 _data = {
 "Crawl": SubResource("Animation_eeja4"),
 "Crouch": SubResource("Animation_h2ofj"),
 "Fall1": SubResource("Animation_6m3tm"),
 "Fall2": SubResource("Animation_l4ei6"),
+"Hurt": SubResource("Animation_cboi1"),
 "Idle": SubResource("Animation_a8bus"),
 "Jump": SubResource("Animation_1b7ys"),
 "LookUp": SubResource("Animation_br4jg"),
@@ -280,8 +300,13 @@ states/Walk/position = Vector2(405, 11)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_s7fom"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_3htcj"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_i3otr"), "Idle", "Crawl", SubResource("AnimationNodeStateMachineTransition_nut7a"), "Crawl", "Idle", SubResource("AnimationNodeStateMachineTransition_xuu3t"), "Walk", "Crawl", SubResource("AnimationNodeStateMachineTransition_jf0e7"), "Crawl", "Walk", SubResource("AnimationNodeStateMachineTransition_7yg4h"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_0kdhf"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_xxgns"), "Crawl", "Jump", SubResource("AnimationNodeStateMachineTransition_bi4jw"), "Walk", "Jump", SubResource("AnimationNodeStateMachineTransition_yx0fv"), "Jump", "Fall1", SubResource("AnimationNodeStateMachineTransition_apo66"), "Fall1", "Walk", SubResource("AnimationNodeStateMachineTransition_0sc7x"), "Fall1", "Idle", SubResource("AnimationNodeStateMachineTransition_ogckd"), "Fall1", "Crawl", SubResource("AnimationNodeStateMachineTransition_ksavm"), "Jump", "Walk", SubResource("AnimationNodeStateMachineTransition_kpb02"), "Jump", "Crawl", SubResource("AnimationNodeStateMachineTransition_p0eke"), "Walk", "Fall1", SubResource("AnimationNodeStateMachineTransition_8vvah"), "Crawl", "Fall1", SubResource("AnimationNodeStateMachineTransition_1f3yx"), "Idle", "Fall1", SubResource("AnimationNodeStateMachineTransition_pscrb")]
 graph_offset = Vector2(-178, -17)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ty2qx"]
+radius = 7.5
+height = 21.25
+
 [node name="Goemon" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "animPlayer")]
 scale = Vector2(1.6, 1.6)
+collision_layer = 2
 floor_snap_length = 2.0
 script = ExtResource("1_5g463")
 Speed = 200.0
@@ -292,7 +317,7 @@ animPlayer = NodePath("AnimationPlayer")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_obp7q")
 hframes = 5
-vframes = 4
+vframes = 5
 frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -315,3 +340,15 @@ parameters/conditions/isFalling = false
 parameters/conditions/isIdle = false
 parameters/conditions/isJumping = false
 parameters/conditions/isWalking = false
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_pb73u")]
+
+[node name="Area2D" type="Area2D" parent="." groups=["Player"]]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 11.875)
+shape = SubResource("CapsuleShape2D_ty2qx")
+
+[connection signal="area_entered" from="Area2D" to="." method="OnAreaEntered"]
