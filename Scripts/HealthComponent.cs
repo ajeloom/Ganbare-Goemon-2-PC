@@ -17,5 +17,11 @@ public partial class HealthComponent : Node2D
 
 	public void Damage(float damageNumber) {
 		health -= damageNumber;
+
+		// Delete player when health reaches 0
+		if (health <= 0) {
+			CharacterBody2D body = this.GetParent<CharacterBody2D>();
+			body.QueueFree();
+		}
 	}
 }

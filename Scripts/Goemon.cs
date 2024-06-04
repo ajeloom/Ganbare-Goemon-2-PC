@@ -10,136 +10,140 @@ public partial class Goemon : CharacterBody2D
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
-	[Export] private Sprite2D sprite;
+	[Export] private Sprite2D bodySprite;
 	[Export] private AnimationPlayer animPlayer;
 
 	// Variables for taking damage
-	private Vector2 lastDirection;
+	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
 	private int bounces = 0;
 	public bool takingDamage = false;
-	private bool holdingInput = false;
+
+	private bool isAttacking = false;
+	//private bool isAirborne = false;
 
 	public override void _Ready()
 	{
-		sprite.FlipH = false;	
+		bodySprite.FlipH = false;
 		animPlayer.Play("Idle");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		handleInput();
-		if (!takingDamage) {
-			handleMovement(delta);
-		}
-		else {
-			tookDamage(delta);
-		}
-	}
-
-	private void handleMovement(double delta) {
 		Vector2 velocity = Velocity;
+
+		velocity.X = horizontalMovement();			
 
 		// Add the gravity.
 		if (!IsOnFloor()) {
 			velocity.Y += gravity * (float)delta;
 
-			// The player is in the air
-			if (velocity.Y < 0.0f) {
-				animPlayer.Play("Jump");
+			// Play jump or fall animations
+			if (!isAttacking && !takingDamage) {
+				if (velocity.Y < 0.0f) {
+					animPlayer.Play("Jump");
+				}
+				else {
+					if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
+						animPlayer.Play("Fall1");
+						animPlayer.Queue("Fall2");
+					}	
+				}
 			}
-			else {
-				if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
-					animPlayer.Play("Fall1");
-					animPlayer.Queue("Fall2");
-				}	
+		}
+		else {
+			// Can only jump once off the ground
+			if (Input.IsActionJustPressed("jump")) {
+				velocity.Y = JumpVelocity;
+			}	
+			
+			// Play one of these animations if the player is not moving
+			if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
+				if (Input.IsActionPressed("crouch")) {
+					animPlayer.Play("Crouch");
+				}
+				else if (Input.IsActionPressed("lookUp")) {
+					animPlayer.Play("LookUp");
+				}
+				else {
+					animPlayer.Play("Idle");
+				}
 			}
 			
 		}
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("jump") && IsOnFloor()) {
-			velocity.Y = JumpVelocity;
-			animPlayer.Play("Jump");
+		if (takingDamage) {
+			// Player bounces up everytime they hit the floor
+			if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
+				bounces++;
+				velocity.Y = -205.0f;
+			}
+
+			// Player bounces away from the enemy
+			velocity.X = -lastDirection.X * Speed;
 		}
-			
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
+
+		if (Input.IsActionJustPressed("attack")) {
+			Attacking();
+		}		
+
+		//GD.Print(velocity);
+
+		Velocity = velocity;
+		MoveAndSlide();
+	}
+
+	private float horizontalMovement() {
 		Vector2 direction = Vector2.Zero;
-		if (Input.IsActionPressed("walkRight")) {
-			sprite.FlipH = false;
-			direction = new Vector2(1.0f, 0.0f);
-			lastDirection = direction;
-			
-			if (IsOnFloor())
-				selectAnimationForWalking();
-		}
-		else if (Input.IsActionPressed("walkLeft")) {
-			sprite.FlipH = true;
-			direction = new Vector2(-1.0f, 0.0f);
-			lastDirection = direction;
-			
-			if (IsOnFloor())
-				selectAnimationForWalking();
-		}
-		else if (Input.IsActionPressed("crouch")) {
-			if (IsOnFloor())
-				animPlayer.Play("Crouch");
-		}
-		else if (Input.IsActionPressed("lookUp")) {
-			if (IsOnFloor())
-				animPlayer.Play("LookUp");
-		}
-		else {
-			// If nothing is pressed then go to idle animation
-			if (IsOnFloor())
-				animPlayer.Play("Idle");
+
+		// - Move when not taking damage or attacking
+		// X - Stop moving when attacking on the ground
+		// - You can't move while attacking in the air unless you are already moving before attacking
+		// - Can't turn during the attack animation 
+
+
+		// Player can only move when not attacking or taking damage
+		if (!takingDamage) {
+			// Can only turn when not attacking
+			if (Input.IsActionPressed("walkRight")) {
+				bodySprite.FlipH = false;
+				
+				direction = lastDirection = new Vector2(1.0f, 0.0f);
+
+				if (!isAttacking)
+					movementAnimation();
+				else if (isAttacking && IsOnFloor())
+					return Mathf.MoveToward(Velocity.X, 0, Speed);
+			}
+			else if (Input.IsActionPressed("walkLeft")) {
+				bodySprite.FlipH = true;
+
+				direction = lastDirection = new Vector2(-1.0f, 0.0f);
+
+				if (!isAttacking)
+					movementAnimation();
+				else if (isAttacking && IsOnFloor())
+					return Mathf.MoveToward(Velocity.X, 0, Speed);
+			}
 		}
 
 		if (direction != Vector2.Zero)
-		{
-			velocity.X = direction.X * Speed;
-		}
+			return direction.X * Speed;						// Move left or right
 		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
+			return Mathf.MoveToward(Velocity.X, 0, Speed);	// Don't move
 	}
 
-	private void selectAnimationForWalking() {
-		// Crawl if player holds down while walking
-		if (Input.IsActionPressed("crouch"))
-			animPlayer.Play("Crawl");
-		else
-			animPlayer.Play("Walk");
-	}
-
-	// Handles the bounce physics when getting hurt
-	public void tookDamage(double delta) {	
-		Vector2 velocity = Velocity;
-
-		// Player bounces up a little bit (2 times)
-		if (IsOnFloor() && bounces < 2) {
-			bounces++;
-			velocity.Y = -205.0f;
+	private void movementAnimation() {
+		// Play a movement animation based on the player's input
+		if (IsOnFloor()) {
+			if (Input.IsActionPressed("crouch"))
+				animPlayer.Play("Crawl");
+			else
+				animPlayer.Play("Walk");
 		}
-
-		// Player falls in the air
-		if (!IsOnFloor()) {
-			velocity.Y += gravity * (float)delta;
-		}
-
-		// Player bounces away from the enemy
-		velocity.X = -lastDirection.X * Speed;
-
-		Velocity = velocity;
-		MoveAndSlide();
-
 	}
 
 	private async void OnAreaEntered(Area2D area) {
+		GD.Print("Player entered area");
 		if (!takingDamage && area.IsInGroup("Enemy")) {
 			takingDamage = true;
 			bounces = 0;
@@ -161,14 +165,20 @@ public partial class Goemon : CharacterBody2D
 		}
 	}
 
-	private void handleInput() {
-		if (Input.IsActionPressed("walkRight") || Input.IsActionPressed("walkLeft")) {
-			holdingInput = true;
-		}
-		else if (!Input.IsActionPressed("walkRight") && !Input.IsActionPressed("walkLeft")) {
-			holdingInput = false;
+	private async void Attacking() {
+		if (!isAttacking) {
+			isAttacking = true;
+			
+			if (lastDirection.X >= 0.0f) {
+				animPlayer.Play("NormalAttackR");
+			}
+			else {
+				animPlayer.Play("NormalAttackL");
+			}
+
+			await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+
+			isAttacking = false;
 		}
 	}
-
 }
-

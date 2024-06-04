@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://77u7en8c3ouh"
-path="res://.godot/imported/Goemon.png-3844f164c149166235d191bf839e36c2.ctex"
+uid="uid://lfjy1imsivqi"
+path="res://.godot/imported/Weapon1.png-7865b9352610b5952f709eb152e36a97.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/Goemon.png"
-dest_files=["res://.godot/imported/Goemon.png-3844f164c149166235d191bf839e36c2.ctex"]
+source_file="res://Sprites/Characters/Goemon/Weapon1.png"
+dest_files=["res://.godot/imported/Weapon1.png-7865b9352610b5952f709eb152e36a97.ctex"]
 
 [params]
 

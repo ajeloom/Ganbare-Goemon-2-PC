@@ -22,3 +22,12 @@ limit_bottom = 100
 
 [node name="Darumanyo" parent="." instance=ExtResource("3_qsbrr")]
 position = Vector2(1680, 245)
+
+[node name="Darumanyo2" parent="." instance=ExtResource("3_qsbrr")]
+position = Vector2(1599, 179)
+
+[node name="Darumanyo3" parent="." instance=ExtResource("3_qsbrr")]
+position = Vector2(1959, 123)
+
+[node name="Darumanyo4" parent="." instance=ExtResource("3_qsbrr")]
+position = Vector2(2092, 132)
