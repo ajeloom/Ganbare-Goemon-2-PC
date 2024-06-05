@@ -1,17 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://do87prko86xvb"]
+[gd_scene load_steps=12 format=3 uid="uid://do87prko86xvb"]
 
 [ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stage/Level1_Background1.png" id="1_8nk3a"]
 [ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stage/Level1_Ryukyu_Resort.png" id="1_xxir4"]
 [ext_resource type="Texture2D" uid="uid://cgfn6qxbt45wl" path="res://Sprites/Stage/Level1_Background2.png" id="2_5gjpm"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yaex7"]
-size = Vector2(5121, 11)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p7frt"]
-size = Vector2(140.625, 5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_br2a3"]
-size = Vector2(141.874, 4.76563)
 
 [sub_resource type="Animation" id="Animation_500ca"]
 resource_name = "Background"
@@ -123,15 +114,6 @@ states/Background/position = Vector2(300, 101)
 states/Start/position = Vector2(178, 100)
 transitions = ["Start", "Background", SubResource("AnimationNodeStateMachineTransition_1kb4s")]
 
-[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_ksexn"]
-points = PackedVector2Array(0, 0, 100, -51, 100, 29, 0, 29)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_12f0i"]
-size = Vector2(223, 14)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1cwc"]
-size = Vector2(64.3747, 66.25)
-
 [node name="Level 1" type="StaticBody2D"]
 scale = Vector2(1.6, 1.6)
 
@@ -160,19 +142,39 @@ region_rect = Rect2(0, 0, 5120, 173)
 [node name="Ground" type="Sprite2D" parent="."]
 texture = ExtResource("1_xxir4")
 
-[node name="Base" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 151.5)
-shape = SubResource("RectangleShape2D_yaex7")
+[node name="Base" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-2559, 146, -1471, 146, -1471, 116, -1375, 66, -1152, 67, -1152, 146, -383, 146, -383, 114, -255, 114, -255, 82, -127, 82, -127, 50, 128, 50, 200, 70, 219, 82, 251, 98, 283, 114, 315, 130, 386, 146, 1089, 146, 1089, 114, 1153, 114, 1153, 82, 1248, 82, 1248, 114, 1280, 114, 1280, 146, 2048, 146, 2118, 130, 2150, 114, 2178, 98, 2560, 98, 2560, 156, -2559, 156)
 
-[node name="Platform 1" type="CollisionShape2D" parent="."]
-position = Vector2(-1790.94, 99.5)
-shape = SubResource("RectangleShape2D_p7frt")
+[node name="Platform 1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1862, 98, -1721, 98, -1721, 99, -1862, 99)
 one_way_collision = true
 
-[node name="Platform 2" type="CollisionShape2D" parent="."]
-position = Vector2(-1600, 100)
-scale = Vector2(0.999999, 0.999999)
-shape = SubResource("RectangleShape2D_br2a3")
+[node name="Platform 2" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1670, 98, -1529, 98, -1529, 99, -1670, 99)
+one_way_collision = true
+
+[node name="Platform 3" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1152, 114, -1017, 114, -1017, 115, -1152, 115)
+one_way_collision = true
+
+[node name="Platform 4" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1062, 66, -953, 66, -953, 67, -1062, 67)
+one_way_collision = true
+
+[node name="Platform 5" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-902, 66, -793, 66, -793, 67, -902, 67)
+one_way_collision = true
+
+[node name="Platform 6" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-742, 50, -633, 50, -633, 51, -742, 51)
+one_way_collision = true
+
+[node name="Platform 7" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(1530, 50, 1639, 50, 1639, 51, 1530, 51)
+one_way_collision = true
+
+[node name="Platform 8" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(1690, 50, 1799, 50, 1799, 51, 1690, 51)
 one_way_collision = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -186,16 +188,3 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_necar")
 anim_player = NodePath("../AnimationPlayer")
-
-[node name="Slope 1" type="CollisionShape2D" parent="."]
-position = Vector2(-1474, 117)
-shape = SubResource("ConvexPolygonShape2D_ksexn")
-
-[node name="Ground 1" type="CollisionShape2D" parent="."]
-position = Vector2(-1262.5, 73)
-shape = SubResource("RectangleShape2D_12f0i")
-
-[node name="Wall 1" type="CollisionShape2D" parent="."]
-position = Vector2(-1183.44, 113.125)
-scale = Vector2(0.999999, 0.999999)
-shape = SubResource("RectangleShape2D_a1cwc")

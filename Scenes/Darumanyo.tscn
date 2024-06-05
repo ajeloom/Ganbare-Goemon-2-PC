@@ -5,26 +5,54 @@
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_q5koc"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_4bxx2"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="5_4u8ql"]
+[ext_resource type="Texture2D" uid="uid://cp3ctm1jld6ng" path="res://Sprites/Enemies/Explosion.png" id="6_v5q1d"]
+[ext_resource type="AudioStream" uid="uid://cy6bdnki35ek4" path="res://SFX/explosion.mp3" id="7_hmw1d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rjj4e"]
 
-[sub_resource type="Animation" id="Animation_71fr8"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_sl4td"]
+resource_name = "Explosion"
+length = 0.35
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Explosion:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_3utrm"]
-resource_name = "Shine"
+resource_name = "Idle"
 length = 0.8
 loop_mode = 1
 step = 0.05
@@ -40,35 +68,104 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_71fr8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Explosion:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y2yeo"]
 _data = {
-"RESET": SubResource("Animation_71fr8"),
-"Shine": SubResource("Animation_3utrm")
+"Explosion": SubResource("Animation_sl4td"),
+"Idle": SubResource("Animation_3utrm"),
+"RESET": SubResource("Animation_71fr8")
 }
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7dokx"]
-animation = &"Shine"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yrgbw"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_mt734"]
-states/Shine/node = SubResource("AnimationNodeAnimation_7dokx")
-states/Shine/position = Vector2(317, 100)
-states/Start/position = Vector2(196, 100)
-transitions = ["Start", "Shine", SubResource("AnimationNodeStateMachineTransition_yrgbw")]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7cdvu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hjutb"]
 
-[node name="Darumanyo" type="CharacterBody2D"]
+[node name="Darumanyo" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "healthComponent", "hitboxComponent", "audio")]
 scale = Vector2(1.6, 1.6)
 collision_layer = 4
 script = ExtResource("1_yommi")
+animPlayer = NodePath("AnimationPlayer")
+healthComponent = NodePath("HealthComponent")
+hitboxComponent = NodePath("HitboxComponent")
+audio = NodePath("AudioStreamPlayer2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_r1jwx")
 hframes = 8
 
@@ -80,28 +177,28 @@ libraries = {
 "": SubResource("AnimationLibrary_y2yeo")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_y2yeo")
-}
-tree_root = SubResource("AnimationNodeStateMachine_mt734")
-anim_player = NodePath("../AnimationPlayer")
-
 [node name="HealthComponent" parent="." instance=ExtResource("5_4u8ql")]
-scale = Vector2(1, 1)
 health = 1.0
 
 [node name="HurtboxComponent" parent="." groups=["Enemy"] instance=ExtResource("4_4bxx2")]
-scale = Vector2(1, 1)
 collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 shape = SubResource("CircleShape2D_7cdvu")
 
-[node name="HitboxComponent" parent="." groups=["Enemy"] instance=ExtResource("3_q5koc")]
+[node name="HitboxComponent" parent="." instance=ExtResource("3_q5koc")]
 collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("CircleShape2D_hjutb")
+
+[node name="Explosion" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_v5q1d")
+hframes = 7
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_hmw1d")
+volume_db = -5.0
