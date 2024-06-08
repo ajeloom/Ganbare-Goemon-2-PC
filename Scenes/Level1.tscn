@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://do87prko86xvb"]
+[gd_scene load_steps=9 format=3 uid="uid://do87prko86xvb"]
 
 [ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stage/Level1_Background1.png" id="1_8nk3a"]
 [ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stage/Level1_Ryukyu_Resort.png" id="1_xxir4"]
@@ -31,6 +31,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ground:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
 }
 
 [sub_resource type="Animation" id="Animation_m2gqd"]
@@ -93,6 +105,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ground:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0ax2v"]
 _data = {
@@ -101,18 +125,6 @@ _data = {
 "Background2": SubResource("Animation_ean14"),
 "RESET": SubResource("Animation_qmsj1")
 }
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3hkq6"]
-animation = &"Background"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1kb4s"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_necar"]
-states/Background/node = SubResource("AnimationNodeAnimation_3hkq6")
-states/Background/position = Vector2(300, 101)
-states/Start/position = Vector2(178, 100)
-transitions = ["Start", "Background", SubResource("AnimationNodeStateMachineTransition_1kb4s")]
 
 [node name="Level 1" type="StaticBody2D"]
 scale = Vector2(1.6, 1.6)
@@ -141,6 +153,7 @@ region_rect = Rect2(0, 0, 5120, 173)
 
 [node name="Ground" type="Sprite2D" parent="."]
 texture = ExtResource("1_xxir4")
+vframes = 2
 
 [node name="Base" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-2559, 146, -1471, 146, -1471, 116, -1375, 66, -1152, 67, -1152, 146, -383, 146, -383, 114, -255, 114, -255, 82, -127, 82, -127, 50, 128, 50, 200, 70, 219, 82, 251, 98, 283, 114, 315, 130, 386, 146, 1089, 146, 1089, 114, 1153, 114, 1153, 82, 1248, 82, 1248, 114, 1280, 114, 1280, 146, 2048, 146, 2118, 130, 2150, 114, 2178, 98, 2560, 98, 2560, 156, -2559, 156)
@@ -177,14 +190,16 @@ one_way_collision = true
 polygon = PackedVector2Array(1690, 50, 1799, 50, 1799, 51, 1690, 51)
 one_way_collision = true
 
+[node name="Invisible Wall 1" type="CollisionPolygon2D" parent="."]
+scale = Vector2(1, 1)
+polygon = PackedVector2Array(-2559, 156, -2559, -32, -2561, -32, -2561, 156)
+
+[node name="Invisible Wall 2" type="CollisionPolygon2D" parent="."]
+scale = Vector2(1, 1)
+polygon = PackedVector2Array(2560, 156, 2560, -32, 2562, -32, 2562, 156)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_0ax2v")
 }
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_0ax2v")
-}
-tree_root = SubResource("AnimationNodeStateMachine_necar")
-anim_player = NodePath("../AnimationPlayer")
+autoplay = "Background"

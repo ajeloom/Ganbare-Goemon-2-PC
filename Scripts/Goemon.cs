@@ -4,7 +4,7 @@ using System;
 public partial class Goemon : CharacterBody2D
 {
 	// Movement variables
-	[Export] public float speed = 170.0f;
+	[Export] public float speed = 150.0f;
 	[Export] public float jumpVelocity = -500.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -25,11 +25,12 @@ public partial class Goemon : CharacterBody2D
 
 	// Variable for running
 	private bool isRunning = false;
+	private bool isMoving = false;
+	private bool holdingJump = false;
 
 	public override void _Ready()
 	{
 		bodySprite.FlipH = false;
-		animPlayer.Play("Idle");
 		audio.VolumeDb = 0.0f;
 	}
 
@@ -37,7 +38,9 @@ public partial class Goemon : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 
-		velocity.X = horizontalMovement();			
+		velocity.X = horizontalMovement();	
+		isMoving = (velocity.X != 0.0f) ? true : false;
+		// GD.Print(isMoving);
 
 		// Add the gravity.
 		if (!IsOnFloor()) {
@@ -59,9 +62,14 @@ public partial class Goemon : CharacterBody2D
 		else {
 			// Can only jump once off the ground
 			if (Input.IsActionJustPressed("jump")) {
+				//holdingJump = true;
 				velocity.Y = jumpVelocity;
+				
 				playSFX("jump");
-			}	
+			}
+			// else if (Input.IsActionJustReleased("jump")) {
+			// 	holdingJump = false;
+			// }
 			
 			// Play one of these animations if the player is not moving
 			if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
@@ -86,6 +94,7 @@ public partial class Goemon : CharacterBody2D
 			}
 
 			// Player bounces away from the enemy
+			speed = 150.0f;
 			velocity.X = -lastDirection.X * speed;
 		}
 		else {
@@ -94,14 +103,20 @@ public partial class Goemon : CharacterBody2D
 
 		// For running
 		if (Input.IsActionJustPressed("attack")) {
-			if (IsOnFloor()) {
-				isRunning = true;
-			}
+			isRunning = true;
 			Attacking();
 		}
 		else if (Input.IsActionJustReleased("attack")) {
 			isRunning = false;
 		}
+
+		// if (holdingJump) {
+		// 	//if (jumpVelocity > 0.0f)
+		// 	gravity -= 100.0f;
+		// }
+		// else {
+				
+		// }
 
 		takingDamage = hurtboxComponent.takingDamage;
 
@@ -141,13 +156,13 @@ public partial class Goemon : CharacterBody2D
 					return Mathf.MoveToward(Velocity.X, 0, speed);
 			}
 
-			if (isRunning) {
+			if (isRunning && IsOnFloor()) {
 				if (speed < 250.0f)
-					speed += 2.0f;
+					speed += 1.0f;
 			}
-			else {
-				if (speed != 170.0f)
-					speed -= 2.0f;
+			else if (!isRunning) {
+				if (speed != 150.0f)
+					speed -= 5.0f;
 			}
 		}
 
@@ -187,7 +202,7 @@ public partial class Goemon : CharacterBody2D
 
 	private void playSFX(string action) {
 		if (action == "jump") {
-			audio.Stream = (AudioStream)ResourceLoader.Load("res://SFX/jump.wav");
+			audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/SFX/jump.wav");
 			audio.VolumeDb = -12.5f;
 		}
 
