@@ -1,10 +1,13 @@
 using Godot;
 using System;
 
-public partial class Goemon : CharacterBody2D
+public partial class Player : CharacterBody2D
 {
 	// Movement variables
 	[Export] public float speed = 150.0f;
+	private float maxSpeed = 250.0f;
+	private float baseSpeed;
+
 	[Export] public float jumpVelocity = -500.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -14,6 +17,7 @@ public partial class Goemon : CharacterBody2D
 	[Export] private AnimationPlayer animPlayer;
 	[Export] private HurtboxComponent hurtboxComponent;
 	[Export] private AudioStreamPlayer2D audio;
+	[Export] public HealthComponent healthComponent;
 
 	// Variables for taking damage
 	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
@@ -24,12 +28,17 @@ public partial class Goemon : CharacterBody2D
 	private bool isAttacking = false;
 
 	// Variable for running
-	private bool isRunning = false;
-	private bool isMoving = false;
-	private bool holdingJump = false;
+	private bool holdingRunButton = false;
+	private bool holdingJumpButton = false;
+
+	public int coins = 0;
+	public int lives = 0;
+
+	[Export] public int playerNum = 2;
 
 	public override void _Ready()
 	{
+		baseSpeed = speed;
 		bodySprite.FlipH = false;
 		audio.VolumeDb = 0.0f;
 	}
@@ -39,8 +48,6 @@ public partial class Goemon : CharacterBody2D
 		Vector2 velocity = Velocity;
 
 		velocity.X = horizontalMovement();	
-		isMoving = (velocity.X != 0.0f) ? true : false;
-		// GD.Print(isMoving);
 
 		// Add the gravity.
 		if (!IsOnFloor()) {
@@ -71,6 +78,17 @@ public partial class Goemon : CharacterBody2D
 			// 	holdingJump = false;
 			// }
 			
+			if (velocity.X != 0.0f && holdingRunButton) {
+				if (speed < maxSpeed)
+					speed += 1.0f;				// Gradually increase speed to maxSpeed
+			}
+			else if (!holdingRunButton) {
+				if (speed > baseSpeed)
+					speed -= 5.0f;				// Speed drops to baseSpeed quicker
+				else if (speed <= baseSpeed)
+					speed = baseSpeed;			// Make sure speed does not go below baseSpeed
+			}
+
 			// Play one of these animations if the player is not moving
 			if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
 				if (Input.IsActionPressed("crouch")) {
@@ -103,11 +121,11 @@ public partial class Goemon : CharacterBody2D
 
 		// For running
 		if (Input.IsActionJustPressed("attack")) {
-			isRunning = true;
+			holdingRunButton = true;
 			Attacking();
 		}
 		else if (Input.IsActionJustReleased("attack")) {
-			isRunning = false;
+			holdingRunButton = false;
 		}
 
 		// if (holdingJump) {
@@ -155,15 +173,6 @@ public partial class Goemon : CharacterBody2D
 				else if (isAttacking && IsOnFloor())
 					return Mathf.MoveToward(Velocity.X, 0, speed);
 			}
-
-			if (isRunning && IsOnFloor()) {
-				if (speed < 250.0f)
-					speed += 1.0f;
-			}
-			else if (!isRunning) {
-				if (speed != 150.0f)
-					speed -= 5.0f;
-			}
 		}
 
 		if (direction != Vector2.Zero)
@@ -177,10 +186,9 @@ public partial class Goemon : CharacterBody2D
 		if (IsOnFloor()) {
 			if (Input.IsActionPressed("crouch"))
 				animPlayer.Play("Crawl");
-			else if (isRunning) {
+			else if (holdingRunButton)
 				animPlayer.Play("Run");
-			}
-			else if (!isRunning)
+			else if (!holdingRunButton)
 				animPlayer.Play("Walk");
 		}
 	}

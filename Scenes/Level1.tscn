@@ -191,11 +191,9 @@ polygon = PackedVector2Array(1690, 50, 1799, 50, 1799, 51, 1690, 51)
 one_way_collision = true
 
 [node name="Invisible Wall 1" type="CollisionPolygon2D" parent="."]
-scale = Vector2(1, 1)
 polygon = PackedVector2Array(-2559, 156, -2559, -32, -2561, -32, -2561, 156)
 
 [node name="Invisible Wall 2" type="CollisionPolygon2D" parent="."]
-scale = Vector2(1, 1)
 polygon = PackedVector2Array(2560, 156, 2560, -32, 2562, -32, 2562, 156)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

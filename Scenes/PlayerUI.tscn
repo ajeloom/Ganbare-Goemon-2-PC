@@ -1,0 +1,110 @@
+[gd_scene load_steps=12 format=3 uid="uid://inu4m1xngjkm"]
+
+[ext_resource type="Texture2D" uid="uid://c7n2c5vh1xphl" path="res://Sprites/UI/WeaponSlot.png" id="1_iy1rq"]
+[ext_resource type="Script" path="res://Scripts/PlayerUI.cs" id="1_mfghx"]
+[ext_resource type="Texture2D" uid="uid://jpfjgh7s76c1" path="res://Sprites/UI/Weapon1Icon.png" id="2_u30ub"]
+[ext_resource type="Texture2D" uid="uid://borvutymp6f" path="res://Sprites/UI/Icons/GoemonIcon.png" id="3_1o60p"]
+[ext_resource type="Texture2D" uid="uid://y5dunor5h7d5" path="res://Sprites/UI/Coin.png" id="4_qut1u"]
+[ext_resource type="FontFile" uid="uid://7xqnkjkii468" path="res://Sprites/UI/Numbers.png" id="5_6v8a7"]
+[ext_resource type="Texture2D" uid="uid://klbsuh70xadc" path="res://Sprites/UI/HP/HealthBarUnder.png" id="6_h3n3i"]
+[ext_resource type="Texture2D" uid="uid://28x5i70gsaji" path="res://Sprites/UI/HP/HealthBarOver.png" id="7_l7w3q"]
+[ext_resource type="Texture2D" uid="uid://bclw6tewpxjny" path="res://Sprites/UI/HP/HealthBarProgress.png" id="8_r4vc8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i3a1e"]
+font = ExtResource("5_6v8a7")
+font_size = 70
+
+[sub_resource type="LabelSettings" id="LabelSettings_28s58"]
+font = ExtResource("5_6v8a7")
+font_size = 70
+
+[node name="Player UI" type="Node2D" node_paths=PackedStringArray("coinsLabel", "livesLabel", "node", "bar1", "bar2", "bar3")]
+script = ExtResource("1_mfghx")
+coinsLabel = NodePath("CanvasLayer/Node2D/Coin Label")
+livesLabel = NodePath("CanvasLayer/Node2D/Lives Label")
+node = NodePath("CanvasLayer/Node2D")
+bar1 = NodePath("CanvasLayer/Node2D/HP Bar 1")
+bar2 = NodePath("CanvasLayer/Node2D/HP Bar 2")
+bar3 = NodePath("CanvasLayer/Node2D/HP Bar 3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Node2D" type="Node2D" parent="CanvasLayer"]
+
+[node name="Weapon Slot" type="Sprite2D" parent="CanvasLayer/Node2D"]
+position = Vector2(100, 986)
+scale = Vector2(5, 5)
+texture = ExtResource("1_iy1rq")
+
+[node name="Weapon Icon" type="Sprite2D" parent="CanvasLayer/Node2D"]
+position = Vector2(102.5, 986.5)
+scale = Vector2(5, 5)
+texture = ExtResource("2_u30ub")
+
+[node name="Icon" type="Sprite2D" parent="CanvasLayer/Node2D"]
+position = Vector2(245, 1028.5)
+scale = Vector2(5, 5)
+texture = ExtResource("3_1o60p")
+
+[node name="Coin Sprite" type="Sprite2D" parent="CanvasLayer/Node2D"]
+position = Vector2(220, 948.5)
+scale = Vector2(5, 5)
+texture = ExtResource("4_qut1u")
+
+[node name="Coin Label" type="Label" parent="CanvasLayer/Node2D"]
+offset_left = 250.0
+offset_top = 911.0
+offset_right = 405.0
+offset_bottom = 991.0
+text = "100"
+label_settings = SubResource("LabelSettings_i3a1e")
+
+[node name="Lives Label" type="Label" parent="CanvasLayer/Node2D"]
+offset_left = 295.0
+offset_top = 996.0
+offset_right = 385.0
+offset_bottom = 1066.0
+text = "02"
+label_settings = SubResource("LabelSettings_28s58")
+
+[node name="HP Bar 1" type="TextureProgressBar" parent="CanvasLayer/Node2D"]
+offset_left = 390.0
+offset_top = 911.0
+offset_right = 430.0
+offset_bottom = 951.0
+scale = Vector2(5, 5)
+max_value = 4.0
+value = 4.0
+fill_mode = 3
+texture_under = ExtResource("6_h3n3i")
+texture_over = ExtResource("7_l7w3q")
+texture_progress = ExtResource("8_r4vc8")
+
+[node name="HP Bar 2" type="TextureProgressBar" parent="CanvasLayer/Node2D"]
+offset_left = 435.0
+offset_top = 911.0
+offset_right = 475.0
+offset_bottom = 951.0
+scale = Vector2(5, 5)
+min_value = 4.0
+max_value = 8.0
+value = 8.0
+fill_mode = 3
+texture_under = ExtResource("6_h3n3i")
+texture_over = ExtResource("7_l7w3q")
+texture_progress = ExtResource("8_r4vc8")
+
+[node name="HP Bar 3" type="TextureProgressBar" parent="CanvasLayer/Node2D"]
+offset_left = 480.0
+offset_top = 911.0
+offset_right = 520.0
+offset_bottom = 951.0
+scale = Vector2(5, 5)
+min_value = 8.0
+max_value = 12.0
+value = 12.0
+fill_mode = 3
+texture_under = ExtResource("6_h3n3i")
+texture_over = ExtResource("7_l7w3q")
+texture_progress = ExtResource("8_r4vc8")
