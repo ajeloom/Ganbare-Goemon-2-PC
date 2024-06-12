@@ -1,25 +1,24 @@
 using Godot;
 using System;
 
-public partial class HealthComponent : Node2D
+public partial class AudioComponent : AudioStreamPlayer
 {
-	[Export] public float health = 12.0f;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Play();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (!Playing) {
+			QueueFree();
+		}
 	}
 
-	public void Damage(float damageNumber) {
-		health -= damageNumber;
-
-		if (health == 0 && IsInGroup("Player")) {
-			GetTree().Quit();
-		}
+	public AudioComponent(string file, float volume) {
+		Stream = (AudioStream)ResourceLoader.Load(file);
+		VolumeDb = volume;
 	}
 }

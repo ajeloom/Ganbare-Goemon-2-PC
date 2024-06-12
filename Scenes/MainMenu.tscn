@@ -1,0 +1,165 @@
+[gd_scene load_steps=4 format=3 uid="uid://bicmvt2gr4x62"]
+
+[ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_hgdu6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xqgs4"]
+font_size = 100
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
+font_size = 100
+
+[node name="Main Menu" type="Control" node_paths=PackedStringArray("titleScreen", "characterScreen")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hgdu6")
+titleScreen = NodePath("Title Screen")
+characterScreen = NodePath("Character Select Screen")
+
+[node name="Title Screen" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Title Screen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 472.0
+offset_top = 100.0
+offset_right = 1408.0
+offset_bottom = 237.0
+grow_horizontal = 2
+text = "Ganbare Goemon 2"
+label_settings = SubResource("LabelSettings_xqgs4")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Title Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 412.0
+offset_right = 1132.0
+offset_bottom = 520.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play"
+
+[node name="Button2" type="Button" parent="Title Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 612.0
+offset_right = 1132.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+
+[node name="Character Select Screen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Goemon" type="Button" parent="Character Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -254.0
+offset_right = 192.0
+offset_bottom = -146.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Goemon"
+
+[node name="Ebisumaru" type="Button" parent="Character Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -54.0
+offset_right = 192.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ebisumaru"
+
+[node name="Sasuke" type="Button" parent="Character Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 146.0
+offset_right = 192.0
+offset_bottom = 254.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Sasuke"
+
+[node name="Button" type="Button" parent="Character Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 346.0
+offset_right = 192.0
+offset_bottom = 454.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+
+[node name="Label" type="Label" parent="Character Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -468.0
+offset_top = -470.0
+offset_right = 468.0
+offset_bottom = -333.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Select a character"
+label_settings = SubResource("LabelSettings_hcibv")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Title Screen/Button" to="." method="PlayButtonPressed"]
+[connection signal="pressed" from="Title Screen/Button2" to="." method="QuitButtonPressed"]
+[connection signal="pressed" from="Character Select Screen/Goemon" to="." method="CharacterButtonPressed"]
+[connection signal="pressed" from="Character Select Screen/Button" to="." method="BackButtonPressed"]

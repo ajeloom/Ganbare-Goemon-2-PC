@@ -4,9 +4,9 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	// Movement variables
-	[Export] public float speed = 150.0f;
+	public float speed;
+	[Export] private float baseSpeed = 150.0f;
 	private float maxSpeed = 250.0f;
-	private float baseSpeed;
 
 	[Export] public float jumpVelocity = -500.0f;
 
@@ -16,7 +16,6 @@ public partial class Player : CharacterBody2D
 	[Export] private Sprite2D bodySprite;
 	[Export] private AnimationPlayer animPlayer;
 	[Export] private HurtboxComponent hurtboxComponent;
-	[Export] private AudioStreamPlayer2D audio;
 	[Export] public HealthComponent healthComponent;
 
 	// Variables for taking damage
@@ -24,23 +23,23 @@ public partial class Player : CharacterBody2D
 	private int bounces = 0;
 	public bool takingDamage = false;
 
-	// Variable for attacking
+	// Variables for attacking
 	private bool isAttacking = false;
+	private bool playingHurtSFX = false;
 
 	// Variable for running
 	private bool holdingRunButton = false;
 	private bool holdingJumpButton = false;
 
-	public int coins = 0;
-	public int lives = 0;
+	public int coins = 100;
+	public int lives = 2;
 
 	[Export] public int playerNum = 2;
 
 	public override void _Ready()
 	{
-		baseSpeed = speed;
+		speed = baseSpeed;
 		bodySprite.FlipH = false;
-		audio.VolumeDb = 0.0f;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -72,7 +71,7 @@ public partial class Player : CharacterBody2D
 				//holdingJump = true;
 				velocity.Y = jumpVelocity;
 				
-				playSFX("jump");
+				playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
 			}
 			// else if (Input.IsActionJustReleased("jump")) {
 			// 	holdingJump = false;
@@ -105,6 +104,8 @@ public partial class Player : CharacterBody2D
 
 		if (takingDamage) {
 			animPlayer.Play("Hurt");
+			Hurt();
+			
 			// Player bounces up everytime they hit the floor
 			if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
 				bounces++;
@@ -112,7 +113,7 @@ public partial class Player : CharacterBody2D
 			}
 
 			// Player bounces away from the enemy
-			speed = 150.0f;
+			speed = baseSpeed;
 			velocity.X = -lastDirection.X * speed;
 		}
 		else {
@@ -197,6 +198,7 @@ public partial class Player : CharacterBody2D
 		if (!isAttacking) {
 			isAttacking = true;
 			
+			playSFX("res://Sounds/SFX/Goemon/attack.wav", -15.0f);
 			if (lastDirection.X >= 0.0f)
 				animPlayer.Play("NormalAttackR");
 			else 
@@ -208,12 +210,21 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void playSFX(string action) {
-		if (action == "jump") {
-			audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/SFX/jump.wav");
-			audio.VolumeDb = -12.5f;
-		}
+	// Only plays the hurt sound once
+	private async void Hurt() {
+		if (!playingHurtSFX) {
+			playingHurtSFX = true;
+			
+			playSFX("res://Sounds/SFX/Goemon/hurt.wav", -12.5f);
 
-		audio.Play();
+			await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
+
+			playingHurtSFX = false;
+		}
+	}
+
+	private void playSFX(string file, float volume) {
+		AudioComponent audioComponent = new AudioComponent(file, volume);
+		AddChild(audioComponent);
 	}
 }

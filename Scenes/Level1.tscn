@@ -127,6 +127,7 @@ _data = {
 }
 
 [node name="Level 1" type="StaticBody2D"]
+position = Vector2(4096, 50)
 scale = Vector2(1.6, 1.6)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
@@ -201,3 +202,9 @@ libraries = {
 "": SubResource("AnimationLibrary_0ax2v")
 }
 autoplay = "Background"
+
+[node name="Spawn Point 1" type="Node2D" parent="."]
+position = Vector2(-2509, 123)
+
+[node name="Spawn Point 2" type="Node2D" parent="."]
+position = Vector2(-2529, 123)

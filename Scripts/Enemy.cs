@@ -14,8 +14,9 @@ public partial class Enemy : CharacterBody2D
 	[Export] private AnimationPlayer animPlayer;
 	[Export] private HealthComponent healthComponent;
 	[Export] private HitboxComponent hitboxComponent;
-	[Export] private AudioStreamPlayer2D audio;
 	private CollisionShape2D hitbox;
+
+	private bool isExploding = false;
 
 	public override void _Ready()
 	{
@@ -27,7 +28,13 @@ public partial class Enemy : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		if (healthComponent.health <= 0.0f) {
-			Explosion();
+			if (!isExploding) {
+				isExploding = true;
+				hitbox.Disabled = true;
+				animPlayer.Play("Explosion");
+				
+				playSFX("res://Sounds/SFX/explosion.wav", -15.0f);
+			}
 		}
 		else {
 			animPlayer.Play("Idle");
@@ -47,11 +54,8 @@ public partial class Enemy : CharacterBody2D
 		}
 	}
 
-	private async void Explosion() {
-		hitbox.Disabled = true;
-		animPlayer.Play("Explosion");
-		audio.Play();
-		await ToSignal(GetTree().CreateTimer(0.35f), SceneTreeTimer.SignalName.Timeout);
-		this.QueueFree();
+	private void playSFX(string file, float volume) {
+		AudioComponent audioComponent = new AudioComponent(file, volume);
+		AddChild(audioComponent);
 	}
 }

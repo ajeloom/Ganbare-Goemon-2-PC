@@ -868,7 +868,7 @@ height = 21.25
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0l7dh"]
 size = Vector2(55.625, 46.5813)
 
-[node name="Goemon" type="CharacterBody2D" node_paths=PackedStringArray("bodySprite", "animPlayer", "hurtboxComponent", "audio", "healthComponent")]
+[node name="Goemon" type="CharacterBody2D" node_paths=PackedStringArray("bodySprite", "animPlayer", "hurtboxComponent", "healthComponent")]
 scale = Vector2(1.6, 1.6)
 collision_layer = 2
 floor_snap_length = 3.0
@@ -876,7 +876,6 @@ script = ExtResource("1_67tfp")
 bodySprite = NodePath("Sprite2D")
 animPlayer = NodePath("AnimationPlayer")
 hurtboxComponent = NodePath("HurtboxComponent")
-audio = NodePath("AudioStreamPlayer2D")
 healthComponent = NodePath("HealthComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -896,7 +895,7 @@ libraries = {
 }
 autoplay = "Idle"
 
-[node name="HealthComponent" parent="." instance=ExtResource("3_pb73u")]
+[node name="HealthComponent" parent="." groups=["Player"] instance=ExtResource("3_pb73u")]
 
 [node name="HurtboxComponent" parent="." groups=["Player"] instance=ExtResource("6_arbi7")]
 collision_layer = 2
@@ -922,7 +921,5 @@ position = Vector2(-23, 2)
 texture = ExtResource("4_pc757")
 flip_h = true
 hframes = 4
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [node name="Player UI" parent="." instance=ExtResource("7_ajrbe")]

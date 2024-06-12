@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfuogc3nkdc80"]
+[gd_scene load_steps=6 format=3 uid="uid://cfuogc3nkdc80"]
 
+[ext_resource type="Script" path="res://Scripts/UIManager.cs" id="1_slyfy"]
 [ext_resource type="FontFile" uid="uid://7xqnkjkii468" path="res://Sprites/UI/Numbers.png" id="3_5iheb"]
 [ext_resource type="Texture2D" uid="uid://be5yb02c8wr7a" path="res://Sprites/UI/Timer.png" id="3_udvka"]
 [ext_resource type="Texture2D" uid="uid://dgmqkaeq30xnj" path="res://Sprites/UI/UI.png" id="5_0w0fv"]
@@ -8,7 +9,10 @@
 font = ExtResource("3_5iheb")
 font_size = 70
 
-[node name="UI" type="Node2D"]
+[node name="UI" type="Node2D" node_paths=PackedStringArray("timeLabel", "timer")]
+script = ExtResource("1_slyfy")
+timeLabel = NodePath("CanvasLayer/Control/Time Label")
+timer = NodePath("Timer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 9
@@ -53,3 +57,8 @@ offset_right = 1870.0
 offset_bottom = 1026.0
 text = "99"
 label_settings = SubResource("LabelSettings_f7m0u")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]
