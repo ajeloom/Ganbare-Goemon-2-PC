@@ -1,34 +1,29 @@
 [gd_scene load_steps=6 format=3 uid="uid://dyqkptrc27vf7"]
 
-[ext_resource type="PackedScene" uid="uid://dcmg4010lym4k" path="res://Scenes/Goemon.tscn" id="1_u5jt3"]
+[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_xcljo"]
 [ext_resource type="PackedScene" uid="uid://do87prko86xvb" path="res://Scenes/Level1.tscn" id="2_eqs6o"]
+[ext_resource type="PackedScene" uid="uid://nad2u4n88r13" path="res://Scenes/GameManager.tscn" id="2_heff6"]
 [ext_resource type="PackedScene" uid="uid://bqdecnyl4cnt4" path="res://Scenes/Darumanyo.tscn" id="3_qsbrr"]
-[ext_resource type="AudioStream" uid="uid://bghdiik8jfyfj" path="res://Sounds/Music/Level_1_Ryukyu_Resort.mp3" id="4_hf05g"]
-[ext_resource type="PackedScene" uid="uid://daitjp323qmam" path="res://Scenes/GameManager.tscn" id="6_sqk6i"]
+[ext_resource type="PackedScene" uid="uid://dcmg4010lym4k" path="res://Scenes/Player.tscn" id="4_0w1yq"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_xcljo")
 
-[node name="Game Manager" parent="." instance=ExtResource("6_sqk6i")]
-position = Vector2(-1, 0)
+[node name="Game Manager" parent="." instance=ExtResource("2_heff6")]
+position = Vector2(-2, 4)
 
 [node name="Level 1" parent="." instance=ExtResource("2_eqs6o")]
 
-[node name="Goemon" parent="." instance=ExtResource("1_u5jt3")]
-position = Vector2(82, 247)
-playerNum = 1
+[node name="Goemon" parent="." instance=ExtResource("4_0w1yq")]
+position = Vector2(93, 247)
 
 [node name="Camera2D" type="Camera2D" parent="Goemon"]
-offset = Vector2(0, 100)
+scale = Vector2(1, 1)
 zoom = Vector2(3, 3)
 limit_left = 1
-limit_top = -100
+limit_top = 0
 limit_right = 8192
-limit_bottom = 100
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Goemon/Camera2D"]
-scale = Vector2(0.625, 0.625)
-stream = ExtResource("4_hf05g")
-autoplay = true
+limit_bottom = 1
 
 [node name="Darumanyo" parent="." instance=ExtResource("3_qsbrr")]
 position = Vector2(1680, 245)

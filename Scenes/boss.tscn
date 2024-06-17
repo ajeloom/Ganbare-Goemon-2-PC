@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctvdt3cnvwaa5"]
+
+[ext_resource type="PackedScene" uid="uid://bajcmo6w24sev" path="res://Scenes/platform.tscn" id="1_aqc5g"]
+[ext_resource type="PackedScene" uid="uid://dcmg4010lym4k" path="res://Scenes/Player.tscn" id="2_63ggq"]
+[ext_resource type="PackedScene" uid="uid://dxewj87osches" path="res://Scenes/BossCam.tscn" id="3_fjt1y"]
+[ext_resource type="PackedScene" uid="uid://nad2u4n88r13" path="res://Scenes/GameManager.tscn" id="3_hhsrv"]
+[ext_resource type="Texture2D" uid="uid://cfgh51awk6goo" path="res://Sprites/Stage/Background.png" id="4_qnqp1"]
+[ext_resource type="PackedScene" uid="uid://cf6vus17cvgau" path="res://Scenes/Kabuki.tscn" id="5_dkkn2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4isy"]
+size = Vector2(2, 260)
+
+[node name="Boss Fight" type="Node2D"]
+
+[node name="Game Manager" parent="." instance=ExtResource("3_hhsrv")]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+scale = Vector2(2, 2)
+texture = ExtResource("4_qnqp1")
+
+[node name="Camera2D" parent="." node_paths=PackedStringArray("boss") instance=ExtResource("3_fjt1y")]
+boss = NodePath("../Kabuki")
+
+[node name="Platform" parent="." instance=ExtResource("1_aqc5g")]
+position = Vector2(320, 390)
+scale = Vector2(15, 15)
+
+[node name="Kabuki" parent="." instance=ExtResource("5_dkkn2")]
+position = Vector2(320, 207)
+
+[node name="Goemon" parent="." instance=ExtResource("2_63ggq")]
+position = Vector2(486, 234)
+
+[node name="Invisible Walls" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Invisible Walls"]
+position = Vector2(-1, 130)
+shape = SubResource("RectangleShape2D_j4isy")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Invisible Walls"]
+position = Vector2(641, 130)
+shape = SubResource("RectangleShape2D_j4isy")

@@ -25,5 +25,9 @@ public partial class HurtboxComponent : Area2D
 				await ToSignal(GetTree().CreateTimer(0.35f), SceneTreeTimer.SignalName.Timeout);
 			takingDamage = false;
 		}
+
+		if (area.IsInGroup("Goal")) {
+			GetTree().Quit();
+		}
 	}
 }

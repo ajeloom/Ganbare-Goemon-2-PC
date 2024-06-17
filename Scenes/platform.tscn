@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cmws8elats5ce" path="res://Sprites/Stage/Platform.png" id="1_fcesg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kxpnc"]
-size = Vector2(64, 16)
+size = Vector2(64, 15)
 
 [node name="Platform" type="StaticBody2D"]
 
@@ -11,4 +11,5 @@ size = Vector2(64, 16)
 texture = ExtResource("1_fcesg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_kxpnc")

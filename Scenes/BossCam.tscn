@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxewj87osches"]
+
+[ext_resource type="Script" path="res://Scripts/ScreenShake.cs" id="1_odcmp"]
+
+[node name="Camera2D" type="Camera2D"]
+scale = Vector2(1.6, 1.6)
+anchor_mode = 0
+ignore_rotation = false
+zoom = Vector2(3, 3)
+script = ExtResource("1_odcmp")
