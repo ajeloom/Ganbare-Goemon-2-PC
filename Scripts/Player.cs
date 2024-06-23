@@ -17,6 +17,7 @@ public partial class Player : CharacterBody2D
 	[Export] private AnimationPlayer animPlayer;
 	[Export] private HurtboxComponent hurtboxComponent;
 	[Export] public HealthComponent healthComponent;
+	[Export] private AudioComponent audio;
 
 	// Variables for taking damage
 	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
@@ -24,6 +25,7 @@ public partial class Player : CharacterBody2D
 	public bool takingDamage = false;
 
 	// Variables for attacking
+	// public bool isHitting = false;
 	private bool isAttacking = false;
 	private bool playingHurtSFX = false;
 
@@ -34,7 +36,7 @@ public partial class Player : CharacterBody2D
 	public int coins = 100;
 	public int lives = 2;
 
-	[Export] public int playerNum = 2;
+	[Export] public int playerNum = 1;
 
 	public override void _Ready()
 	{
@@ -71,7 +73,7 @@ public partial class Player : CharacterBody2D
 				//holdingJump = true;
 				velocity.Y = jumpVelocity;
 				
-				playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
+				audio.playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
 			}
 			// else if (Input.IsActionJustReleased("jump")) {
 			// 	holdingJump = false;
@@ -103,7 +105,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (takingDamage) {
-			animPlayer.Play("Hurt");
+			animPlayer.Play("Hurt");			
 			Hurt();
 			
 			// Player bounces up everytime they hit the floor
@@ -195,10 +197,10 @@ public partial class Player : CharacterBody2D
 	}
 
 	private async void Attacking() {
-		if (!isAttacking) {
+		if (!isAttacking && !takingDamage) {
 			isAttacking = true;
-			
-			playSFX("res://Sounds/SFX/Goemon/attack.wav", -15.0f);
+
+			audio.playSFX("res://Sounds/SFX/Goemon/attack.wav", -20.0f);
 			if (lastDirection.X >= 0.0f)
 				animPlayer.Play("NormalAttackR");
 			else 
@@ -214,17 +216,9 @@ public partial class Player : CharacterBody2D
 	private async void Hurt() {
 		if (!playingHurtSFX) {
 			playingHurtSFX = true;
-			
-			playSFX("res://Sounds/SFX/Goemon/hurt.wav", -12.5f);
-
+			audio.playSFX("res://Sounds/SFX/Goemon/hurt.wav", -12.5f);
 			await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
-
 			playingHurtSFX = false;
 		}
-	}
-
-	private void playSFX(string file, float volume) {
-		AudioComponent audioComponent = new AudioComponent(file, volume);
-		AddChild(audioComponent);
 	}
 }

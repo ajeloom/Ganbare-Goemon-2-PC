@@ -6,6 +6,8 @@ public partial class GameManager : Node2D
 	[Export] private Control pauseMenu;
 	[Export] private AudioStreamPlayer audio;
 
+	private bool isBossStage = true;
+
 	private int playerNum = 3;
 
 	private string[] stage = {
@@ -13,7 +15,7 @@ public partial class GameManager : Node2D
 	};
 
 	private string[] song = {
-		"res://Sounds/Music/Level_1_Ryukyu_Resort.mp3"
+		"res://Sounds/Music/Boss.mp3"
 	};
 
 	private int level = 0;
@@ -21,7 +23,7 @@ public partial class GameManager : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		pauseMenu.Visible = false;
+		//pauseMenu.Visible = false;
 
 		// // Load map
 		// loadScene(stage[level]);
@@ -37,8 +39,9 @@ public partial class GameManager : Node2D
 		// player.Position = new Vector2(93.0f, 247.0f);
 
 		// Load music for stage
-		audio.Stream = (AudioStream)ResourceLoader.Load(song[level]);
-		audio.Playing = true;
+		// audio.Stream = (AudioStream)ResourceLoader.Load(song[level]);
+		// audio.VolumeDb = -20.0f;
+		// audio.Playing = true;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

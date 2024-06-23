@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://nad2u4n88r13"]
+[gd_scene load_steps=4 format=3 uid="uid://nad2u4n88r13"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_p1civ"]
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
+[ext_resource type="AudioStream" uid="uid://bl4vug7lv7kmx" path="res://Sounds/Music/Boss.mp3" id="3_4xv7j"]
 
 [node name="Game Manager" type="Node2D" node_paths=PackedStringArray("pauseMenu", "audio")]
 script = ExtResource("1_p1civ")
@@ -13,6 +14,7 @@ layer = 12
 
 [node name="Pause Menu" type="Control" parent="CanvasLayer"]
 process_mode = 2
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -75,7 +77,8 @@ text = "Quit"
 position = Vector2(-7, -2)
 
 [node name="BG Music" type="AudioStreamPlayer" parent="."]
-volume_db = -5.0
+stream = ExtResource("3_4xv7j")
+volume_db = -80.0
 autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/Pause Menu/Resume Button" to="." method="ResumeButtonPressed"]

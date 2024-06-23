@@ -18,7 +18,6 @@ position = Vector2(-2, 4)
 position = Vector2(93, 247)
 
 [node name="Camera2D" type="Camera2D" parent="Goemon"]
-scale = Vector2(1, 1)
 zoom = Vector2(3, 3)
 limit_left = 1
 limit_top = 0
@@ -36,3 +35,5 @@ position = Vector2(1959, 123)
 
 [node name="Darumanyo4" parent="." instance=ExtResource("3_qsbrr")]
 position = Vector2(2092, 132)
+
+[editable path="Game Manager"]

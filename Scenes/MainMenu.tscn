@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bicmvt2gr4x62"]
+[gd_scene load_steps=5 format=3 uid="uid://bicmvt2gr4x62"]
 
 [ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_hgdu6"]
 
@@ -8,7 +8,10 @@ font_size = 100
 [sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
 font_size = 100
 
-[node name="Main Menu" type="Control" node_paths=PackedStringArray("titleScreen", "characterScreen")]
+[sub_resource type="LabelSettings" id="LabelSettings_h8wmo"]
+font_size = 100
+
+[node name="Main Menu" type="Control" node_paths=PackedStringArray("titleScreen", "characterScreen", "stageScreen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,8 +21,10 @@ grow_vertical = 2
 script = ExtResource("1_hgdu6")
 titleScreen = NodePath("Title Screen")
 characterScreen = NodePath("Character Select Screen")
+stageScreen = NodePath("Stage Select Screen")
 
 [node name="Title Screen" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -159,7 +164,60 @@ text = "Select a character"
 label_settings = SubResource("LabelSettings_hcibv")
 horizontal_alignment = 1
 
+[node name="Stage Select Screen" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 940.0
+offset_top = 520.0
+offset_right = 980.0
+offset_bottom = 560.0
+
+[node name="Level 1" type="Button" parent="Stage Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -254.0
+offset_right = 192.0
+offset_bottom = -146.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level 1"
+
+[node name="Boss" type="Button" parent="Stage Select Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -54.0
+offset_right = 192.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Boss Level
+"
+
+[node name="Label" type="Label" parent="Stage Select Screen"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -329.0
+offset_top = -450.0
+offset_right = 329.0
+offset_bottom = -313.0
+grow_horizontal = 2
+text = "Select a stage"
+label_settings = SubResource("LabelSettings_h8wmo")
+
 [connection signal="pressed" from="Title Screen/Button" to="." method="PlayButtonPressed"]
 [connection signal="pressed" from="Title Screen/Button2" to="." method="QuitButtonPressed"]
 [connection signal="pressed" from="Character Select Screen/Goemon" to="." method="CharacterButtonPressed"]
 [connection signal="pressed" from="Character Select Screen/Button" to="." method="BackButtonPressed"]
+[connection signal="pressed" from="Stage Select Screen/Level 1" to="." method="LevelButtonPressed"]
+[connection signal="pressed" from="Stage Select Screen/Boss" to="." method="BossButtonPressed"]

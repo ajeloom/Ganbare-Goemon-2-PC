@@ -1,43 +1,67 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctvdt3cnvwaa5"]
+[gd_scene load_steps=9 format=3 uid="uid://ctvdt3cnvwaa5"]
 
-[ext_resource type="PackedScene" uid="uid://bajcmo6w24sev" path="res://Scenes/platform.tscn" id="1_aqc5g"]
 [ext_resource type="PackedScene" uid="uid://dcmg4010lym4k" path="res://Scenes/Player.tscn" id="2_63ggq"]
 [ext_resource type="PackedScene" uid="uid://dxewj87osches" path="res://Scenes/BossCam.tscn" id="3_fjt1y"]
 [ext_resource type="PackedScene" uid="uid://nad2u4n88r13" path="res://Scenes/GameManager.tscn" id="3_hhsrv"]
 [ext_resource type="Texture2D" uid="uid://cfgh51awk6goo" path="res://Sprites/Stage/Background.png" id="4_qnqp1"]
 [ext_resource type="PackedScene" uid="uid://cf6vus17cvgau" path="res://Scenes/Kabuki.tscn" id="5_dkkn2"]
+[ext_resource type="Texture2D" uid="uid://bd2rkyrtjcyl3" path="res://Sprites/Stage/Ground.png" id="7_5lumd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_go4x6"]
+size = Vector2(405, 28.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4isy"]
-size = Vector2(2, 260)
+size = Vector2(2, 285)
 
 [node name="Boss Fight" type="Node2D"]
 
 [node name="Game Manager" parent="." instance=ExtResource("3_hhsrv")]
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(320, 180)
-scale = Vector2(2, 2)
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.4, 0.4)
+motion_offset = Vector2(0, -16)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+modulate = Color(0.584314, 0.584314, 0.584314, 1)
+texture_repeat = 2
+position = Vector2(325, 145)
+scale = Vector2(1.6, 1.6)
 texture = ExtResource("4_qnqp1")
+region_enabled = true
+region_rect = Rect2(0, 0, 930, 166)
 
-[node name="Camera2D" parent="." node_paths=PackedStringArray("boss") instance=ExtResource("3_fjt1y")]
-boss = NodePath("../Kabuki")
+[node name="Camera2D" parent="." instance=ExtResource("3_fjt1y")]
 
-[node name="Platform" parent="." instance=ExtResource("1_aqc5g")]
-position = Vector2(320, 390)
-scale = Vector2(15, 15)
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(319, 278)
+scale = Vector2(1.6, 1.6)
 
-[node name="Kabuki" parent="." instance=ExtResource("5_dkkn2")]
-position = Vector2(320, 207)
+[node name="Sprite2D" type="Sprite2D" parent="Ground"]
+texture_repeat = 2
+texture = ExtResource("7_5lumd")
+region_enabled = true
+region_rect = Rect2(0, 0, 405, 30)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(1.52588e-05, 0.625)
+scale = Vector2(0.999999, 0.999999)
+shape = SubResource("RectangleShape2D_go4x6")
+
+[node name="Kabuki" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("5_dkkn2")]
+position = Vector2(320, 139)
+camera = NodePath("../Camera2D")
 
 [node name="Goemon" parent="." instance=ExtResource("2_63ggq")]
-position = Vector2(486, 234)
+position = Vector2(540, 220)
 
 [node name="Invisible Walls" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Invisible Walls"]
-position = Vector2(-1, 130)
+position = Vector2(-1, 142.5)
 shape = SubResource("RectangleShape2D_j4isy")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Invisible Walls"]
-position = Vector2(641, 130)
+position = Vector2(641, 142.25)
 shape = SubResource("RectangleShape2D_j4isy")

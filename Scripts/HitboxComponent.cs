@@ -19,14 +19,10 @@ public partial class HitboxComponent : Area2D
 	private void OnAreaEntered(Area2D area) {
 		if (area.IsInGroup("Player") || area.IsInGroup("Enemy")) {
 			CharacterBody2D body = area.GetParent<CharacterBody2D>();
-			CallDamage(body);
+
+			// Get the health component from the player
+			HealthComponent hpComponent = body.GetNode<HealthComponent>("HealthComponent");
+			hpComponent.Damage(damageNumber, this);
 		}
-	}
-
-	private void CallDamage(CharacterBody2D body) {
-		// Get the health component from the player
-		HealthComponent hpComponent = body.GetNode<HealthComponent>("HealthComponent");
-
-		hpComponent.Damage(damageNumber);
 	}
 }
