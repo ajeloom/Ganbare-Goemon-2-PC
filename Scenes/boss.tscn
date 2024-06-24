@@ -50,7 +50,7 @@ scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_go4x6")
 
 [node name="Kabuki" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("5_dkkn2")]
-position = Vector2(320, 139)
+position = Vector2(320, 140)
 camera = NodePath("../Camera2D")
 
 [node name="Goemon" parent="." instance=ExtResource("2_63ggq")]

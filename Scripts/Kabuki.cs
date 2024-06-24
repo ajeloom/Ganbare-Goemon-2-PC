@@ -5,7 +5,7 @@ public partial class Kabuki : CharacterBody2D
 {
 	[Export] public float Speed = 150.0f;
 	public float descendSpeed = 15.0f;
-	public const float JumpVelocity = -400.0f;
+	public const float JumpVelocity = -420.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -25,6 +25,8 @@ public partial class Kabuki : CharacterBody2D
 
 	private bool isFlying = false;
 	private bool startFlyingAttack = false;
+
+	private bool spawnFlowers = false;
 
 	[Export] private AnimationPlayer animPlayer;
 	//[Export] private AnimationPlayer effectsPlayer;
@@ -46,6 +48,8 @@ public partial class Kabuki : CharacterBody2D
 	private bool moveDown = false;
 
 	private bool createNewHP = false;
+
+	private bool takingDamage = false;
 
 	// Different Attacks
 	// Shoot flowers from basket then go in basket and fly a bit
@@ -190,6 +194,12 @@ public partial class Kabuki : CharacterBody2D
 					animPlayer.Play("jump");
 					audioComponent.playSFX("res://Sounds/SFX/Goemon/jump.wav", -25.0f);
 				}
+
+				if (takingDamage) {
+					animPlayer.Play("hurt");
+				}
+
+				
 			}
 
 			if (healthComponent.health <= 0.0f && phase == 1) {
@@ -198,6 +208,11 @@ public partial class Kabuki : CharacterBody2D
 				startUpAnimation = false;
 				velocity.X = 0.0f;
 			}
+			else if (healthComponent.health <= 0.0f && phase == 2) {
+				QueueFree();
+			}
+
+			takingDamage = hurtboxComponent.takingDamage;
 
 			Velocity = velocity;
 			MoveAndSlide();
@@ -211,7 +226,7 @@ public partial class Kabuki : CharacterBody2D
 	}
 	
 
-	private void doFlowerAttack() {
+	private async void doFlowerAttack() {
 		// Gravity is normal
 		startUpAnimation = false;
 
@@ -225,7 +240,36 @@ public partial class Kabuki : CharacterBody2D
 
 		// Spawn flowers
 		if (animPlayer.CurrentAnimation == "open") {	
+			if (!spawnFlowers) {
+				spawnFlowers = true;
+				await ToSignal(GetTree().CreateTimer(0.9f), SceneTreeTimer.SignalName.Timeout);
+				int temp = 1;
+				for (int j = 0; j < 3; j++) {
+					for (int i = 0; i < 8; i++) {
+						PackedScene var = GD.Load<PackedScene>("res://Scenes/Flower.tscn");
+						Node2D node = var.Instantiate<Node2D>();
+						if (i < 4) {
+							node.Position = new Vector2(Position.X - (6 * temp), Position.Y - 57.5f);
+							temp += 1;
+						}
+						else {
+							node.Position = new Vector2(Position.X + (6 * temp), Position.Y - 57.5f);
+							temp += 1;
+						}
 
+						if (temp == 5) {
+							temp = 1;
+						}
+						AddSibling(node);
+					}
+					await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+				}
+				
+			}			
+		}
+
+		if (animPlayer.CurrentAnimation == "close") {
+			spawnFlowers = false;
 		}
 	}
 

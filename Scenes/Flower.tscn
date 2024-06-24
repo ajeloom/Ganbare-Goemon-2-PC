@@ -1,0 +1,147 @@
+[gd_scene load_steps=15 format=3 uid="uid://dfpofh05ddw5m"]
+
+[ext_resource type="Script" path="res://Scripts/Flower.cs" id="1_84yqe"]
+[ext_resource type="Texture2D" uid="uid://djyprdfxqingr" path="res://Sprites/Bosses/Kabuki/Flower.png" id="1_blafa"]
+[ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_geai1"]
+[ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_iuko3"]
+[ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="5_hlyqt"]
+
+[sub_resource type="Animation" id="Animation_pwktx"]
+resource_name = "Rise"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0pxck"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_231k4"]
+resource_name = "Fall1"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 11, 14, 11, 5, 11, 14, 11]
+}
+
+[sub_resource type="Animation" id="Animation_ahgfu"]
+resource_name = "Fall2"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 1, 10, 1, 3]
+}
+
+[sub_resource type="Animation" id="Animation_cgemv"]
+resource_name = "Fall3"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [7, 12, 6, 12]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dk0t7"]
+_data = {
+"Fall1": SubResource("Animation_231k4"),
+"Fall2": SubResource("Animation_ahgfu"),
+"Fall3": SubResource("Animation_cgemv"),
+"RESET": SubResource("Animation_0pxck"),
+"Rise": SubResource("Animation_pwktx")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2b16"]
+size = Vector2(9, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a7lck"]
+size = Vector2(9, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n00ak"]
+size = Vector2(9, 7)
+
+[node name="Flower" type="CharacterBody2D"]
+scale = Vector2(1.6, 1.6)
+collision_layer = 4
+script = ExtResource("1_84yqe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_blafa")
+hframes = 7
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_dk0t7")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g2b16")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="HealthComponent" parent="." groups=["Enemy"] instance=ExtResource("5_hlyqt")]
+health = 1.0
+
+[node name="HitboxComponent" parent="." instance=ExtResource("3_geai1")]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_a7lck")
+
+[node name="HurtboxComponent" parent="." groups=["Enemy"] instance=ExtResource("4_iuko3")]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("RectangleShape2D_n00ak")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="ScreenExited"]

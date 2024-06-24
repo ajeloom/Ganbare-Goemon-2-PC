@@ -30,7 +30,7 @@ public partial class HealthComponent : Node2D
 			}
 		}
 
-		// if (health <= 0 && IsInGroup("Boss")) {
+		// if (health <= 0 && IsInGroup("Enemy")) {
 		// 	GetParent().QueueFree();
 		// }
 
