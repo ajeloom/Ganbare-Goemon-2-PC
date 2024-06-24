@@ -6,13 +6,13 @@
 
 [node name="Game Manager" type="Node2D" node_paths=PackedStringArray("pauseMenu", "audio")]
 script = ExtResource("1_p1civ")
-pauseMenu = NodePath("CanvasLayer/Pause Menu")
+pauseMenu = NodePath("CanvasLayer/PauseMenu")
 audio = NodePath("BG Music")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 12
 
-[node name="Pause Menu" type="Control" parent="CanvasLayer"]
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
 process_mode = 2
 visible = false
 layout_mode = 3
@@ -28,7 +28,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Pause Menu"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PauseMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -43,7 +43,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.203922, 0.203922, 0.203922, 0.490196)
 
-[node name="Resume Button" type="Button" parent="CanvasLayer/Pause Menu"]
+[node name="Resume Button" type="Button" parent="CanvasLayer/PauseMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -58,7 +58,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Resume"
 
-[node name="Quit Button" type="Button" parent="CanvasLayer/Pause Menu"]
+[node name="Quit Button" type="Button" parent="CanvasLayer/PauseMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -81,5 +81,5 @@ stream = ExtResource("3_4xv7j")
 volume_db = -80.0
 autoplay = true
 
-[connection signal="pressed" from="CanvasLayer/Pause Menu/Resume Button" to="." method="ResumeButtonPressed"]
-[connection signal="pressed" from="CanvasLayer/Pause Menu/Quit Button" to="." method="QuitButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Resume Button" to="." method="ResumeButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Quit Button" to="." method="QuitButtonPressed"]

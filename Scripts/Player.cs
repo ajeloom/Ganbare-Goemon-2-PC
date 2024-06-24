@@ -54,6 +54,11 @@ public partial class Player : CharacterBody2D
 		if (!IsOnFloor()) {
 			velocity.Y += gravity * (float)delta;
 
+			// Player can do short hop by not holding the jump button
+			if (Input.IsActionJustReleased("jump") && velocity.Y > -500.0f && velocity.Y < -250.0f) {
+				velocity.Y += 1500 * 6.0f * (float)delta;
+			}
+
 			// Play jump or fall animations
 			if (!isAttacking && !takingDamage) {
 				if (velocity.Y < 0.0f) {
@@ -70,14 +75,14 @@ public partial class Player : CharacterBody2D
 		else {
 			// Can only jump once off the ground
 			if (Input.IsActionJustPressed("jump")) {
-				//holdingJump = true;
+				holdingJumpButton = true;
 				velocity.Y = jumpVelocity;
 				
 				audio.playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
 			}
-			// else if (Input.IsActionJustReleased("jump")) {
-			// 	holdingJump = false;
-			// }
+			else if (Input.IsActionJustReleased("jump")) {
+				holdingJumpButton = false;
+			}
 			
 			if (velocity.X != 0.0f && holdingRunButton) {
 				if (speed < maxSpeed)
@@ -130,14 +135,6 @@ public partial class Player : CharacterBody2D
 		else if (Input.IsActionJustReleased("attack")) {
 			holdingRunButton = false;
 		}
-
-		// if (holdingJump) {
-		// 	//if (jumpVelocity > 0.0f)
-		// 	gravity -= 100.0f;
-		// }
-		// else {
-				
-		// }
 
 		takingDamage = hurtboxComponent.takingDamage;
 
