@@ -204,6 +204,13 @@ public partial class Kabuki : CharacterBody2D
 
 			if (healthComponent.health <= 0.0f && phase == 1) {
 				phase = 2;
+				
+				// Spawn a basket with explosion
+				PackedScene var = GD.Load<PackedScene>("res://Scenes/Basket.tscn");
+				Node2D node = var.Instantiate<Node2D>();
+				node.Position = Position;
+				AddSibling(node);
+
 				isFlying = false;
 				startUpAnimation = false;
 				velocity.X = 0.0f;

@@ -9,6 +9,7 @@ public partial class Flower : CharacterBody2D
 
 	private bool isRising = true;
 	private bool gotAnimation = false;
+	private bool isDestroyed = false;
 
 	private Vector2 targetPosition;
 
@@ -31,19 +32,28 @@ public partial class Flower : CharacterBody2D
 		Vector2 velocity = Velocity;
 
 		// Destroy when it hits the floor
-		if (IsOnFloor() || healthComponent.health <= 0) {
+		if (IsOnFloor() || !animPlayer.IsPlaying()) {
 			QueueFree();
 		}
 
-		if (isRising) {
-			Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
-			velocity = direction * 400.0f;
+		if (healthComponent.health <= 0) {
+			if (!isDestroyed) {
+				isDestroyed = true;
+				velocity.Y = 0.0f;
+				animPlayer.Play("Explosion");
+			}
 		}
 		else {
-			velocity.X = 0.0f;
-			velocity.Y = 1 * 50.0f;
-			GetRandomFallAnimation();
-		}		
+			if (isRising) {
+				Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
+				velocity = direction * 400.0f;
+			}
+			else {
+				velocity.X = 0.0f;
+				velocity.Y = 1 * 50.0f;
+				GetRandomFallAnimation();
+			}	
+		}	
 
 		Velocity = velocity;
 		MoveAndSlide();
