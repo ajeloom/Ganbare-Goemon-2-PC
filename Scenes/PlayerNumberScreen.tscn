@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpif61mntayjk"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerNumberScreen.cs" id="1_uwfy5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_k0g5y"]
+font_size = 100
+
+[sub_resource type="LabelSettings" id="LabelSettings_hblti"]
+font_size = 45
+
+[node name="Player Number Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_uwfy5")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 472.0
+offset_top = 80.0
+offset_right = 1373.0
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Number of Players"
+label_settings = SubResource("LabelSettings_k0g5y")
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 792.0
+offset_top = 456.0
+offset_right = 1085.0
+offset_bottom = 685.0
+grow_horizontal = 2
+grow_vertical = 2
+min_value = 1.0
+max_value = 3.0
+value = 1.0
+
+[node name="Number" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1100.0
+offset_top = 533.0
+offset_right = 1140.0
+offset_bottom = 596.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+label_settings = SubResource("LabelSettings_hblti")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 912.0
+offset_top = 651.0
+offset_right = 991.0
+offset_bottom = 682.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Continue"
+
+[connection signal="pressed" from="Button" to="." method="ContinueButtonPressed"]

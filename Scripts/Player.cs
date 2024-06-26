@@ -4,14 +4,14 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	// Movement variables
-	public float speed;
+	private float speed;
 	[Export] private float baseSpeed = 150.0f;
 	private float maxSpeed = 250.0f;
 
-	[Export] public float jumpVelocity = -500.0f;
+	[Export] private float jumpVelocity = -500.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
 	[Export] private Sprite2D bodySprite;
 	[Export] private AnimationPlayer animPlayer;
@@ -33,10 +33,16 @@ public partial class Player : CharacterBody2D
 	private bool holdingRunButton = false;
 	private bool holdingJumpButton = false;
 
-	public int coins = 100;
-	public int lives = 2;
+	public int playerNum { get; set; }
+	public int coins { get; set; }
+	public int lives { get; set; }
 
-	[Export] public int playerNum = 1;
+	private bool playingDeathAnim = false;
+	private bool playingDeathAnim2 = false;
+	private bool outOfLives = false;
+
+	private bool gotSpawnPos = false;
+	private Vector2 spawnPosition;
 
 	public override void _Ready()
 	{
@@ -48,98 +54,135 @@ public partial class Player : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 
-		velocity.X = horizontalMovement();	
+		if (healthComponent.health <= 0.0f) {		
+			// Stop any horizontal movement	
+			velocity.X = 0.0f;
 
-		// Add the gravity.
-		if (!IsOnFloor()) {
-			velocity.Y += gravity * (float)delta;
-
-			// Player can do short hop by not holding the jump button
-			if (Input.IsActionJustReleased("jump") && velocity.Y > -500.0f && velocity.Y < -250.0f) {
-				velocity.Y += 1500 * 6.0f * (float)delta;
+			// Play death animation
+			if (!playingDeathAnim) {
+				playingDeathAnim = true;
+				if (lives > 0)
+					lives--;
+				velocity.Y = -300.0f;		
+				animPlayer.Play("DeathUp");
+				audio.playSFX("res://Sounds/SFX/Goemon/death.wav", -12.5f);
 			}
 
-			// Play jump or fall animations
-			if (!isAttacking && !takingDamage) {
-				if (velocity.Y < 0.0f) {
-					animPlayer.Play("Jump");
-				}
-				else {
-					if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
-						animPlayer.Play("Fall1");
-						animPlayer.Queue("Fall2");
-					}	
+			// Fall down through the floor
+			if (!IsOnFloor()) {
+				velocity.Y += 700.0f * (float)delta;
+				if (velocity.Y >= 0.0f) {
+					if (!playingDeathAnim2) {
+						playingDeathAnim2 = true;
+						animPlayer.Play("DeathDown");
+					}					
 				}
 			}
+
+			if (!gotSpawnPos) {
+				gotSpawnPos = true;
+				spawnPosition = GlobalPosition;
+				if (!outOfLives)
+					Respawn();
+			}
+
+			Velocity = velocity;
+			MoveAndSlide();
 		}
 		else {
-			// Can only jump once off the ground
-			if (Input.IsActionJustPressed("jump")) {
-				holdingJumpButton = true;
-				velocity.Y = jumpVelocity;
+			velocity.X = horizontalMovement();	
+
+			// Add the gravity.
+			if (!IsOnFloor()) {
+				velocity.Y += gravity * (float)delta;
+
+				// Player can do short hop by not holding the jump button
+				if (Input.IsActionJustReleased("jump") && velocity.Y < -250.0f) {
+					velocity.Y += 1500 * 6.0f * (float)delta;
+				}
+
+				// Play jump or fall animations
+				if (!isAttacking && !takingDamage) {
+					if (velocity.Y < 0.0f) {
+						animPlayer.Play("Jump");
+					}
+					else {
+						if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
+							animPlayer.Play("Fall1");
+							animPlayer.Queue("Fall2");
+						}	
+					}
+				}
+			}
+			else {
+				// Can only jump once off the ground
+				if (Input.IsActionJustPressed("jump")) {
+					holdingJumpButton = true;
+					velocity.Y = jumpVelocity;
+					
+					audio.playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
+				}
+				else if (Input.IsActionJustReleased("jump")) {
+					holdingJumpButton = false;
+				}
 				
-				audio.playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
-			}
-			else if (Input.IsActionJustReleased("jump")) {
-				holdingJumpButton = false;
-			}
-			
-			if (velocity.X != 0.0f && holdingRunButton) {
-				if (speed < maxSpeed)
-					speed += 1.0f;				// Gradually increase speed to maxSpeed
-			}
-			else if (!holdingRunButton) {
-				if (speed > baseSpeed)
-					speed -= 5.0f;				// Speed drops to baseSpeed quicker
-				else if (speed <= baseSpeed)
-					speed = baseSpeed;			// Make sure speed does not go below baseSpeed
-			}
-
-			// Play one of these animations if the player is not moving
-			if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
-				if (Input.IsActionPressed("crouch")) {
-					animPlayer.Play("Crouch");
+				if (velocity.X != 0.0f && holdingRunButton) {
+					if (speed < maxSpeed)
+						speed += 1.0f;				// Gradually increase speed to maxSpeed
 				}
-				else if (Input.IsActionPressed("lookUp")) {
-					animPlayer.Play("LookUp");
+				else if (!holdingRunButton) {
+					if (speed > baseSpeed)
+						speed -= 5.0f;				// Speed drops to baseSpeed quicker
+					else if (speed <= baseSpeed)
+						speed = baseSpeed;			// Make sure speed does not go below baseSpeed
 				}
-				else {
-					animPlayer.Play("Idle");
-				}
-			}	
-		}
 
-		if (takingDamage) {
-			animPlayer.Play("Hurt");			
-			Hurt();
-			
-			// Player bounces up everytime they hit the floor
-			if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
-				bounces++;
-				velocity.Y = -205.0f;
+				// Play one of these animations if the player is not moving
+				if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
+					if (Input.IsActionPressed("crouch")) {
+						animPlayer.Play("Crouch");
+					}
+					else if (Input.IsActionPressed("lookUp")) {
+						animPlayer.Play("LookUp");
+					}
+					else {
+						animPlayer.Play("Idle");
+					}
+				}	
 			}
 
-			// Player bounces away from the enemy
-			speed = baseSpeed;
-			velocity.X = -lastDirection.X * speed;
-		}
-		else {
-			bounces = 0;
-		}
+			if (takingDamage) {
+				animPlayer.Play("Hurt");			
+				Hurt();
+				
+				// Player bounces up everytime they hit the floor
+				if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
+					bounces++;
+					velocity.Y = -205.0f;
+				}
 
-		// For running
-		if (Input.IsActionJustPressed("attack")) {
-			holdingRunButton = true;
-			Attacking();
-		}
-		else if (Input.IsActionJustReleased("attack")) {
-			holdingRunButton = false;
-		}
+				// Player bounces away from the enemy
+				speed = baseSpeed;
+				velocity.X = -lastDirection.X * speed;
+			}
+			else {
+				bounces = 0;
+			}
 
-		takingDamage = hurtboxComponent.takingDamage;
+			// For running
+			if (Input.IsActionJustPressed("attack")) {
+				holdingRunButton = true;
+				Attacking();
+			}
+			else if (Input.IsActionJustReleased("attack")) {
+				holdingRunButton = false;
+			}
 
-		Velocity = velocity;
-		MoveAndSlide();
+			takingDamage = hurtboxComponent.takingDamage;
+
+			Velocity = velocity;
+			MoveAndSlide();		
+		}
 	}
 
 	private float horizontalMovement() {
@@ -217,5 +260,17 @@ public partial class Player : CharacterBody2D
 			await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
 			playingHurtSFX = false;
 		}
+	}
+
+	private async void Respawn() {
+		await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
+		healthComponent.health = 12.0f;
+		GlobalPosition = spawnPosition;
+		animPlayer.Play("Idle");
+		gotSpawnPos = false;
+		playingDeathAnim = false;
+		playingDeathAnim2 = false;
+		if (lives == 0)
+			outOfLives = true;
 	}
 }

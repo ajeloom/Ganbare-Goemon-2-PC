@@ -19,7 +19,6 @@ public partial class HealthComponent : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// GD.Print("HealthComponent is hitting: " + isHitting);
 	}
 
 	public void Damage(float damageNumber, Node damageDealer) {
@@ -30,20 +29,13 @@ public partial class HealthComponent : Node2D
 			}
 		}
 
-		// if (health <= 0 && IsInGroup("Enemy")) {
-		// 	GetParent().QueueFree();
-		// }
-
 		// Blink red when hurt
-		if (IsInGroup("Player"))
-			InvincibilityFrames(1.2f);
-		else if (IsInGroup("Boss"))
-			InvincibilityFrames(1.8f);
-		
-
-		// if (health <= 0 && IsInGroup("Player")) {
-		// 	GetTree().Quit();
-		// }
+		if (health > 0.0f) {
+			if (IsInGroup("Player"))
+				InvincibilityFrames(1.2f);
+			else if (IsInGroup("Boss"))
+				InvincibilityFrames(1.8f);
+		}
 	}
 
 	private async void InvincibilityFrames(float time) {

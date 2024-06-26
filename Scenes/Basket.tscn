@@ -114,7 +114,7 @@ _data = {
 }
 
 [node name="Basket" type="Node2D"]
-z_index = -1
+z_index = -2
 scale = Vector2(1.8, 1.8)
 script = ExtResource("1_qh3o5")
 

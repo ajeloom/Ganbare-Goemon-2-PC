@@ -4,9 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
 [ext_resource type="AudioStream" uid="uid://bl4vug7lv7kmx" path="res://Sounds/Music/Boss.mp3" id="3_4xv7j"]
 
-[node name="Game Manager" type="Node2D" node_paths=PackedStringArray("pauseMenu", "audio")]
+[node name="Game Manager" type="Node2D" node_paths=PackedStringArray("audio")]
 script = ExtResource("1_p1civ")
-pauseMenu = NodePath("CanvasLayer/PauseMenu")
 audio = NodePath("BG Music")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

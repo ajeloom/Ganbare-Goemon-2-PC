@@ -127,7 +127,7 @@ _data = {
 "RESET": SubResource("Animation_qmsj1")
 }
 
-[node name="Level 1" type="StaticBody2D"]
+[node name="Level1" type="StaticBody2D"]
 position = Vector2(4096, 50)
 scale = Vector2(1.6, 1.6)
 
@@ -204,11 +204,15 @@ libraries = {
 }
 autoplay = "Background"
 
-[node name="Spawn Point 1" type="Node2D" parent="."]
-position = Vector2(-2509, 123)
+[node name="SpawnPoint1" type="Node2D" parent="."]
+position = Vector2(-2489, 123)
 
-[node name="Spawn Point 2" type="Node2D" parent="."]
-position = Vector2(-2529, 123)
+[node name="SpawnPoint2" type="Node2D" parent="."]
+position = Vector2(-2519, 123)
+
+[node name="SpawnPoint3" type="Node2D" parent="."]
+position = Vector2(-2549, 123)
+scale = Vector2(1, 1)
 
 [node name="Pass" parent="." instance=ExtResource("4_qtiqd")]
 position = Vector2(2375, 30)

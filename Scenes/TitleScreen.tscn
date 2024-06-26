@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://dajtcc1643xis"]
+
+[ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_0bc46"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xqgs4"]
+font_size = 100
+
+[node name="Title Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_0bc46")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 472.0
+offset_top = 100.0
+offset_right = 1408.0
+offset_bottom = 237.0
+grow_horizontal = 2
+text = "Ganbare Goemon 2"
+label_settings = SubResource("LabelSettings_xqgs4")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 412.0
+offset_right = 1132.0
+offset_bottom = 520.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 612.0
+offset_right = 1132.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+
+[connection signal="pressed" from="Button" to="." method="PlayButtonPressed"]
+[connection signal="pressed" from="Button2" to="." method="QuitButtonPressed"]

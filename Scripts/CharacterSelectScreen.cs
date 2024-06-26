@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class TitleScreen : Control
+public partial class CharacterSelectScreen : Control
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -13,12 +13,13 @@ public partial class TitleScreen : Control
 	{
 	}
 
-	private void PlayButtonPressed() {
+	private void GoemonSelected() {
 		var gm = GetNode<GameManager>("/root/GameManager");
-		gm.GoToScene("res://Scenes/PlayerNumberScreen.tscn");
+		gm.GoToScene("res://Scenes/StageSelectScreen.tscn");
 	}
 
-	private void QuitButtonPressed() {
-		GetTree().Quit();
+	private void BackButtonPressed() {
+		var gm = GetNode<GameManager>("/root/GameManager");
+		gm.GoToScene("res://Scenes/PlayerNumberScreen.tscn");
 	}
 }

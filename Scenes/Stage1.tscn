@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw3lmq462bbxy"]
+
+[ext_resource type="PackedScene" uid="uid://do87prko86xvb" path="res://Scenes/Level1.tscn" id="3_x6vg2"]
+[ext_resource type="PackedScene" uid="uid://bqdecnyl4cnt4" path="res://Scenes/Darumanyo.tscn" id="5_nvyme"]
+
+[node name="Stage1" type="Node2D"]
+z_index = -1
+
+[node name="Level1" parent="." instance=ExtResource("3_x6vg2")]
+
+[node name="Darumanyo" parent="." instance=ExtResource("5_nvyme")]
+position = Vector2(1680, 245)
+
+[node name="Darumanyo2" parent="." instance=ExtResource("5_nvyme")]
+position = Vector2(1599, 179)
+
+[node name="Darumanyo3" parent="." instance=ExtResource("5_nvyme")]
+position = Vector2(1959, 123)
+
+[node name="Darumanyo4" parent="." instance=ExtResource("5_nvyme")]
+position = Vector2(2092, 132)

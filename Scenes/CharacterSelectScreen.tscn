@@ -1,0 +1,93 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcrwta754hk2"]
+
+[ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
+font_size = 100
+
+[node name="Character Select Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_tq4jl")
+
+[node name="Goemon" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 267.0
+offset_right = 1132.0
+offset_bottom = 375.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Goemon"
+
+[node name="Ebisumaru" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 467.0
+offset_right = 1132.0
+offset_bottom = 575.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ebisumaru"
+
+[node name="Sasuke" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 667.0
+offset_right = 1132.0
+offset_bottom = 775.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Sasuke"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 748.0
+offset_top = 867.0
+offset_right = 1132.0
+offset_bottom = 975.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 472.0
+offset_top = 51.0
+offset_right = 1408.0
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Select a character"
+label_settings = SubResource("LabelSettings_hcibv")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Goemon" to="." method="GoemonSelected"]
+[connection signal="pressed" from="Button" to="." method="BackButtonPressed"]
