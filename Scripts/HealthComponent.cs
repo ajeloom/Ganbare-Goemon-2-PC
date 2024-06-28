@@ -6,7 +6,7 @@ public partial class HealthComponent : Node2D
 	[Export] public float health = 12.0f;
 	[Export] private AnimationPlayer animPlayer;
 	[Export] private AnimationPlayer effectsPlayer;
-	[Export] private AudioComponent audioComponent;
+	private AudioComponent audioComponent;
 
 	public bool isInvincible = false;
 	public bool isHitting = false;
@@ -14,6 +14,7 @@ public partial class HealthComponent : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		audioComponent = GetNode<AudioComponent>("AudioComponent");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,16 +47,10 @@ public partial class HealthComponent : Node2D
 			if (IsInGroup("Player"))
 				await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
 
-			// Change hurtbox scale in order for the player to get hurt 
-			// if still inside a hitbox when they are no longer invinicible
-			HurtboxComponent hurtbox = GetParent().GetNode<HurtboxComponent>("HurtboxComponent");
-			hurtbox.Scale = Vector2.Zero;
-
 			effectsPlayer.Play("Hurt");
 			await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 			effectsPlayer.Play("RESET");
 
-			hurtbox.Scale = new Vector2(1.0f, 1.0f);
 			isInvincible = false;
 		}
 	}

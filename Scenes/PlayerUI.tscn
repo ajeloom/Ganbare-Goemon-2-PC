@@ -18,17 +18,11 @@ font_size = 70
 font = ExtResource("5_6v8a7")
 font_size = 70
 
-[node name="Player UI" type="Node2D" node_paths=PackedStringArray("coinsLabel", "livesLabel", "node", "bar1", "bar2", "bar3")]
+[node name="Player UI" type="Node2D"]
 script = ExtResource("1_mfghx")
-coinsLabel = NodePath("CanvasLayer/Node2D/Coin Label")
-livesLabel = NodePath("CanvasLayer/Node2D/Lives Label")
-node = NodePath("CanvasLayer/Node2D")
-bar1 = NodePath("CanvasLayer/Node2D/HP Bar 1")
-bar2 = NodePath("CanvasLayer/Node2D/HP Bar 2")
-bar3 = NodePath("CanvasLayer/Node2D/HP Bar 3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 10
+layer = 9
 
 [node name="Node2D" type="Node2D" parent="CanvasLayer"]
 
@@ -52,7 +46,7 @@ position = Vector2(220, 948.5)
 scale = Vector2(5, 5)
 texture = ExtResource("4_qut1u")
 
-[node name="Coin Label" type="Label" parent="CanvasLayer/Node2D"]
+[node name="Coins Label" type="Label" parent="CanvasLayer/Node2D"]
 offset_left = 250.0
 offset_top = 911.0
 offset_right = 405.0

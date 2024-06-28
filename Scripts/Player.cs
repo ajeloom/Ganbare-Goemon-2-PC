@@ -13,11 +13,11 @@ public partial class Player : CharacterBody2D
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
-	[Export] private Sprite2D bodySprite;
-	[Export] private AnimationPlayer animPlayer;
-	[Export] private HurtboxComponent hurtboxComponent;
-	[Export] public HealthComponent healthComponent;
-	[Export] private AudioComponent audio;
+	private Sprite2D bodySprite;
+	private AnimationPlayer animPlayer;
+	private HurtboxComponent hurtboxComponent;
+	public HealthComponent healthComponent;
+	private AudioComponent audio;
 
 	// Variables for taking damage
 	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
@@ -36,18 +36,30 @@ public partial class Player : CharacterBody2D
 	public int playerNum { get; set; }
 	public int coins { get; set; }
 	public int lives { get; set; }
+	public bool isAlive { get; set; }
 
 	private bool playingDeathAnim = false;
-	private bool playingDeathAnim2 = false;
-	private bool outOfLives = false;
 
 	private bool gotSpawnPos = false;
 	private Vector2 spawnPosition;
 
 	public override void _Ready()
 	{
+		bodySprite = GetNode<Sprite2D>("Sprite2D");
+		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
+		healthComponent = GetNode<HealthComponent>("HealthComponent");
+		audio = GetNode<AudioComponent>("AudioComponent");
+
 		speed = baseSpeed;
-		bodySprite.FlipH = false;
+
+		var gm = GetNode<GameManager>("/root/GameManager");
+		if (gm.isBossStage) {
+			bodySprite.FlipH = true;
+		}
+		else {
+			bodySprite.FlipH = false;
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -55,34 +67,40 @@ public partial class Player : CharacterBody2D
 		Vector2 velocity = Velocity;
 
 		if (healthComponent.health <= 0.0f) {		
+			isAlive = false;
+
 			// Stop any horizontal movement	
 			velocity.X = 0.0f;
 
 			// Play death animation
 			if (!playingDeathAnim) {
 				playingDeathAnim = true;
-				if (lives > 0)
+
+				// Player flies up a bit
+				velocity.Y = -300.0f;
+
+				if (lives >= 0) {
 					lives--;
-				velocity.Y = -300.0f;		
-				animPlayer.Play("DeathUp");
-				audio.playSFX("res://Sounds/SFX/Goemon/death.wav", -12.5f);
+					audio.playSFX("res://Sounds/SFX/Goemon/death.wav", -12.5f);
+				}				
 			}
 
 			// Fall down through the floor
 			if (!IsOnFloor()) {
 				velocity.Y += 700.0f * (float)delta;
-				if (velocity.Y >= 0.0f) {
-					if (!playingDeathAnim2) {
-						playingDeathAnim2 = true;
-						animPlayer.Play("DeathDown");
-					}					
+
+				if (velocity.Y < 0.0f) {
+					animPlayer.Play("DeathUp");
+				}
+				else {
+					animPlayer.Play("DeathDown");
 				}
 			}
 
 			if (!gotSpawnPos) {
 				gotSpawnPos = true;
 				spawnPosition = GlobalPosition;
-				if (!outOfLives)
+				if (lives >= 0)
 					Respawn();
 			}
 
@@ -90,6 +108,7 @@ public partial class Player : CharacterBody2D
 			MoveAndSlide();
 		}
 		else {
+			isAlive = true;
 			velocity.X = horizontalMovement();	
 
 			// Add the gravity.
@@ -97,7 +116,7 @@ public partial class Player : CharacterBody2D
 				velocity.Y += gravity * (float)delta;
 
 				// Player can do short hop by not holding the jump button
-				if (Input.IsActionJustReleased("jump") && velocity.Y < -250.0f) {
+				if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && velocity.Y < -250.0f) {
 					velocity.Y += 1500 * 6.0f * (float)delta;
 				}
 
@@ -116,13 +135,13 @@ public partial class Player : CharacterBody2D
 			}
 			else {
 				// Can only jump once off the ground
-				if (Input.IsActionJustPressed("jump")) {
+				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && !holdingJumpButton) {
 					holdingJumpButton = true;
 					velocity.Y = jumpVelocity;
 					
 					audio.playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
 				}
-				else if (Input.IsActionJustReleased("jump")) {
+				else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A)) {
 					holdingJumpButton = false;
 				}
 				
@@ -139,10 +158,10 @@ public partial class Player : CharacterBody2D
 
 				// Play one of these animations if the player is not moving
 				if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
-					if (Input.IsActionPressed("crouch")) {
+					if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown)) {
 						animPlayer.Play("Crouch");
 					}
-					else if (Input.IsActionPressed("lookUp")) {
+					else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp)) {
 						animPlayer.Play("LookUp");
 					}
 					else {
@@ -170,11 +189,11 @@ public partial class Player : CharacterBody2D
 			}
 
 			// For running
-			if (Input.IsActionJustPressed("attack")) {
-				holdingRunButton = true;
+			if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
 				Attacking();
+				holdingRunButton = true;
 			}
-			else if (Input.IsActionJustReleased("attack")) {
+			else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
 				holdingRunButton = false;
 			}
 
@@ -196,7 +215,7 @@ public partial class Player : CharacterBody2D
 		// Player can only move when not attacking or taking damage
 		if (!takingDamage) {
 			// Can only turn when not attacking
-			if (Input.IsActionPressed("walkRight")) {
+			if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadRight)) {
 				bodySprite.FlipH = false;
 				
 				direction = lastDirection = new Vector2(1.0f, 0.0f);
@@ -206,7 +225,7 @@ public partial class Player : CharacterBody2D
 				else if (isAttacking && IsOnFloor())
 					return Mathf.MoveToward(Velocity.X, 0, speed);
 			}
-			else if (Input.IsActionPressed("walkLeft")) {
+			else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadLeft)) {
 				bodySprite.FlipH = true;
 
 				direction = lastDirection = new Vector2(-1.0f, 0.0f);
@@ -227,7 +246,7 @@ public partial class Player : CharacterBody2D
 	private void movementAnimation() {
 		// Play a movement animation based on the player's input
 		if (IsOnFloor()) {
-			if (Input.IsActionPressed("crouch"))
+			if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
 				animPlayer.Play("Crawl");
 			else if (holdingRunButton)
 				animPlayer.Play("Run");
@@ -237,7 +256,7 @@ public partial class Player : CharacterBody2D
 	}
 
 	private async void Attacking() {
-		if (!isAttacking && !takingDamage) {
+		if (!isAttacking && !takingDamage && !holdingRunButton) {
 			isAttacking = true;
 
 			audio.playSFX("res://Sounds/SFX/Goemon/attack.wav", -20.0f);
@@ -263,14 +282,16 @@ public partial class Player : CharacterBody2D
 	}
 
 	private async void Respawn() {
-		await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
-		healthComponent.health = 12.0f;
+		await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout);
+		Velocity = new Vector2(0.0f, 0.0f);
 		GlobalPosition = spawnPosition;
+		healthComponent.health = 12.0f;
 		animPlayer.Play("Idle");
 		gotSpawnPos = false;
 		playingDeathAnim = false;
-		playingDeathAnim2 = false;
-		if (lives == 0)
-			outOfLives = true;
+	}
+
+	public void Die() {
+		healthComponent.health = 0.0f;
 	}
 }

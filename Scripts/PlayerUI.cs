@@ -3,26 +3,33 @@ using System;
 
 public partial class PlayerUI : Node2D
 {
-	[Export] private Label coinsLabel;
-	[Export] private Label livesLabel;
-	[Export] Node2D node;
+	// UI variables
+	private Node2D node;
+	private Label coinsLabel;
+	private Label livesLabel;
+	private TextureProgressBar bar1;
+	private TextureProgressBar bar2;
+	private TextureProgressBar bar3;
 
 	private Player player;
-	private HealthComponent healthComponent;
-
-	[Export] private TextureProgressBar bar1;
-	[Export] private TextureProgressBar bar2;
-	[Export] private TextureProgressBar bar3;
-
-	private bool gotPosition = false;
-
 	private GameManager gm;
+	
+	private bool gotPosition = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		gm = GetNode<GameManager>("/root/GameManager");
 		player = GetParent<Player>();
+
+		coinsLabel = GetNode<Label>("CanvasLayer/Node2D/Coins Label");
+		livesLabel = GetNode<Label>("CanvasLayer/Node2D/Lives Label");
+
+		node = GetNode<Node2D>("CanvasLayer/Node2D");
+
+		bar1 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 1");
+		bar2 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 2");
+		bar3 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 3");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -41,18 +48,22 @@ public partial class PlayerUI : Node2D
 			}
 		}
 		
-		if (player.coins < 10) {
-			coinsLabel.Text = Convert.ToString("00" + player.coins);
+		int coins = gm.players[player.playerNum - 1].coins;
+		if (coins < 10) {
+			coinsLabel.Text = Convert.ToString("00" + coins);
 		}
-		else if (player.coins < 100) {
-			coinsLabel.Text = Convert.ToString("0" + player.coins);
+		else if (coins < 100) {
+			coinsLabel.Text = Convert.ToString("0" + coins);
 		}
-		else if (player.coins < 1000) {
-			coinsLabel.Text = Convert.ToString(player.coins);
+		else if (coins < 1000) {
+			coinsLabel.Text = Convert.ToString(coins);
 		}
 
 		int lives = gm.players[player.playerNum - 1].lives;
-		if (lives < 10) {
+		if (lives == -1) {
+			livesLabel.Text = Convert.ToString("00");
+		}
+		else if (lives < 10) {
 			livesLabel.Text = Convert.ToString("0" + lives);
 		}
 		else if (lives < 100) {

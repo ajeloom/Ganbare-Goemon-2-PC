@@ -3,14 +3,15 @@ using System;
 
 public partial class UIManager : Node2D
 {
-	int time = 99;
-	[Export] private Label timeLabel;
-	[Export] private Timer timer;
+	public int time = 99;
+	private Label timeLabel;
+	private Timer timer;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		timer.Start();
+		timeLabel = GetNode<Label>("CanvasLayer/Control/Time Label");
+		timer = GetNode<Timer>("Timer");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,12 +25,19 @@ public partial class UIManager : Node2D
 		}
 
 		if (time == 0) {
-			GetTree().Quit();
+			timer.Stop();
+
+			// Kill all players on screen
+			var gm = GetNode<GameManager>("/root/GameManager");
+			for (int i = 0; i < gm.playerNum; i++) {
+				gm.players[i].node.Die();
+			}
 		}
 		
 	}
 
 	private void OnTimerTimeout() {
-		time--;
+		if (time > 0)
+			time--;
 	}
 }

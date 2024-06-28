@@ -4,14 +4,14 @@ using System;
 public partial class GameManager : Node2D
 {
 	private Control pauseMenu;
-	[Export] private AudioStreamPlayer audio;
+	public AudioStreamPlayer audio;
 	private CanvasLayer canvas;
 
 	public Node currentScene { get; set; }
 
 	public bool isBossStage = false;
 	public bool stageStart = false;
-	private bool loadedPlayers = false;
+	private bool initLoad = false;
 	private bool checkPlayer = false;
 
 	public int playerNum { get; set; }
@@ -19,17 +19,19 @@ public partial class GameManager : Node2D
 	public player[] players;
 
 	public struct player {
-		public player(int Slot, int Lives, int Coins, Player Node) {
+		public player(Player Node, int Slot, int Lives, int Coins, bool IsAlive) {
+			node = Node;
 			slot = Slot;
 			lives = Lives;
 			coins = Coins;
-			node = Node;
+			isAlive = IsAlive;
 		}
 
+		public Player node { get; set; }
 		public int slot { get; }
 		public int lives { get; set; }
 		public int coins { get; set; }
-		public Player node { get; }
+		public bool isAlive { get; set; }
 	};
 
 	private string[] stage = {
@@ -39,6 +41,10 @@ public partial class GameManager : Node2D
 	private string[] song = {
 		"res://Sounds/Music/Boss.mp3"
 	};
+
+	public bool endLevel = false;
+	private bool exitGame = false;
+	public bool reloadingLevel = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -51,6 +57,8 @@ public partial class GameManager : Node2D
 
 		canvas = GetNode<CanvasLayer>("/root/GameManager/UI/CanvasLayer");
 		canvas.Visible = false;
+
+		audio = GetNode<AudioStreamPlayer>("BG Music");
 		
 		// Load title screen
 		GoToScene("res://Scenes/TitleScreen.tscn");
@@ -60,52 +68,49 @@ public partial class GameManager : Node2D
 	public override void _Process(double delta)
 	{
 		if (stageStart) {
-			if (!loadedPlayers) {
-				loadedPlayers = true;
-				players = new player[playerNum];
+			if (!initLoad) {
+				initLoad = true;				
+				
+				// Load fade transition
+				AddChild("res://Scenes/FadeTransition.tscn", this);
+				getTransition("FadeIn");
+
+				// Show the bottom UI
 				canvas.Visible = true;
-				for (int i = 0; i < playerNum; i++) {
-					int num = i + 1;
 
-					// Load a player scene
-					AddChild("res://Scenes/Player.tscn", this);
+				// Initialize player array
+				players = new player[3];
 
-					// Initialize the variables
-					Player temp = GetChild<Player>(GetChildCount() - 1);
-					temp.playerNum = num;
-					temp.coins = 100;
-					temp.lives = 2;
-					players[i] = new player(num, temp.lives, temp.coins, temp);
-
-					// Get spawn point
-					Node2D node;
-					if (isBossStage) {
-						node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + num);
-					}
-					else {
-						node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + num);
-					}
-					
-					// Set player location to spawn point
-					temp.Position = node.GlobalPosition;
-				}
-
-				// Set the camera to player
-				if (!isBossStage) {
-					Player play = GetNode<Player>("Player");
-					AddChild("res://Scenes/Camera.tscn", play);
-				}
+				LoadPlayers(false);
 			}
 
 			// Keep track of player lives/coins
 			for (int i = 0; i < playerNum; i++) {
 				players[i].coins = players[i].node.coins;
 				players[i].lives = players[i].node.lives;
+				players[i].isAlive = players[i].node.isAlive;
+
+				// Load game over
+				if (!players[0].isAlive && !players[1].isAlive && !players[2].isAlive) {
+					if (players[i].lives >= 0) {
+						reloadScene();
+					}
+					else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
+						closeGame();
+
+						// Load Game Over Scene
+
+					}
+				}
 			}
 
 			if (Input.IsActionJustPressed("pause")) {
 				pauseMenu.Visible = true;
 				GetTree().Paused = true;
+			}
+
+			if (endLevel) {
+				closeGame();
 			}
 		}
 	}
@@ -158,5 +163,124 @@ public partial class GameManager : Node2D
 
 	public void setNum(int value) {
 		playerNum = value;
+	}
+
+	private async void closeGame() {
+		if (!exitGame) {
+			exitGame = true;
+			getTransition("FadeOut");
+
+			await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
+			GetTree().Quit();
+		}
+	}
+
+	private async void reloadScene() {
+		if (!reloadingLevel) {
+			reloadingLevel = true;
+			stageStart = false;
+			
+			getTransition("FadeOut");
+
+			audio.Stop();
+
+			await ToSignal(GetTree().CreateTimer(2.8f), SceneTreeTimer.SignalName.Timeout);
+			
+			for (int i = 0; i < playerNum; i++) {
+				Player temp = players[i].node;
+				RemoveChild(temp);
+			}
+
+			if (isBossStage) {
+				GoToScene("res://Scenes/boss.tscn");
+				stageStart = true;
+				isBossStage = true;
+			}
+			else {
+				GoToScene("res://Scenes/Stage1.tscn");
+				stageStart = true;
+				isBossStage = false;
+			}
+
+			LoadPlayers(true);
+
+			getTransition("FadeIn");
+			reloadingLevel = false;
+		}
+	}
+
+	private void getTransition(string name) {
+		Control transition = GetNode<Control>("Fade Transition");
+		AnimationPlayer animPlayer = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
+		animPlayer.Play(name);
+	}
+
+	private void LoadPlayers(bool isReloading) {
+		for (int i = 0; i < playerNum; i++) {
+			int num = i + 1;
+
+			AddChild("res://Scenes/Player.tscn", this);
+			Player temp = GetChild<Player>(GetChildCount() - 1);
+			temp.playerNum = num;
+
+			if (isReloading) {
+				temp.coins = players[i].coins;
+				temp.lives = players[i].lives;
+				players[i].node = temp;
+				if (players[i].lives > -1) {
+					temp.isAlive = true;						
+				}
+				else {
+					temp.isAlive = false;
+					temp.healthComponent.health = 0.0f;
+					temp.Position = new Vector2(0.0f, 5000.0f);
+					continue;
+				}
+			}
+			else {
+				// Initialize the variables
+				temp.coins = 100;
+				temp.lives = 2;
+				temp.isAlive = true;
+				players[i] = new player(temp, num, temp.lives, temp.coins, temp.isAlive);
+			}
+			
+			// Get spawn point
+			Node2D node;
+			if (isBossStage) {
+				node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + num);
+			}
+			else {
+				node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + num);
+			}
+			
+			// Set player location to spawn point
+			temp.Position = node.GlobalPosition;
+		}
+		
+
+		// Boss stage has its own camera and no timer
+		if (!isBossStage) {
+			// Set the camera to player
+			Player play = GetNode<Player>("Player");
+			AddChild("res://Scenes/Camera.tscn", play);
+
+			// Start timer
+			Timer timer = GetNode<Timer>("UI/Timer");
+			UIManager ui = GetNode<UIManager>("UI");
+			ui.time = 99;
+			timer.Start();
+
+			// Load stage music
+			audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/Level_1_Ryukyu_Resort.mp3");
+			audio.VolumeDb = -10.0f;
+			audio.Play();
+		}
+		else {
+			// Load stage music
+			audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/Boss.mp3");
+			audio.VolumeDb = -20.0f;
+			audio.Play();
+		}
 	}
 }

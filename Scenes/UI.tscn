@@ -9,13 +9,11 @@
 font = ExtResource("3_5iheb")
 font_size = 70
 
-[node name="UI" type="Node2D" node_paths=PackedStringArray("timeLabel", "timer")]
+[node name="UI" type="Node2D"]
 script = ExtResource("1_slyfy")
-timeLabel = NodePath("CanvasLayer/Control/Time Label")
-timer = NodePath("Timer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 9
+layer = 8
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3

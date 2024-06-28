@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1ufqqv2rqbcg"]
+[gd_scene load_steps=5 format=3 uid="uid://c1ufqqv2rqbcg"]
 
 [ext_resource type="Texture2D" uid="uid://b3oq8n8skfv5u" path="res://Sprites/Pass.png" id="1_g21t0"]
+[ext_resource type="Script" path="res://Scenes/Pass.cs" id="1_xufqg"]
+[ext_resource type="AudioStream" uid="uid://cjeeq13cv24wi" path="res://Sounds/Music/StageClear.mp3" id="3_yqixg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_us2tv"]
 size = Vector2(20, 15)
 
 [node name="Pass" type="Node2D"]
+script = ExtResource("1_xufqg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_g21t0")
@@ -16,3 +19,8 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_us2tv")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_yqixg")
+
+[connection signal="area_entered" from="Area2D" to="." method="AreaEntered"]

@@ -13,8 +13,8 @@ public partial class PlayerNumberScreen : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		HSlider slider = GetNode<HSlider>("HSlider");
-		Label playerNumLabel = GetNode<Label>("Number");
+		HSlider slider = GetNode<HSlider>("CanvasLayer/HSlider");
+		Label playerNumLabel = GetNode<Label>("CanvasLayer/Number");
 		playerNumLabel.Text = Convert.ToString(slider.Value);
 		playerNum = (int)slider.Value;
 	}

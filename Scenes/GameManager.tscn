@@ -4,9 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
 [ext_resource type="AudioStream" uid="uid://bl4vug7lv7kmx" path="res://Sounds/Music/Boss.mp3" id="3_4xv7j"]
 
-[node name="Game Manager" type="Node2D" node_paths=PackedStringArray("audio")]
+[node name="Game Manager" type="Node2D"]
 script = ExtResource("1_p1civ")
-audio = NodePath("BG Music")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 12
@@ -77,8 +76,7 @@ position = Vector2(-7, -2)
 
 [node name="BG Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_4xv7j")
-volume_db = -80.0
-autoplay = true
+volume_db = -5.0
 
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Resume Button" to="." method="ResumeButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Quit Button" to="." method="QuitButtonPressed"]

@@ -1566,16 +1566,11 @@ radius = 8.125
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0l7dh"]
 size = Vector2(55.625, 46.5813)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("bodySprite", "animPlayer", "hurtboxComponent", "healthComponent", "audio") groups=["Player"]]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 scale = Vector2(1.6, 1.6)
 collision_layer = 2
 floor_snap_length = 3.0
 script = ExtResource("1_67tfp")
-bodySprite = NodePath("Sprite2D")
-animPlayer = NodePath("AnimationPlayer")
-hurtboxComponent = NodePath("HurtboxComponent")
-healthComponent = NodePath("HealthComponent")
-audio = NodePath("Audio Component")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 2
@@ -1630,6 +1625,6 @@ hframes = 4
 
 [node name="Player UI" parent="." instance=ExtResource("7_ajrbe")]
 
-[node name="Audio Component" parent="." instance=ExtResource("8_r5ojg")]
+[node name="AudioComponent" parent="." instance=ExtResource("8_r5ojg")]
 
 [connection signal="area_entered" from="HitboxComponent" to="." method="OnHit"]

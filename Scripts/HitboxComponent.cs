@@ -16,7 +16,7 @@ public partial class HitboxComponent : Area2D
 	}
 
 
-	private void OnAreaEntered(Area2D area) {
+	public void OnAreaEntered(Area2D area) {
 		if (area.IsInGroup("Player") || area.IsInGroup("Enemy")) {
 			CharacterBody2D body = area.GetParent<CharacterBody2D>();
 

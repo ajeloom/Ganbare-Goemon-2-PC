@@ -12,49 +12,47 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_08dsc")
 
-[node name="Level 1" type="Button" parent="."]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Level 1" type="Button" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 756.0
-offset_top = 407.0
-offset_right = 1140.0
-offset_bottom = 515.0
+offset_left = -192.0
+offset_top = -254.0
+offset_right = 192.0
+offset_bottom = -146.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Level 1"
 
-[node name="Boss" type="Button" parent="."]
-layout_mode = 1
+[node name="Boss" type="Button" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 756.0
-offset_top = 607.0
-offset_right = 1140.0
-offset_bottom = 715.0
+offset_left = -192.0
+offset_top = -54.0
+offset_right = 192.0
+offset_bottom = 54.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Boss Level
 "
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
+[node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 619.0
-offset_top = 211.0
-offset_right = 1277.0
-offset_bottom = 348.0
+offset_left = -329.0
+offset_right = 329.0
+offset_bottom = 137.0
 grow_horizontal = 2
 text = "Select a stage"
 label_settings = SubResource("LabelSettings_h8wmo")
 
-[connection signal="pressed" from="Level 1" to="." method="LevelButtonPressed"]
-[connection signal="pressed" from="Boss" to="." method="BossButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/Level 1" to="." method="LevelButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/Boss" to="." method="BossButtonPressed"]
