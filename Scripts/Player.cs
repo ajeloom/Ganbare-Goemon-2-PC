@@ -18,6 +18,7 @@ public partial class Player : CharacterBody2D
 	private HurtboxComponent hurtboxComponent;
 	public HealthComponent healthComponent;
 	private AudioComponent audio;
+	private GameManager gm;
 
 	// Variables for taking damage
 	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
@@ -50,10 +51,10 @@ public partial class Player : CharacterBody2D
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		audio = GetNode<AudioComponent>("AudioComponent");
+		gm = GetNode<GameManager>("/root/GameManager");
 
 		speed = baseSpeed;
 
-		var gm = GetNode<GameManager>("/root/GameManager");
 		if (gm.isBossStage) {
 			bodySprite.FlipH = true;
 		}
@@ -100,7 +101,7 @@ public partial class Player : CharacterBody2D
 			if (!gotSpawnPos) {
 				gotSpawnPos = true;
 				spawnPosition = GlobalPosition;
-				if (lives >= 0)
+				if (lives >= 0 && !gm.isBossStage)
 					Respawn();
 			}
 
@@ -260,11 +261,23 @@ public partial class Player : CharacterBody2D
 			isAttacking = true;
 
 			audio.playSFX("res://Sounds/SFX/Goemon/attack.wav", -20.0f);
-			if (lastDirection.X >= 0.0f)
-				animPlayer.Play("NormalAttackR");
-			else 
-				animPlayer.Play("NormalAttackL");
-
+			if (lastDirection.X >= 0.0f) {
+				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
+					animPlayer.Play("CrouchAttackR");
+				else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
+					animPlayer.Play("UpAttackR");
+				else
+					animPlayer.Play("NormalAttackR");
+			}
+			else {
+				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
+					animPlayer.Play("CrouchAttackL");
+				else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
+					animPlayer.Play("UpAttackL");
+				else
+					animPlayer.Play("NormalAttackL");
+			}
+				
 			await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
 			isAttacking = false;

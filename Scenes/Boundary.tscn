@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfcxm28qxlh0b"]
+
+[ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="1_eccjm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blt3v"]
+size = Vector2(20, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gytbx"]
+size = Vector2(20, 360)
+
+[node name="Boundary" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 2
+
+[node name="Wall" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_blt3v")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("1_eccjm")]
+damageNumber = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_gytbx")

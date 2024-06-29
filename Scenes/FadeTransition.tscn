@@ -61,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 10
+layer = 15
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 offset_right = 1920.0

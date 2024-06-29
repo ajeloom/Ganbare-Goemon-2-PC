@@ -4,57 +4,50 @@ using System;
 public partial class Kabuki : CharacterBody2D
 {
 	[Export] public float Speed = 150.0f;
-	public float descendSpeed = 15.0f;
 	public const float JumpVelocity = -420.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
+	// For start up animation
 	private bool oneSec = true;
 	private bool startUpAnimation = true;
-	private bool startUpFall = true;
 	private Vector2 targetPosition;
-
 	private bool emerged = false;
-	private bool descendSlowly = false;
 
+	// For shaking the camera
 	public bool landed = false;
 	private bool playLandedAnimation = false;
-
 	public bool shakeCamera = false;
 
+	// For phase 1/2 attacks
 	private bool isFlying = false;
 	private bool startFlyingAttack = false;
-
 	private bool spawnFlowers = false;
-
-	[Export] private AnimationPlayer animPlayer;
-	//[Export] private AnimationPlayer effectsPlayer;
-	[Export] private RayCast2D rayCast;
-	private HealthComponent healthComponent;
-	private HurtboxComponent hurtboxComponent;
-	private AudioComponent audioComponent;
-
-	[Export] private Sprite2D body;
-
-	[Export] ScreenShake camera;
-
-	private int phase = 1;
-
 	private bool move = false;
 	private bool moveLeft = true;
 	private bool moveRight = false;
 	private bool moveUp = true;
 	private bool moveDown = false;
 
+	// Components/Nodes
+	private GameManager gm;
+	private AnimationPlayer animPlayer;
+	//[Export] private AnimationPlayer effectsPlayer;
+	private HealthComponent healthComponent;
+	private HurtboxComponent hurtboxComponent;
+	private AudioComponent audioComponent;
+	private RayCast2D rayCast;
+	private Sprite2D body;
+	private ScreenShake camera;
+
+	private int phase = 1;
+
 	private bool createNewHP = false;
 
 	private bool takingDamage = false;
 
-	// Different Attacks
-	// Shoot flowers from basket then go in basket and fly a bit
-	// Once basket breaks
-	// Jump
+	private bool endLevel = false;
 
 	public override void _Ready()
 	{
@@ -66,11 +59,15 @@ public partial class Kabuki : CharacterBody2D
 		var instance = scene.Instantiate();
 		AddChild(instance);
 
+		gm = GetNode<GameManager>("/root/GameManager");
+		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");	
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
 		hurtboxComponent.Scale = Vector2.Zero;
-
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
+		rayCast = GetNode<RayCast2D>("RayCast2D");
+		body = GetNode<Sprite2D>("Body");
+		camera = GetNode<ScreenShake>("/root/Boss Fight/Camera2D");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -82,141 +79,159 @@ public partial class Kabuki : CharacterBody2D
 		else {
 			Vector2 velocity = Velocity;
 
-			if (phase == 1) {
-				if (!IsOnFloor() && !isFlying) {
-					float currentGravity = (startUpAnimation) ? 35.0f : gravity;
-					velocity.Y += currentGravity * (float)delta;
-					landed = false;
-				}
-
-				if (Position.Y >= 140.0f && startUpAnimation) {
-					hurtboxComponent.Scale = new Vector2(1.0f, 1.0f);
-					if (!emerged) {
-						emerged = true;
-						animPlayer.Play("emerge");
-					}
-				}
-
-				// Start up animation ends when boss lands on the ground
-				if (IsOnFloor()) {
-					// Shake the camera when the boss lands on the floor
-					if (!landed) {
-						landed = true;
-						camera.ApplyShake();
-					}
-
-					doFlowerAttack();
-				}
-
-				if (animPlayer.CurrentAnimation == "hide") {
-					targetPosition = new Vector2(Position.X, 140.0f);
-					Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
-					
-					if (Position >= targetPosition) {
-						velocity = direction * 100.0f;
-						isFlying = true;
+			if (healthComponent.health > 0.0f) {
+				if (phase == 1) {
+					// Fall when in the air and not flying
+					if (!IsOnFloor() && !isFlying) {
+						float currentGravity = (startUpAnimation) ? 35.0f : gravity;
+						velocity.Y += currentGravity * (float)delta;
 						landed = false;
 					}
+
+					// Do startup animation
+					if (Position.Y >= 140.0f && startUpAnimation) {
+						hurtboxComponent.Scale = new Vector2(1.0f, 1.0f);
+						if (!emerged) {
+							emerged = true;
+							animPlayer.Play("emerge");
+						}
+					}
+
+					if (IsOnFloor()) {
+						// Start up animation ends
+						startUpAnimation = false;
+
+						// Shake the camera when landing
+						if (!landed) {
+							landed = true;
+							camera.ApplyShake();
+						}
+
+						// Do flower attack
+						doFlowerAttack();
+					}
+
+					// Fly in the air to target position
+					if (animPlayer.CurrentAnimation == "hide") {
+						targetPosition = new Vector2(Position.X, 140.0f);
+						Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
+						
+						if (Position >= targetPosition) {
+							velocity = direction * 100.0f;
+							isFlying = true;
+						}
+					}
+
+					// Reset to target position for flying attack
+					if (isFlying && Position <= targetPosition) {
+						velocity = Vector2.Zero;
+						animPlayer.Play("RESET");
+						startFlyingAttack = true;
+					}
+
+					// Do flying attack
+					if (startFlyingAttack) {
+						playLandedAnimation = false;
+						doFlyingAttack();
+
+						if (move) {
+							if (moveLeft) {
+								velocity.X = -1.0f * Speed;
+							}	
+							else if (moveRight) {
+								velocity.X = 1.0f * Speed;
+							}
+						}
+						else {
+							velocity.X = 0.0f;
+						}
+
+						// if (moveUp && isFlying) {
+						// 	velocity.Y = -1.0f * Speed;
+						// }
+
+						// if (moveDown && isFlying) {
+						// 	velocity.Y = 1.0f * Speed;
+						// }
+					}
+
 					
 				}
-
-				// Reset to target position for flying attack
-				if (isFlying && Position <= targetPosition) {
-					velocity = Vector2.Zero;
-					animPlayer.Play("RESET");
-					startFlyingAttack = true;
-				}
-
-				if (startFlyingAttack) {
-					playLandedAnimation = false;
-					doFlyingAttack();
-
-					if (move) {
-						if (moveLeft) {
-							velocity.X = -1.0f * Speed;
-						}	
-						else if (moveRight) {
-							velocity.X = 1.0f * Speed;
+				else if (phase == 2) {
+					// Fall when in the air
+					if (!IsOnFloor()) {
+						if (!startUpAnimation) {
+							startUpAnimation = true;
+							animPlayer.Play("land");
 						}
+						velocity.Y += gravity * (float)delta;
+						landed = false;
 					}
-					else {
-						velocity.X = 0.0f;
-					}
 
-					// if (moveUp && isFlying) {
-					// 	velocity.Y = -1.0f * Speed;
-					// }
-
-					// if (moveDown && isFlying) {
-					// 	velocity.Y = 1.0f * Speed;
-					// }
-				}
-			}
-			else if (phase == 2) {
-				if (!createNewHP) {
-					createNewHP = true;
-					healthComponent.health = 32.0f;
-					var scene = GD.Load<PackedScene>("res://Scenes/BossHP.tscn");
-					var instance = scene.Instantiate();
-					AddChild(instance);
-				}
-
-				if (!IsOnFloor()) {
-					if (!startUpAnimation) {
-						startUpAnimation = true;
-						animPlayer.Play("land");
-					}
-					velocity.Y += gravity * (float)delta;
-					landed = false;
-				}
-
-				// Switch to jumping attack
-				if (IsOnFloor()) {
-					if (!landed) {
-						landed = true;
-						camera.ApplyShake();
-					}
-					velocity.Y = JumpVelocity;
-					doJumpingAttack();
-
-					if (move) {
-						if (moveLeft) {
-							velocity.X = -1.0f * Speed;
-						}	
-						else if (moveRight) {
-							velocity.X = 1.0f * Speed;
+					// Switch to jumping attack
+					if (IsOnFloor()) {
+						if (!landed) {
+							landed = true;
+							camera.ApplyShake();
 						}
+						velocity.Y = JumpVelocity;
+						doJumpingAttack();
+
+						// Move left and right
+						if (move) {
+							if (moveLeft) {
+								velocity.X = -1.0f * Speed;
+							}	
+							else if (moveRight) {
+								velocity.X = 1.0f * Speed;
+							}
+						}
+						else {
+							velocity.X = 0.0f;
+						}
+
+						animPlayer.Play("jump");
+						audioComponent.playSFX("res://Sounds/SFX/Goemon/jump.wav", -25.0f);
 					}
-					else {
-						velocity.X = 0.0f;
+
+					if (takingDamage) {
+						animPlayer.Play("hurt");
 					}
 
-					animPlayer.Play("jump");
-					audioComponent.playSFX("res://Sounds/SFX/Goemon/jump.wav", -25.0f);
+					
 				}
+			}
+			else {
+				if (phase == 1) {
+					if (!createNewHP) {
+						createNewHP = true;
+						healthComponent.health = 32.0f;
+						var scene = GD.Load<PackedScene>("res://Scenes/BossHP.tscn");
+						var instance = scene.Instantiate();
+						AddChild(instance);
+					}
+					
+					// Spawn a basket with explosion
+					PackedScene var = GD.Load<PackedScene>("res://Scenes/Basket.tscn");
+					Node2D node = var.Instantiate<Node2D>();
+					node.Position = Position;
+					AddSibling(node);
 
-				if (takingDamage) {
-					animPlayer.Play("hurt");
+					isFlying = false;
+					startUpAnimation = false;
+					velocity.X = 0.0f;
+
+					phase = 2;
 				}
+				else if (phase == 2) {
+					if (!IsOnFloor()) {
+						velocity.Y += gravity * (float)delta;
+						landed = false;
+					}
 
-				
-			}
-
-			if (healthComponent.health <= 0.0f && phase == 1) {
-				phase = 2;
-				
-				// Spawn a basket with explosion
-				PackedScene var = GD.Load<PackedScene>("res://Scenes/Basket.tscn");
-				Node2D node = var.Instantiate<Node2D>();
-				node.Position = Position;
-				AddSibling(node);
-
-				isFlying = false;
-				startUpAnimation = false;
-				velocity.X = 0.0f;
-			}
-			else if (healthComponent.health <= 0.0f && phase == 2) {
-				QueueFree();
+					velocity.X = 0.0f;
+					EndLevel();
+				}
 			}
 
 			takingDamage = hurtboxComponent.takingDamage;
@@ -235,7 +250,7 @@ public partial class Kabuki : CharacterBody2D
 
 	private async void doFlowerAttack() {
 		// Gravity is normal
-		startUpAnimation = false;
+		// startUpAnimation = false;
 
 		if (!playLandedAnimation) {
 			playLandedAnimation = true;
@@ -251,8 +266,11 @@ public partial class Kabuki : CharacterBody2D
 				spawnFlowers = true;
 				await ToSignal(GetTree().CreateTimer(0.9f), SceneTreeTimer.SignalName.Timeout);
 				int temp = 1;
+
+				// Shoot a group of 8 flowers, 3 times
 				for (int j = 0; j < 3; j++) {
 					for (int i = 0; i < 8; i++) {
+						// Position them in evenly above the boss
 						PackedScene var = GD.Load<PackedScene>("res://Scenes/Flower.tscn");
 						Node2D node = var.Instantiate<Node2D>();
 						if (i < 4) {
@@ -271,11 +289,9 @@ public partial class Kabuki : CharacterBody2D
 					}
 					await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
 				}
-				
 			}			
 		}
-
-		if (animPlayer.CurrentAnimation == "close") {
+		else if (animPlayer.CurrentAnimation == "close") {
 			spawnFlowers = false;
 		}
 	}
@@ -329,5 +345,27 @@ public partial class Kabuki : CharacterBody2D
 			moveRight = false;
 			body.FlipH = false;
 		}
+	}
+
+	private async void EndLevel() {
+		if (!endLevel) {
+			endLevel = true;
+
+			animPlayer.Play("death");
+
+			for (int i = 0; i < 6; i++) {
+				audioComponent.playSFX("res://Sounds/SFX/explosion.wav", -15.0f);
+				await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+			}
+
+			// Load stage clear music
+			gm.audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/StageClear.mp3");
+			gm.audio.VolumeDb = 0.0f;
+			gm.audio.Play();
+			
+			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
+			gm.endLevel = true;
+		}
+		
 	}
 }

@@ -45,6 +45,7 @@ public partial class GameManager : Node2D
 	public bool endLevel = false;
 	private bool exitGame = false;
 	public bool reloadingLevel = false;
+	private bool gameOver = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -96,15 +97,15 @@ public partial class GameManager : Node2D
 						reloadScene();
 					}
 					else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
-						closeGame();
-
-						// Load Game Over Scene
-
+						if (!gameOver) {
+							gameOver = true;
+							GameOver();	
+						}
 					}
 				}
 			}
 
-			if (Input.IsActionJustPressed("pause")) {
+			if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
 				pauseMenu.Visible = true;
 				GetTree().Paused = true;
 			}
@@ -215,55 +216,78 @@ public partial class GameManager : Node2D
 		animPlayer.Play(name);
 	}
 
+	private async void GameOver() {
+		// Wait for all players to be off screen
+		await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
+		getTransition("FadeOut");
+		
+		// Wait for fade out transition to end
+		await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
+		getTransition("FadeIn");
+		AddChild("res://Scenes/GameOverScreen.tscn", this);
+		
+		await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
+		closeGame();
+	}
+
 	private void LoadPlayers(bool isReloading) {
-		for (int i = 0; i < playerNum; i++) {
+		for (int i = 0; i < 3; i++) {
 			int num = i + 1;
 
-			AddChild("res://Scenes/Player.tscn", this);
-			Player temp = GetChild<Player>(GetChildCount() - 1);
-			temp.playerNum = num;
+			if (i < playerNum) {
+				AddChild("res://Scenes/Player.tscn", this);
+				Player temp = GetChild<Player>(GetChildCount() - 1);
+				temp.playerNum = num;
 
-			if (isReloading) {
-				temp.coins = players[i].coins;
-				temp.lives = players[i].lives;
-				players[i].node = temp;
-				if (players[i].lives > -1) {
-					temp.isAlive = true;						
+				if (isReloading) {
+					temp.coins = players[i].coins;
+					temp.lives = players[i].lives;
+					players[i].node = temp;
+					if (players[i].lives > -1) {
+						temp.isAlive = true;						
+					}
+					else {
+						temp.isAlive = false;
+						temp.healthComponent.health = 0.0f;
+						temp.Position = new Vector2(0.0f, 5000.0f);
+						continue;
+					}
 				}
 				else {
-					temp.isAlive = false;
-					temp.healthComponent.health = 0.0f;
-					temp.Position = new Vector2(0.0f, 5000.0f);
-					continue;
+					// Initialize the variables
+					temp.coins = 100;
+					temp.lives = 2;
+					temp.isAlive = true;
+					players[i] = new player(temp, num, temp.lives, temp.coins, temp.isAlive);
 				}
+
+				// Get spawn point
+				Node2D node;
+				if (isBossStage) {
+					node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + num);
+				}
+				else {
+					node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + num);
+				}
+				
+				// Set player location to spawn point
+				temp.Position = node.GlobalPosition;
 			}
 			else {
-				// Initialize the variables
-				temp.coins = 100;
-				temp.lives = 2;
-				temp.isAlive = true;
-				players[i] = new player(temp, num, temp.lives, temp.coins, temp.isAlive);
+				players[i] = new player(null, num, -1, 0, false);
 			}
-			
-			// Get spawn point
-			Node2D node;
-			if (isBossStage) {
-				node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + num);
-			}
-			else {
-				node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + num);
-			}
-			
-			// Set player location to spawn point
-			temp.Position = node.GlobalPosition;
 		}
-		
 
 		// Boss stage has its own camera and no timer
 		if (!isBossStage) {
-			// Set the camera to player
+			
 			Player play = GetNode<Player>("Player");
-			AddChild("res://Scenes/Camera.tscn", play);
+			
+			AddChild("res://Scenes/Boundary.tscn", this);
+			AddChild("res://Scenes/Boundary.tscn", this);
+
+			// Set the camera to player
+			AddChild("res://Scenes/Camera.tscn", this);
 
 			// Start timer
 			Timer timer = GetNode<Timer>("UI/Timer");

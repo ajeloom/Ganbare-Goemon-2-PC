@@ -8,7 +8,7 @@
 script = ExtResource("1_p1civ")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 12
+layer = 16
 
 [node name="PauseMenu" type="Control" parent="CanvasLayer"]
 process_mode = 2
