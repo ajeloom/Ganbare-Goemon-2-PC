@@ -3,59 +3,21 @@ using System;
 
 public partial class Enemy : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
-
-	public bool takingDamage = false;
-
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
+	[Export] public float speed = 300.0f;
+	[Export] public float jumpVelocity = -400.0f;
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-
-	[Export] private AnimationPlayer animPlayer;
-	[Export] private HealthComponent healthComponent;
-	[Export] private HitboxComponent hitboxComponent;
-	[Export] private AudioComponent audio;
-	private CollisionShape2D hitbox;
-
-	private bool isExploding = false;
-
-	public override void _Ready()
-	{
-		hitbox = (CollisionShape2D)hitboxComponent.GetChild(0);
-		hitbox.Disabled = false;
-		animPlayer.Play("Idle");
-	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (healthComponent.health <= 0.0f) {
-			if (!isExploding) {
-				isExploding = true;
-				hitbox.Disabled = true;
-				animPlayer.Play("Explosion");
-				
-				audio.playSFX("res://Sounds/SFX/explosion.wav", -15.0f);
-			}
-		}
-		else {
-			animPlayer.Play("Idle");
+		Vector2 velocity = Velocity;
 
-			Vector2 velocity = Velocity;
+		if (!IsOnFloor())
+			velocity.Y += gravity * (float)delta;
 
-			// Add the gravity.
-			if (!IsOnFloor())
-				velocity.Y += gravity * (float)delta;
+		if (IsOnFloor())
+			velocity.Y = jumpVelocity;
 
-			// Handle Jump.
-			if (IsOnFloor())
-				velocity.Y = JumpVelocity;
-
-			Velocity = velocity;
-			MoveAndSlide();
-		}
-	}
-
-	private void AnimationFinished(string name) {
-		QueueFree();
+		Velocity = velocity;
+		MoveAndSlide();
 	}
 }

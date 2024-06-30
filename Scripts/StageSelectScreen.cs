@@ -18,6 +18,7 @@ public partial class StageSelectScreen : Control
 		gm.GoToScene("res://Scenes/Stage1.tscn");
 		gm.stageStart = true;
 		gm.isBossStage = false;
+		gm.isImpactStage = false;
 	}
 
 	private void BossButtonPressed() {
@@ -25,5 +26,14 @@ public partial class StageSelectScreen : Control
 		gm.GoToScene("res://Scenes/boss.tscn");
 		gm.stageStart = true;
 		gm.isBossStage = true;
+		gm.isImpactStage = false;
+	}
+
+	private void ImpactButtonPressed() {
+		var gm = GetNode<GameManager>("/root/GameManager");
+		gm.GoToScene("res://Scenes/ImpactBattle.tscn");
+		gm.stageStart = true;
+		gm.isBossStage = false;
+		gm.isImpactStage = true;
 	}
 }

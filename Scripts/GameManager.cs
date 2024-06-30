@@ -9,6 +9,8 @@ public partial class GameManager : Node2D
 
 	public Node currentScene { get; set; }
 
+	public bool isPaused = false;
+	public bool isImpactStage = false;
 	public bool isBossStage = false;
 	public bool stageStart = false;
 	private bool initLoad = false;
@@ -69,54 +71,66 @@ public partial class GameManager : Node2D
 	public override void _Process(double delta)
 	{
 		if (stageStart) {
-			if (!initLoad) {
-				initLoad = true;				
-				
-				// Load fade transition
-				AddChild("res://Scenes/FadeTransition.tscn", this);
-				getTransition("FadeIn");
-
-				// Show the bottom UI
-				canvas.Visible = true;
-
-				// Initialize player array
-				players = new player[3];
-
-				LoadPlayers(false);
+			if (isImpactStage) {
+				if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
+					isPaused = true;
+					Input.MouseMode = Input.MouseModeEnum.Visible;
+					pauseMenu.Visible = true;
+					GetTree().Paused = true;
+				}
 			}
+			else {
+				if (!initLoad) {
+					initLoad = true;				
+					
+					// Load fade transition
+					AddChild("res://Scenes/FadeTransition.tscn", this);
+					getTransition("FadeIn");
 
-			// Keep track of player lives/coins
-			for (int i = 0; i < playerNum; i++) {
-				players[i].coins = players[i].node.coins;
-				players[i].lives = players[i].node.lives;
-				players[i].isAlive = players[i].node.isAlive;
+					// Show the bottom UI
+					canvas.Visible = true;
 
-				// Load game over
-				if (!players[0].isAlive && !players[1].isAlive && !players[2].isAlive) {
-					if (players[i].lives >= 0) {
-						reloadScene();
-					}
-					else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
-						if (!gameOver) {
-							gameOver = true;
-							GameOver();	
+					// Initialize player array
+					players = new player[3];
+
+					LoadPlayers(false);
+				}
+
+				// Keep track of player lives/coins
+				for (int i = 0; i < playerNum; i++) {
+					players[i].coins = players[i].node.coins;
+					players[i].lives = players[i].node.lives;
+					players[i].isAlive = players[i].node.isAlive;
+
+					// Load game over
+					if (!players[0].isAlive && !players[1].isAlive && !players[2].isAlive) {
+						if (players[i].lives >= 0) {
+							reloadScene();
+						}
+						else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
+							if (!gameOver) {
+								gameOver = true;
+								GameOver();	
+							}
 						}
 					}
 				}
-			}
 
-			if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
-				pauseMenu.Visible = true;
-				GetTree().Paused = true;
-			}
+				if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
+					isPaused = true;
+					pauseMenu.Visible = true;
+					GetTree().Paused = true;
+				}
 
-			if (endLevel) {
-				closeGame();
+				if (endLevel) {
+					closeGame();
+				}
 			}
 		}
 	}
 
 	private void ResumeButtonPressed() {
+		isPaused = false;
 		pauseMenu.Visible = false;
 		GetTree().Paused = false;
 	}
@@ -244,7 +258,7 @@ public partial class GameManager : Node2D
 					temp.lives = players[i].lives;
 					players[i].node = temp;
 					if (players[i].lives > -1) {
-						temp.isAlive = true;						
+						temp.isAlive = true;
 					}
 					else {
 						temp.isAlive = false;
@@ -279,10 +293,7 @@ public partial class GameManager : Node2D
 		}
 
 		// Boss stage has its own camera and no timer
-		if (!isBossStage) {
-			
-			Player play = GetNode<Player>("Player");
-			
+		if (!isBossStage) {			
 			AddChild("res://Scenes/Boundary.tscn", this);
 			AddChild("res://Scenes/Boundary.tscn", this);
 

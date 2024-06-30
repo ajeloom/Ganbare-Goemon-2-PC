@@ -262,7 +262,7 @@ public partial class Player : CharacterBody2D
 
 			audio.playSFX("res://Sounds/SFX/Goemon/attack.wav", -20.0f);
 			if (lastDirection.X >= 0.0f) {
-				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
+				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
 					animPlayer.Play("CrouchAttackR");
 				else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
 					animPlayer.Play("UpAttackR");
@@ -270,7 +270,7 @@ public partial class Player : CharacterBody2D
 					animPlayer.Play("NormalAttackR");
 			}
 			else {
-				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
+				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
 					animPlayer.Play("CrouchAttackL");
 				else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
 					animPlayer.Play("UpAttackL");

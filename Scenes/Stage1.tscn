@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bw3lmq462bbxy"]
+[gd_scene load_steps=4 format=3 uid="uid://bw3lmq462bbxy"]
 
+[ext_resource type="PackedScene" uid="uid://ea46o8b6bsmd" path="res://Scenes/Bunny.tscn" id="3_r1pxf"]
 [ext_resource type="PackedScene" uid="uid://do87prko86xvb" path="res://Scenes/Level1.tscn" id="3_x6vg2"]
 [ext_resource type="PackedScene" uid="uid://bqdecnyl4cnt4" path="res://Scenes/Darumanyo.tscn" id="5_nvyme"]
 
@@ -8,14 +9,96 @@ z_index = -1
 
 [node name="Level1" parent="." instance=ExtResource("3_x6vg2")]
 
+[node name="Bunny" parent="." instance=ExtResource("3_r1pxf")]
+z_index = 0
+position = Vector2(647, 247)
+
+[node name="Bunny2" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(810, 247)
+
+[node name="Bunny3" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(978, 247)
+
+[node name="Bunny4" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(1053, 247)
+
+[node name="Bunny5" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(1273, 170)
+
+[node name="Bunny6" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(1561, 170)
+
+[node name="Bunny7" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(1440, 247)
+
+[node name="Bunny8" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2091, 119)
+
+[node name="Bunny9" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2159, 120)
+
+[node name="Bunny10" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2227, 120)
+
+[node name="Bunny11" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2456, 196)
+
+[node name="Bunny12" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2814, 119)
+
+[node name="Bunny13" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2653, 247)
+
+[node name="Bunny14" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(3070, 93)
+
+[node name="Bunny15" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(2957, 247)
+
+[node name="Bunny16" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(3669, 195)
+
+[node name="Bunny17" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(3874, 144)
+
+[node name="Bunny18" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(4281, 93)
+
+[node name="Bunny19" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(4364, 106)
+
+[node name="Bunny20" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(4439, 129)
+
+[node name="Bunny21" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(5155, 247)
+
+[node name="Bunny22" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(5655, 247)
+
+[node name="Bunny23" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(6405, 246)
+
+[node name="Bunny24" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(6706, 93)
+
+[node name="Bunny25" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(6962, 93)
+
+[node name="Bunny26" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(7523, 194)
+
+[node name="Bunny27" parent="." instance=ExtResource("3_r1pxf")]
+position = Vector2(7857, 170)
+
 [node name="Darumanyo" parent="." instance=ExtResource("5_nvyme")]
-position = Vector2(1680, 245)
+position = Vector2(6452, 268)
 
 [node name="Darumanyo2" parent="." instance=ExtResource("5_nvyme")]
-position = Vector2(1599, 179)
+position = Vector2(6887, 268)
 
 [node name="Darumanyo3" parent="." instance=ExtResource("5_nvyme")]
-position = Vector2(1959, 123)
+position = Vector2(7090, 268)
 
 [node name="Darumanyo4" parent="." instance=ExtResource("5_nvyme")]
-position = Vector2(2092, 132)
+position = Vector2(7304, 268)

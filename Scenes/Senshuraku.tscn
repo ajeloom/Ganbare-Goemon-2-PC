@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://crrpstbmmg26i"]
+
+[ext_resource type="Script" path="res://Scripts/Senshuraku.cs" id="1_w2jbs"]
+[ext_resource type="Texture2D" uid="uid://b7p6om6uih243" path="res://Sprites/Bosses/Senshuraku/Senshuraku.png" id="2_2thxw"]
+[ext_resource type="Texture2D" uid="uid://dttmgxty0hay5" path="res://Sprites/Bosses/Senshuraku/Senshuraku_Shadow.png" id="3_0hlbh"]
+[ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="4_qychw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gu0m"]
+size = Vector2(76, 70)
+
+[node name="Senshuraku" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_w2jbs")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 51)
+scale = Vector2(2, 2)
+texture = ExtResource("3_0hlbh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2thxw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_4gu0m")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_qychw")]
+health = 300.0

@@ -43,6 +43,20 @@ grow_vertical = 2
 text = "Boss Level
 "
 
+[node name="Impact" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 146.0
+offset_right = 192.0
+offset_bottom = 254.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Impact Battle"
+
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
@@ -56,3 +70,4 @@ label_settings = SubResource("LabelSettings_h8wmo")
 
 [connection signal="pressed" from="CanvasLayer/Level 1" to="." method="LevelButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/Boss" to="." method="BossButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/Impact" to="." method="ImpactButtonPressed"]

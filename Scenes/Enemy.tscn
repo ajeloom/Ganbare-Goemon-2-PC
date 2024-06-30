@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://gci6tujscbay"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_dl31r"]
+[ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="1_x6mh8"]
+[ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="2_7df4b"]
+[ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="3_eaq0b"]
+[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="4_2ei7n"]
+[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Enemies/Explosion2.png" id="6_rw5bk"]
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
+z_index = -1
+scale = Vector2(1.6, 1.6)
+collision_layer = 4
+script = ExtResource("1_dl31r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_x6mh8")]
+position = Vector2(0, -1)
+
+[node name="HurtboxComponent" parent="." groups=["Enemy"] instance=ExtResource("3_eaq0b")]
+collision_layer = 4
+collision_mask = 2
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_7df4b")]
+position = Vector2(-1, 0)
+collision_layer = 4
+collision_mask = 2
+
+[node name="AudioComponent" parent="." instance=ExtResource("4_2ei7n")]
+
+[node name="Explosion" type="Sprite2D" parent="."]
+z_index = 1
+z_as_relative = false
+texture = ExtResource("6_rw5bk")
+hframes = 4
