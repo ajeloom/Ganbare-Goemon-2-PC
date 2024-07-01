@@ -17,7 +17,7 @@ public partial class HitboxComponent : Area2D
 
 
 	public void OnAreaEntered(Area2D area) {
-		if (area.IsInGroup("Player") || area.IsInGroup("Enemy")) {
+		if (area.IsInGroup("Player") || area.IsInGroup("Enemy") || area.IsInGroup("ImpactBoss")) {
 			CharacterBody2D body = area.GetParent<CharacterBody2D>();
 
 			// Get the health component from the player

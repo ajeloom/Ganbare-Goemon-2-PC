@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4r6bg7hld0jq"
-path="res://.godot/imported/Senshuraku.png-5e7cc728185e6dbc63d349a36fd0656e.ctex"
+uid="uid://cvi2oesrru4b7"
+path="res://.godot/imported/Crack.png-104ae8a6e1f42e69413be388502b659f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Bosses/Senshuraku/Senshuraku.png"
-dest_files=["res://.godot/imported/Senshuraku.png-5e7cc728185e6dbc63d349a36fd0656e.ctex"]
+source_file="res://Sprites/Characters/Impact/Crack.png"
+dest_files=["res://.godot/imported/Crack.png-104ae8a6e1f42e69413be388502b659f.ctex"]
 
 [params]
 

@@ -22,7 +22,7 @@ public partial class ScreenShake : Camera2D
 		Offset = GetRandomOffset();
 	}
 
-	public void ApplyShake() {
+	public void ApplyShake(float randomStrength) {
 		shakeStrength = randomStrength;
 	}
 

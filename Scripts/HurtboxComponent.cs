@@ -32,6 +32,9 @@ public partial class HurtboxComponent : Area2D
 				await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
 			else if (IsInGroup("Enemy"))
 				await ToSignal(GetTree().CreateTimer(0.35f), SceneTreeTimer.SignalName.Timeout);
+			else if (IsInGroup("ImpactBoss"))
+				await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+
 			takingDamage = false;
 		}
 	}

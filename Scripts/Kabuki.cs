@@ -104,7 +104,7 @@ public partial class Kabuki : CharacterBody2D
 						// Shake the camera when landing
 						if (!landed) {
 							landed = true;
-							camera.ApplyShake();
+							camera.ApplyShake(2.0f);
 						}
 
 						// Do flower attack
@@ -172,7 +172,7 @@ public partial class Kabuki : CharacterBody2D
 					if (IsOnFloor()) {
 						if (!landed) {
 							landed = true;
-							camera.ApplyShake();
+							camera.ApplyShake(2.0f);
 						}
 						velocity.Y = JumpVelocity;
 						doJumpingAttack();

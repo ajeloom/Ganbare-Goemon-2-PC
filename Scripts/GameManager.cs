@@ -78,6 +78,14 @@ public partial class GameManager : Node2D
 					pauseMenu.Visible = true;
 					GetTree().Paused = true;
 				}
+
+				// Load stage music
+				if (!audio.Playing && !isPaused) {
+					audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/ImpactBoss.mp3");
+					audio.VolumeDb = -10.0f;
+					audio.Play();
+				}
+					
 			}
 			else {
 				if (!initLoad) {
