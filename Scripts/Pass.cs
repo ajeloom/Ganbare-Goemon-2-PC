@@ -4,6 +4,7 @@ using System;
 public partial class Pass : Node2D
 {
 	private AudioStreamPlayer audio;
+	private AudioStreamPlayer grabbedAudio;
 	private bool gotPass = false;
 
 	// Called when the node enters the scene tree for the first time.
@@ -11,6 +12,7 @@ public partial class Pass : Node2D
 	{
 		Visible = true;
 		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		grabbedAudio = GetNode<AudioStreamPlayer>("Grabbed");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,6 +23,8 @@ public partial class Pass : Node2D
 	private async void AreaEntered(Area2D area) {
 		if (!gotPass) {
 			gotPass = true;
+
+			grabbedAudio.Play();
 
 			Visible = false;
 

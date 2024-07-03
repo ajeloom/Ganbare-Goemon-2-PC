@@ -1,14 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1ufqqv2rqbcg"]
+[gd_scene load_steps=6 format=3 uid="uid://c1ufqqv2rqbcg"]
 
 [ext_resource type="Texture2D" uid="uid://b3oq8n8skfv5u" path="res://Sprites/Pass.png" id="1_g21t0"]
-[ext_resource type="Script" path="res://Scenes/Pass.cs" id="1_xufqg"]
+[ext_resource type="Script" path="res://Scripts/Pass.cs" id="1_ryhwd"]
 [ext_resource type="AudioStream" uid="uid://cjeeq13cv24wi" path="res://Sounds/Music/StageClear.mp3" id="3_yqixg"]
+[ext_resource type="AudioStream" uid="uid://c3acovuknmo64" path="res://Sounds/SFX/pass.wav" id="4_2vc3d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_us2tv"]
 size = Vector2(20, 15)
 
 [node name="Pass" type="Node2D"]
-script = ExtResource("1_xufqg")
+script = ExtResource("1_ryhwd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_g21t0")
@@ -22,5 +23,9 @@ shape = SubResource("RectangleShape2D_us2tv")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_yqixg")
+
+[node name="Grabbed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2vc3d")
+volume_db = -20.0
 
 [connection signal="area_entered" from="Area2D" to="." method="AreaEntered"]

@@ -48,6 +48,7 @@ public partial class GameManager : Node2D
 	private bool exitGame = false;
 	public bool reloadingLevel = false;
 	private bool gameOver = false;
+	private bool loadedMusic = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -72,6 +73,13 @@ public partial class GameManager : Node2D
 	{
 		if (stageStart) {
 			if (isImpactStage) {
+				if (!initLoad) {
+					initLoad = true;
+					// Load fade transition
+					AddChild("res://Scenes/FadeTransition.tscn", this);
+					getTransition("FadeIn");
+				}
+
 				if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
 					isPaused = true;
 					Input.MouseMode = Input.MouseModeEnum.Visible;
@@ -80,10 +88,15 @@ public partial class GameManager : Node2D
 				}
 
 				// Load stage music
-				if (!audio.Playing && !isPaused) {
+				if (!loadedMusic) {
+					loadedMusic = true;
 					audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/ImpactBoss.mp3");
 					audio.VolumeDb = -10.0f;
 					audio.Play();
+				}
+
+				if (endLevel) {
+					closeGame();
 				}
 					
 			}

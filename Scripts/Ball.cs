@@ -66,7 +66,7 @@ public partial class Ball : CharacterBody2D
 			}
 			
 			// Damage the player when it gets too close
-			if (Position.Y >= 60.0f) {
+			if (Position.Y >= 50.0f) {
 				HealthComponent hp = GetNode<HealthComponent>("/root/Impact Battle/Impact/HealthComponent");
 				hp.Damage(10, hitboxComponent);
 
@@ -74,7 +74,7 @@ public partial class Ball : CharacterBody2D
 
 				var scene = GD.Load<PackedScene>("res://Scenes/Crack.tscn");
 				Node2D instance = scene.Instantiate<Node2D>();
-				instance.GlobalPosition = new Vector2(Position.X, Position.Y - 100.0f);
+				instance.GlobalPosition = new Vector2(Position.X, Position.Y - 90.0f);
 				AddSibling(instance, true);
 
 				healthComponent.health = 0.0f;

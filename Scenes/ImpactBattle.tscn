@@ -19,7 +19,6 @@ scale = Vector2(1.6, 1.6)
 texture = ExtResource("1_jeqhw")
 
 [node name="Senshuraku" parent="." instance=ExtResource("2_34ygy")]
-position = Vector2(21, 3)
 
 [node name="Impact" parent="." instance=ExtResource("3_6ugix")]
 

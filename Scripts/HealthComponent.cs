@@ -28,7 +28,7 @@ public partial class HealthComponent : Node2D
 			health -= damageNumber;
 			takingDamage = true;
 			if (damageDealer.GetParent().IsInGroup("Player")) {
-				audioComponent.playSFX("res://Sounds/SFX/Goemon/hit.wav", -12.5f);
+				audioComponent.playSFX("res://Sounds/SFX/Goemon/hit.wav", -15.0f);
 			}
 		}
 

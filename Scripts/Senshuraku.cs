@@ -5,8 +5,8 @@ public partial class Senshuraku : CharacterBody2D
 {
 	[Export] public float speed = 100.0f;
 	
-	private Vector2 backPosition;
-	private Vector2 frontPosition;
+	private Vector2 backPosition = new Vector2(0.0f, 7.0f);
+	private Vector2 frontPosition = new Vector2(0.0f, 80.0f);
 	private Vector2 targetPosition;
 
 	private bool goToPos = false;
@@ -19,152 +19,195 @@ public partial class Senshuraku : CharacterBody2D
 	[Export] private bool doingSpinAttack = false;
 	private bool moveRight = false;
 	private bool spawnedBalls = false;
+	private bool startUpBall = true;
+	private bool startUpPassed = false;
+	private bool gotRandomAttack = false;
 
+	private bool playedHurtSound = false;
+
+	private GameManager gm;
 	private AnimationPlayer animPlayer;
-	private HealthComponent healthComponent;
+	public HealthComponent healthComponent;
 	private HurtboxComponent hurtboxComponent;
 	private HitboxComponent hitboxComponent;
+	private AudioComponent audio;
 	private Sprite2D sprite;
 	private ScreenShake camera;
 
+	private Impact impact;
+
 	private bool takingDamage = false;
-	private bool isDead = false;
+	private bool goBack = false;
+
+	private bool endLevel = false;
 
 	private Vector2 velocity;
 	private float gradualSpeed = 0.0f;
 
 	public override void _Ready() {
-		Position = new Vector2(0.0f, 10.0f);
+		Position = new Vector2(0.0f, 7.0f);
+		Scale = new Vector2(0.7f, 0.7f);;
+		
+		gm = GetNode<GameManager>("/root/GameManager");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
 		hitboxComponent = GetNode<HitboxComponent>("HitboxComponent");
+		audio = GetNode<AudioComponent>("AudioComponent");
 		sprite = GetNode<Sprite2D>("Sprite2D");
 		camera = GetNode<ScreenShake>("/root/Impact Battle/Camera2D");
+		impact = GetNode<Impact>("/root/Impact Battle/Impact");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		velocity = Velocity;
 
-		backPosition = new Vector2(Position.X, 7.0f);
-		frontPosition = new Vector2(Position.X, 80.0f);
-
 		if (healthComponent.health <= 0.0f) {
-			if (!isDead) {
-				isDead = true;
-				animPlayer.Play("Death");
-
-				if (!animPlayer.IsPlaying())
-					QueueFree();
+			if (!playedHurtSound) {
+				playedHurtSound = true;
+				audio.playSFX("res://Sounds/SFX/punch.wav", -15.0f);
 			}
+
+			EndLevel();
 		}
 		else {
-			// Scale the boss based on how far or close they are (w/ y-position)
-			if (Position.Y < 0.0f)
-				Scale = new Vector2(0.7f, 0.7f);
-			else
-				Scale = new Vector2(0.1f * Position.Y, 0.1f * Position.Y);
-
-			// Limit the boss x position
-			if (Position.X < -300.0f) {
-				Position = new Vector2(-300.0f, Position.Y);
-			}
-			else if (Position.X > 300.0f) {
-				Position = new Vector2(300.0f, Position.Y);
-			}
-
-			// Limit the boss y position
-			if (Position.Y < 7.0f) {
-				Position = new Vector2(Position.X, 7.0f);
-			}
-			else if (Position.Y > 80.0f) {
-				Position = new Vector2(Position.X, 80.0f);
-			}
-
-			// Hurtbox can be hit when boss gets close
-			if (Scale.X < 6.5f) {
-				hurtboxComponent.Monitorable = false;
+			if (!startUpPassed) {
+				StartUp();
 			}
 			else {
-				hurtboxComponent.Monitorable = true;
-			}
+				// Scale the boss based on how far or close they are (w/ y-position)
+				if (Position.Y < 0.0f)
+					Scale = new Vector2(0.7f, 0.7f);
+				else
+					Scale = new Vector2(0.1f * Position.Y, 0.1f * Position.Y);
 
-			// Check if the boss is taking damage
-			takingDamage = healthComponent.takingDamage;
-
-			if (takingDamage) {
-				animPlayer.Play("Hurt");
-				doingBallAttack = false;
-				doingSpinAttack = false;
-				gradualSpeed = 0.0f;
-				sprite.Rotation = 0.0f;
-				var direction = GlobalPosition.DirectionTo(backPosition);
-				velocity = direction * 200.0f;
-				if (Position == backPosition) {
-					camera.ApplyShake(2.0f);
+				// Limit the boss x position
+				if (Position.X < -300.0f) {
+					Position = new Vector2(-300.0f, Position.Y);
 				}
-			}
-			else {
-				if (doingSpinAttack) {
-					SpinAttack();
+				else if (Position.X > 300.0f) {
+					Position = new Vector2(300.0f, Position.Y);
+				}
+
+				// Limit the boss y position
+				if (Position.Y < 7.0f) {
+					Position = new Vector2(Position.X, 7.0f);
+				}
+				else if (Position.Y > 80.0f) {
+					Position = new Vector2(Position.X, 80.0f);
+				}
+
+				// Hurtbox can be hit when boss gets close
+				if (Scale.X < 6.5f || goBack) {
+					hurtboxComponent.Monitorable = false;
 				}
 				else {
+					hurtboxComponent.Monitorable = true;
+				}
+
+				// Check if the boss is taking damage
+				takingDamage = healthComponent.takingDamage;
+
+				if (takingDamage) {
+					animPlayer.Play("Hurt");
+					if (!playedHurtSound) {
+						playedHurtSound = true;
+						audio.playSFX("res://Sounds/SFX/punch.wav", -15.0f);
+					}
+					doingBallAttack = false;
+					doingSpinAttack = false;
 					gradualSpeed = 0.0f;
 					var direction = GlobalPosition.DirectionTo(backPosition);
-					velocity = direction * 250.0f;
-				}
-				
-				if (doingBallAttack) {
-					ShootBallAttack();
+					velocity = direction * 200.0f;
+					if (Position.Y <= backPosition.Y) {
+						camera.ApplyShake(2.0f);
+					}
 				}
 				else {
-					
-					if (!doingSpinAttack)
-						velocity = Vector2.Zero;
-				}
+					playedHurtSound = false;
+					if (impact.isAlive) {
+						if (!doingBallAttack && !doingSpinAttack) {
+							playingSpinAnim = false;
+							playingBallAnim = false;
+							GetRandomAttack();
+						}
 
-				if (!doingBallAttack && !doingSpinAttack) {
-					playingSpinAnim = false;
-					playingBallAnim = false;
-					GetRandomAttack();
-				}
-			}								
+						if (doingSpinAttack) {
+							SpinAttack();
+						}
+						else {
+							gradualSpeed = 0.0f;
+						}
+						
+						if (doingBallAttack) {
+							ShootBallAttack();
+						}
+					}
+					else {
+						// Freeze when player is not alive
+						velocity.X = 0.0f;
+						animPlayer.Play("Idle");
+						camera.ApplyShake(15.0f);
+					}
+				}		
 
-			Velocity = velocity;
-			MoveAndSlide();
+				Velocity = velocity;
+				MoveAndSlide();
+			}
 		}	
 	}
 
 	private async void ShootBallAttack() {
-		if (!playingBallAnim) {
-			playingBallAnim = true;
-			animPlayer.Play("BallAttack");
-		}
+		if (startUpBall) {
+			if (!playingBallAnim) {
+				playingBallAnim = true;
+				animPlayer.Play("SpinStartUp");
 
-		if (!moveRight) {
-			// Go to the left
-			targetPosition = new Vector2(-117.0f, 7.0f);
+				// Pick a side to move towards
+				targetPosition = new Vector2(ChooseSide(), 7.0f);
+				speed = 250.0f;
+			}			
 
-			if (Position.X <= -117.0f) {
-				moveRight = true;
+			if (targetPosition.X == -120.0f) {
+				if (Position.X <= targetPosition.X) {
+					startUpBall = false;
+				}
+			}
+			else if (targetPosition.X == 120.0f) {
+				if (Position.X >= targetPosition.X) {
+					startUpBall = false;
+				}
 			}
 		}
 		else {
-			// Go to the right
-			targetPosition = new Vector2(117.0f, 7.0f);
-
-			if (Position.X >= 117.0f) {
-				moveRight = false;
-				doingBallAttack = false;
-				spawnedBalls = false;
-			}
-
+			// Shoot 4 ball projectiles
 			if (!spawnedBalls) {
 				spawnedBalls = true;
+
+				// Go to the other side
+				targetPosition = new Vector2(-targetPosition.X, 7.0f);
+				speed = 100.0f;
+
 				for (int i = 0; i < 4; i++) {
+					animPlayer.Play("BallAttack");
 					LoadScene("res://Scenes/Ball.tscn", Position.X, 7.0f);
-					await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+					await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+					animPlayer.Play("Idle");
+					await ToSignal(GetTree().CreateTimer(0.3f), SceneTreeTimer.SignalName.Timeout);
+				}
+			}
+
+			if (targetPosition.X == -120.0f) {
+				if (Position.X <= targetPosition.X) {
+					doingBallAttack = false;
+					spawnedBalls = false;
+				}
+			}
+			else if (targetPosition.X == 120.0f) {
+				if (Position.X >= targetPosition.X) {
+					doingBallAttack = false;
+					spawnedBalls = false;
 				}
 			}
 		}
@@ -194,20 +237,29 @@ public partial class Senshuraku : CharacterBody2D
 			else if (gradualSpeed >= 50.0f) {
 				gradualSpeed = 50.0f;
 			}
-		}
 
-		// Boss lands the spin attack hit
-		if (Position == frontPosition) {
-			animPlayer.Pause();
-			sprite.Rotation = 0.0f;
-			camera.ApplyShake(20.0f);
-			HealthComponent hp = GetNode<HealthComponent>("/root/Impact Battle/Impact/HealthComponent");
-			hp.Damage(20, hitboxComponent);
+			// Boss lands the spin attack hit
+			if (Position.Y == frontPosition.Y) {
+				if (!goBack) {
+					goBack = true;
+					animPlayer.Pause();
+					camera.ApplyShake(20.0f);
+					HealthComponent hp = GetNode<HealthComponent>("/root/Impact Battle/Impact/HealthComponent");
+					hp.Damage(20, hitboxComponent);
 
-			LoadScene("res://Scenes/Crack.tscn", Position.X, Position.Y - 80.0f);
+					LoadScene("res://Scenes/Crack.tscn", Position.X, Position.Y - 80.0f);
+				}
+			}
 
-			hurtboxComponent.Monitorable = false;
-			doingSpinAttack = false;
+			// Move back to the middle after hitting player
+			if (goBack) {
+				direction = GlobalPosition.DirectionTo(backPosition);			
+				velocity = direction * 125.0f;
+				if (Position.Y <= backPosition.Y) {
+					doingSpinAttack = false;
+					goBack = false;
+				}
+			}
 		}
 	}
 
@@ -219,17 +271,76 @@ public partial class Senshuraku : CharacterBody2D
 	}
 
 	private void GetRandomAttack() {
-		Random rnd = new Random();
-		int num = rnd.Next(2);
-		
+		if (!gotRandomAttack) {
+			gotRandomAttack = true;
+			Random rnd = new Random();
+			int num = rnd.Next(2);
+			
+			if (num == 0) {
+				startUpBall = true;
+				doingBallAttack = true;
+				doingSpinAttack = false;
+				
+			}
+			else if (num == 1) {
+				doingBallAttack = false;
+				doingSpinAttack = true;
+			}
+			gotRandomAttack = false;
+		}	
+	}
 
-		if (num == 0) {
-			doingBallAttack = true;
-			doingSpinAttack = false;
+	private float ChooseSide() {
+		Random rnd = new Random();
+		int negative = rnd.Next(2);
+		if (negative == 0) {
+			return -120.0f;
 		}
-		else if (num == 1) {
-			doingBallAttack = false;
-			doingSpinAttack = true;
+		return 120.0f; 
+	}
+
+	private async void StartUp() {
+		// Wait one second
+		await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
+		startUpPassed = true;
+	}
+
+	private async void EndLevel() {
+		if (!endLevel) {
+			endLevel = true;
+
+			animPlayer.Play("Hurt");
+			gm.audio.Stop();
+
+			for (int i = 0; i <= 5; i++) {
+				var scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
+				Explosion instance = scene.Instantiate<Explosion>();
+				if (i < 5) {
+					instance.explosion = 0;
+					camera.ApplyShake(5.0f);
+				}
+				else {
+					instance.explosion = 2;
+					camera.ApplyShake(30.0f);
+					Visible = false;
+				}
+					
+				AddSibling(instance, true);
+				await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+			}
+
+			await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+
+			// Load stage clear music
+			gm.audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/StageClear.mp3");
+			gm.audio.VolumeDb = 0.0f;
+			gm.audio.Play();
+			
+			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
+			gm.endLevel = true;
 		}
+		
 	}
 }
+
+
