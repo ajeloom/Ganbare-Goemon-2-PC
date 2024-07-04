@@ -45,6 +45,9 @@ font_size = 8
 font = ExtResource("8_52ktq")
 font_size = 8
 
+[sub_resource type="Animation" id="Animation_8u1ex"]
+resource_name = "Death"
+
 [sub_resource type="Animation" id="Animation_h25a7"]
 length = 0.001
 tracks/0/type = "value"
@@ -751,9 +754,6 @@ tracks/9/keys = {
 "update": 0,
 "values": [1.0]
 }
-
-[sub_resource type="Animation" id="Animation_8u1ex"]
-resource_name = "Death"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0rvvy"]
 _data = {

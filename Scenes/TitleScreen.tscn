@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dajtcc1643xis"]
+[gd_scene load_steps=4 format=3 uid="uid://dajtcc1643xis"]
 
 [ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_0bc46"]
+[ext_resource type="AudioStream" uid="uid://bu44a3htxavq6" path="res://Sounds/Music/TitleScreen.mp3" id="2_qu5tk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xqgs4"]
 font_size = 100
@@ -13,6 +14,7 @@ offset_bottom = 40.0
 script = ExtResource("1_0bc46")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 20
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
@@ -53,6 +55,10 @@ offset_bottom = 254.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Quit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qu5tk")
+autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="PlayButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/Button2" to="." method="QuitButtonPressed"]

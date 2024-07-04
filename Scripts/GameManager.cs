@@ -17,6 +17,7 @@ public partial class GameManager : Node2D
 	private bool checkPlayer = false;
 
 	public int playerNum { get; set; }
+	public int characterNum { get; set; }
 
 	public player[] players;
 
@@ -201,6 +202,10 @@ public partial class GameManager : Node2D
 		playerNum = value;
 	}
 
+	public void setCharacter(int value) {
+		characterNum = value;
+	}
+
 	private async void closeGame() {
 		if (!exitGame) {
 			exitGame = true;
@@ -270,7 +275,10 @@ public partial class GameManager : Node2D
 			int num = i + 1;
 
 			if (i < playerNum) {
-				AddChild("res://Scenes/Player.tscn", this);
+				if (characterNum == 0)
+					AddChild("res://Scenes/Goemon.tscn", this);
+				else if (characterNum == 1)
+					AddChild("res://Scenes/Ebisumaru.tscn", this);
 				Player temp = GetChild<Player>(GetChildCount() - 1);
 				temp.playerNum = num;
 

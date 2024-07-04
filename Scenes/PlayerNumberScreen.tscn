@@ -1,12 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpif61mntayjk"]
+[gd_scene load_steps=3 format=3 uid="uid://dpif61mntayjk"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerNumberScreen.cs" id="1_uwfy5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k0g5y"]
 font_size = 100
-
-[sub_resource type="LabelSettings" id="LabelSettings_hblti"]
-font_size = 45
 
 [node name="Player Number Screen" type="Control"]
 layout_mode = 3
@@ -28,37 +25,6 @@ grow_horizontal = 2
 text = "Number of Players"
 label_settings = SubResource("LabelSettings_k0g5y")
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -146.5
-offset_top = -114.5
-offset_right = 146.5
-offset_bottom = 114.5
-grow_horizontal = 2
-grow_vertical = 2
-min_value = 1.0
-max_value = 3.0
-value = 1.0
-
-[node name="Number" type="Label" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 190.0
-offset_top = -31.5
-offset_right = 230.0
-offset_bottom = 31.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "1"
-label_settings = SubResource("LabelSettings_hblti")
-
 [node name="Button" type="Button" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,11 +32,84 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -39.5
-offset_top = 84.5
+offset_top = 234.5
 offset_right = 39.5
-offset_bottom = 115.5
+offset_bottom = 265.5
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(39.5, 15.5)
 text = "Continue"
 
+[node name="1" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -216.0
+offset_top = -16.0
+offset_right = -184.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(16, 16)
+toggle_mode = true
+text = "1"
+
+[node name="2" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(16, 16)
+toggle_mode = true
+text = "2"
+
+[node name="3" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 184.0
+offset_top = -16.0
+offset_right = 216.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(16, 16)
+toggle_mode = true
+text = "3"
+
+[node name="BackButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = 380.5
+offset_right = 39.5
+offset_bottom = 411.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(39.5, 15.5)
+text = "Back"
+
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="ContinueButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/1" to="." method="OneButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/2" to="." method="TwoButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/3" to="." method="ThreeButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]

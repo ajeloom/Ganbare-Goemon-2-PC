@@ -1,6 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcrwta754hk2"]
+[gd_scene load_steps=9 format=3 uid="uid://bcrwta754hk2"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
+[ext_resource type="Texture2D" uid="uid://86lva4kpj1dh" path="res://Sprites/UI/CSS/GoemonButton.png" id="2_ucfrh"]
+[ext_resource type="Texture2D" uid="uid://o6dssmi1qfjk" path="res://Sprites/UI/CSS/GoemonButtonPressed.png" id="3_vfprt"]
+[ext_resource type="Texture2D" uid="uid://dxdq5x68gw4w3" path="res://Sprites/UI/CSS/EbisumaruButton.png" id="4_xdxm6"]
+[ext_resource type="Texture2D" uid="uid://xi1lgcmbel0t" path="res://Sprites/UI/CSS/EbisumaruButtonPressed.png" id="5_wniuu"]
+[ext_resource type="Texture2D" uid="uid://kfk3k2ajkc1v" path="res://Sprites/UI/CSS/SasukeButton.png" id="6_2oxvd"]
+[ext_resource type="Texture2D" uid="uid://slutcnofb4p0" path="res://Sprites/UI/CSS/SasukeButtonPressed.png" id="7_72mh4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
 font_size = 100
@@ -14,62 +20,6 @@ script = ExtResource("1_tq4jl")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Goemon" type="Button" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -254.0
-offset_right = 192.0
-offset_bottom = -146.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Goemon"
-
-[node name="Ebisumaru" type="Button" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -54.0
-offset_right = 192.0
-offset_bottom = 54.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Ebisumaru"
-
-[node name="Sasuke" type="Button" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = 146.0
-offset_right = 192.0
-offset_bottom = 254.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Sasuke"
-
-[node name="Button" type="Button" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = 346.0
-offset_right = 192.0
-offset_bottom = 454.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Back"
-
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
@@ -82,5 +32,94 @@ text = "Select a character"
 label_settings = SubResource("LabelSettings_hcibv")
 horizontal_alignment = 1
 
-[connection signal="pressed" from="CanvasLayer/Goemon" to="." method="GoemonSelected"]
-[connection signal="pressed" from="CanvasLayer/Button" to="." method="BackButtonPressed"]
+[node name="Goemon" type="TextureButton" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -317.0
+offset_top = -32.0
+offset_right = -283.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5, 5)
+pivot_offset = Vector2(17, 32)
+toggle_mode = true
+texture_normal = ExtResource("2_ucfrh")
+texture_pressed = ExtResource("3_vfprt")
+
+[node name="Ebisumaru" type="TextureButton" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5, 5)
+pivot_offset = Vector2(20, 28)
+toggle_mode = true
+texture_normal = ExtResource("4_xdxm6")
+texture_pressed = ExtResource("5_wniuu")
+
+[node name="Sasuke" type="TextureButton" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 280.0
+offset_top = -29.0
+offset_right = 320.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5, 5)
+pivot_offset = Vector2(20, 29)
+toggle_mode = true
+texture_normal = ExtResource("6_2oxvd")
+texture_pressed = ExtResource("7_72mh4")
+
+[node name="ContinueButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = 234.5
+offset_right = 39.5
+offset_bottom = 265.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(39.5, 15.5)
+text = "Continue"
+
+[node name="BackButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -39.5
+offset_top = 380.5
+offset_right = 39.5
+offset_bottom = 411.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+pivot_offset = Vector2(39.5, 15.5)
+text = "Back"
+
+[connection signal="pressed" from="CanvasLayer/Goemon" to="." method="GoemonButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/Ebisumaru" to="." method="EbisumaruButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/Sasuke" to="." method="SasukeButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/ContinueButton" to="." method="ContinueButtonPressed"]
+[connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]
