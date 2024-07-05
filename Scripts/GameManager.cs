@@ -275,16 +275,19 @@ public partial class GameManager : Node2D
 			int num = i + 1;
 
 			if (i < playerNum) {
-				if (characterNum == 0)
+				if (characterNum == 0) {
 					AddChild("res://Scenes/Goemon.tscn", this);
-				else if (characterNum == 1)
+				}
+				else if (characterNum == 1) {
 					AddChild("res://Scenes/Ebisumaru.tscn", this);
+				}
 				Player temp = GetChild<Player>(GetChildCount() - 1);
 				temp.playerNum = num;
 
 				if (isReloading) {
 					temp.coins = players[i].coins;
 					temp.lives = players[i].lives;
+					temp.chara = characterNum;
 					players[i].node = temp;
 					if (players[i].lives > -1) {
 						temp.isAlive = true;
@@ -301,6 +304,7 @@ public partial class GameManager : Node2D
 					temp.coins = 100;
 					temp.lives = 2;
 					temp.isAlive = true;
+					temp.chara = characterNum;
 					players[i] = new player(temp, num, temp.lives, temp.coins, temp.isAlive);
 				}
 

@@ -38,6 +38,9 @@ public partial class Player : CharacterBody2D
 	public int coins { get; set; }
 	public int lives { get; set; }
 	public bool isAlive { get; set; }
+	public int chara { get; set; }
+
+	private string[] charaName = {"Goemon", "Ebisumaru", "Sasuke"};
 
 	private bool playingDeathAnim = false;
 
@@ -82,7 +85,8 @@ public partial class Player : CharacterBody2D
 
 				if (lives >= 0) {
 					lives--;
-					audio.playSFX("res://Sounds/SFX/Goemon/death.wav", -12.5f);
+					audio.playSFX("res://Sounds/SFX/deathRing.wav", -12.5f);
+					audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/death.wav", -12.5f);
 				}				
 			}
 
@@ -117,7 +121,8 @@ public partial class Player : CharacterBody2D
 				velocity.Y += gravity * (float)delta;
 
 				// Player can do short hop by not holding the jump button
-				if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && velocity.Y < -250.0f) {
+				if (Input.IsActionJustReleased("jump") && velocity.Y < -250.0f) {
+				// if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && velocity.Y < -250.0f) {
 					velocity.Y += 1500 * 6.0f * (float)delta;
 				}
 
@@ -127,22 +132,30 @@ public partial class Player : CharacterBody2D
 						animPlayer.Play("Jump");
 					}
 					else {
-						if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
-							animPlayer.Play("Fall1");
-							animPlayer.Queue("Fall2");
-						}	
+						if (chara == 0) {
+							if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
+								animPlayer.Play("Fall1");
+								animPlayer.Queue("Fall2");
+							}
+						}
+						else if (chara == 1) {
+							animPlayer.Play("Ebisumaru/Fall");
+						}
+							
 					}
 				}
 			}
 			else {
 				// Can only jump once off the ground
-				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && !holdingJumpButton) {
+				if (Input.IsActionJustPressed("jump")) {
+				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && !holdingJumpButton) {
 					holdingJumpButton = true;
 					velocity.Y = jumpVelocity;
 					
-					audio.playSFX("res://Sounds/SFX/Goemon/jump.wav", -20.0f);
+					audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/jump.wav", -20.0f);
 				}
-				else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A)) {
+				else if (Input.IsActionJustReleased("jump")) {
+				// else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A)) {
 					holdingJumpButton = false;
 				}
 				
@@ -159,10 +172,12 @@ public partial class Player : CharacterBody2D
 
 				// Play one of these animations if the player is not moving
 				if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
-					if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown)) {
+					if (Input.IsActionPressed("crouch")) {
+					// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown)) {
 						animPlayer.Play("Crouch");
 					}
-					else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp)) {
+					else if (Input.IsActionPressed("lookUp")) {
+					// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp)) {
 						animPlayer.Play("LookUp");
 					}
 					else {
@@ -190,11 +205,13 @@ public partial class Player : CharacterBody2D
 			}
 
 			// For running
-			if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
+			if (Input.IsActionPressed("attack")) {
+			// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
 				Attacking();
 				holdingRunButton = true;
 			}
-			else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
+			else if (Input.IsActionJustReleased("attack")) {
+			// else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
 				holdingRunButton = false;
 			}
 
@@ -216,7 +233,8 @@ public partial class Player : CharacterBody2D
 		// Player can only move when not attacking or taking damage
 		if (!takingDamage) {
 			// Can only turn when not attacking
-			if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadRight)) {
+			if (Input.IsActionPressed("walkRight")) {
+			// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadRight)) {
 				bodySprite.FlipH = false;
 				
 				direction = lastDirection = new Vector2(1.0f, 0.0f);
@@ -226,7 +244,8 @@ public partial class Player : CharacterBody2D
 				else if (isAttacking && IsOnFloor())
 					return Mathf.MoveToward(Velocity.X, 0, speed);
 			}
-			else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadLeft)) {
+			else if (Input.IsActionPressed("walkLeft")) {
+			// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadLeft)) {
 				bodySprite.FlipH = true;
 
 				direction = lastDirection = new Vector2(-1.0f, 0.0f);
@@ -247,7 +266,8 @@ public partial class Player : CharacterBody2D
 	private void movementAnimation() {
 		// Play a movement animation based on the player's input
 		if (IsOnFloor()) {
-			if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
+			if (Input.IsActionPressed("crouch"))
+			// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
 				animPlayer.Play("Crawl");
 			else if (holdingRunButton)
 				animPlayer.Play("Run");
@@ -260,22 +280,50 @@ public partial class Player : CharacterBody2D
 		if (!isAttacking && !takingDamage && !holdingRunButton) {
 			isAttacking = true;
 
-			audio.playSFX("res://Sounds/SFX/Goemon/attack.wav", -20.0f);
+			audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/attack.wav", -20.0f);
 			if (lastDirection.X >= 0.0f) {
-				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
-					animPlayer.Play("CrouchAttackR");
-				else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
-					animPlayer.Play("UpAttackR");
-				else
-					animPlayer.Play("NormalAttackR");
+				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
+				if (Input.IsActionPressed("crouch") && IsOnFloor()) {
+					if (chara == 0)
+						animPlayer.Play("CrouchAttackR");
+					else if (chara == 1)
+						animPlayer.Play("Ebisumaru/CrouchAttackR");
+				}
+				// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
+				else if (Input.IsActionPressed("lookUp")) {
+					if (chara == 0)
+						animPlayer.Play("UpAttackR");
+					else if (chara == 1)
+						animPlayer.Play("Ebisumaru/UpAttackR");
+				}
+				else {
+					if (chara == 0)
+						animPlayer.Play("NormalAttackR");
+					else if (chara == 1)
+						animPlayer.Play("Ebisumaru/NormalAttackR");
+				}
 			}
 			else {
-				if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
-					animPlayer.Play("CrouchAttackL");
-				else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
-					animPlayer.Play("UpAttackL");
-				else
-					animPlayer.Play("NormalAttackL");
+				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
+				if (Input.IsActionPressed("crouch") && IsOnFloor()) {
+					if (chara == 0)
+						animPlayer.Play("CrouchAttackL");
+					else if (chara == 1)
+						animPlayer.Play("Ebisumaru/CrouchAttackL");
+				}
+				// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
+				else if (Input.IsActionPressed("lookUp")) {
+					if (chara == 0)
+						animPlayer.Play("UpAttackL");
+					else if (chara == 1)
+						animPlayer.Play("Ebisumaru/UpAttackL");
+				}
+				else {
+					if (chara == 0)
+						animPlayer.Play("NormalAttackL");
+					else if (chara == 1)
+						animPlayer.Play("Ebisumaru/NormalAttackL");
+				}
 			}
 				
 			await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
@@ -288,7 +336,7 @@ public partial class Player : CharacterBody2D
 	private async void Hurt() {
 		if (!playingHurtSFX) {
 			playingHurtSFX = true;
-			audio.playSFX("res://Sounds/SFX/Goemon/hurt.wav", -12.5f);
+			audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/hurt.wav", -12.5f);
 			await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
 			playingHurtSFX = false;
 		}
