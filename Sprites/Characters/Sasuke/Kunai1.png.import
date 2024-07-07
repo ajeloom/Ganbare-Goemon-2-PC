@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmmgtn3wmx4qa"
-path="res://.godot/imported/ImpactCockpit.png-08727f0ba45be53e16f6c10aaaf9713c.ctex"
+uid="uid://c1ira7ohjl1dc"
+path="res://.godot/imported/Kunai1.png-501b468def0a69c54b3a9e95c83c70d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/Impact/ImpactCockpit.png"
-dest_files=["res://.godot/imported/ImpactCockpit.png-08727f0ba45be53e16f6c10aaaf9713c.ctex"]
+source_file="res://Sprites/Characters/Sasuke/Kunai1.png"
+dest_files=["res://.godot/imported/Kunai1.png-501b468def0a69c54b3a9e95c83c70d0.ctex"]
 
 [params]
 

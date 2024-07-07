@@ -281,6 +281,9 @@ public partial class GameManager : Node2D
 				else if (characterNum == 1) {
 					AddChild("res://Scenes/Ebisumaru.tscn", this);
 				}
+				else if (characterNum == 2) {
+					AddChild("res://Scenes/Sasuke.tscn", this);
+				}
 				Player temp = GetChild<Player>(GetChildCount() - 1);
 				temp.playerNum = num;
 
@@ -350,5 +353,14 @@ public partial class GameManager : Node2D
 			audio.VolumeDb = -20.0f;
 			audio.Play();
 		}
+	}
+	
+	public bool IsPlayerRespawning() {
+		for (int i = 0; i < playerNum; i++) {
+			if (players[i].lives > -1 && !players[i].isAlive) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

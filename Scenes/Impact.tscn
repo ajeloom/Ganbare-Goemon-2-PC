@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://l28bcqb4lqhf" path="res://Sprites/Characters/Impact/Arm.png" id="2_nq5bk"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_xxtsp"]
 [ext_resource type="Texture2D" uid="uid://wkuldncqes8s" path="res://Sprites/Characters/Impact/Crosshair.png" id="4_16sd5"]
-[ext_resource type="Texture2D" uid="uid://djhm2ilqecxt0" path="res://Sprites/Characters/Impact/ImpactCockpit.png" id="4_16upe"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="7_twd2f"]
 [ext_resource type="FontFile" uid="uid://cdpnyde43yiux" path="res://Sprites/Characters/Impact/ImpactNumbers.png" id="8_52ktq"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="9_memyw"]
@@ -16,6 +15,8 @@ radius = 28.0045
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6kjr0"]
 radius = 28.0045
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ntw7m"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k3e83"]
 font = ExtResource("8_52ktq")
@@ -830,7 +831,7 @@ texture = ExtResource("2_nq5bk")
 texture = ExtResource("4_16sd5")
 
 [node name="Cockpit" type="Sprite2D" parent="."]
-texture = ExtResource("4_16upe")
+texture = SubResource("CompressedTexture2D_ntw7m")
 
 [node name="Boss HP" type="Control" parent="."]
 layout_mode = 3

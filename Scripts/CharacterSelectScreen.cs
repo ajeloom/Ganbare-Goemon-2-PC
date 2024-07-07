@@ -41,7 +41,7 @@ public partial class CharacterSelectScreen : Control
 	}
 
 	private void ContinueButtonPressed() {
-		if (button1.ButtonPressed || button2.ButtonPressed) {
+		if (button1.ButtonPressed || button2.ButtonPressed || button3.ButtonPressed) {
 			var gm = GetNode<GameManager>("/root/GameManager");
 			gm.setCharacter(characterNum);
 			gm.GoToScene("res://Scenes/StageSelectScreen.tscn");

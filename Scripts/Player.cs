@@ -129,7 +129,12 @@ public partial class Player : CharacterBody2D
 				// Play jump or fall animations
 				if (!isAttacking && !takingDamage) {
 					if (velocity.Y < 0.0f) {
-						animPlayer.Play("Jump");
+						if (chara == 2) {
+							animPlayer.Play("Sasuke/Jump");
+						}
+						else {
+							animPlayer.Play("Jump");
+						}
 					}
 					else {
 						if (chara == 0) {
@@ -138,10 +143,9 @@ public partial class Player : CharacterBody2D
 								animPlayer.Queue("Fall2");
 							}
 						}
-						else if (chara == 1) {
-							animPlayer.Play("Ebisumaru/Fall");
-						}
-							
+						else if (chara == 1 || chara == 2) {
+							animPlayer.Play(charaName[chara] +"/Fall");
+						}	
 					}
 				}
 			}
@@ -281,52 +285,62 @@ public partial class Player : CharacterBody2D
 			isAttacking = true;
 
 			audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/attack.wav", -20.0f);
+
+			float time = 0.25f;
 			if (lastDirection.X >= 0.0f) {
 				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
 				if (Input.IsActionPressed("crouch") && IsOnFloor()) {
-					if (chara == 0)
-						animPlayer.Play("CrouchAttackR");
-					else if (chara == 1)
-						animPlayer.Play("Ebisumaru/CrouchAttackR");
+					animPlayer.Play(charaName[chara] +"/CrouchAttackR");
+					if (chara == 2) {
+						time = 0.35f;
+					}
 				}
 				// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
 				else if (Input.IsActionPressed("lookUp")) {
-					if (chara == 0)
-						animPlayer.Play("UpAttackR");
-					else if (chara == 1)
-						animPlayer.Play("Ebisumaru/UpAttackR");
+					if (chara == 2) {
+						if (IsOnFloor()) {
+							animPlayer.Play("Sasuke/UpAttackR");
+							time = 0.35f;
+						}
+						else
+							animPlayer.Play("Sasuke/NormalAttackR");
+					}
+					else if (chara != 2) {
+						animPlayer.Play(charaName[chara] +"/UpAttackR");
+					}
 				}
 				else {
-					if (chara == 0)
-						animPlayer.Play("NormalAttackR");
-					else if (chara == 1)
-						animPlayer.Play("Ebisumaru/NormalAttackR");
+					animPlayer.Play(charaName[chara] +"/NormalAttackR");
 				}
 			}
 			else {
 				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
 				if (Input.IsActionPressed("crouch") && IsOnFloor()) {
-					if (chara == 0)
-						animPlayer.Play("CrouchAttackL");
-					else if (chara == 1)
-						animPlayer.Play("Ebisumaru/CrouchAttackL");
+					animPlayer.Play(charaName[chara] +"/CrouchAttackL");
+					if (chara == 2) {
+						time = 0.35f;
+					}
 				}
 				// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
 				else if (Input.IsActionPressed("lookUp")) {
-					if (chara == 0)
-						animPlayer.Play("UpAttackL");
-					else if (chara == 1)
-						animPlayer.Play("Ebisumaru/UpAttackL");
+					if (chara == 2) {
+						if (IsOnFloor()) {
+							animPlayer.Play("Sasuke/UpAttackL");
+							time = 0.35f;
+						}
+						else
+							animPlayer.Play("Sasuke/NormalAttackL");
+					}
+					else {
+						animPlayer.Play(charaName[chara] +"/UpAttackL");
+					}
 				}
 				else {
-					if (chara == 0)
-						animPlayer.Play("NormalAttackL");
-					else if (chara == 1)
-						animPlayer.Play("Ebisumaru/NormalAttackL");
+					animPlayer.Play(charaName[chara] +"/NormalAttackL");
 				}
 			}
-				
-			await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+
+			await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 
 			isAttacking = false;
 		}

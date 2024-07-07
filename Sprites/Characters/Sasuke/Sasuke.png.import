@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmmgtn3wmx4qa"
-path="res://.godot/imported/ImpactCockpit.png-08727f0ba45be53e16f6c10aaaf9713c.ctex"
+uid="uid://brbkly5vttg7e"
+path="res://.godot/imported/Sasuke.png-0aa33d23e9113e8a6dc0c5b5816fffc2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/Impact/ImpactCockpit.png"
-dest_files=["res://.godot/imported/ImpactCockpit.png-08727f0ba45be53e16f6c10aaaf9713c.ctex"]
+source_file="res://Sprites/Characters/Sasuke/Sasuke.png"
+dest_files=["res://.godot/imported/Sasuke.png-0aa33d23e9113e8a6dc0c5b5816fffc2.ctex"]
 
 [params]
 

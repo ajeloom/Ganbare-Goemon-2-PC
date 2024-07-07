@@ -76,5 +76,9 @@ public partial class Bunny : CharacterBody2D
 	private void ScreenEntered() {
 		onScreen = true;
 	}
+
+	private void ScreenExited() {
+		onScreen = false;
+	}
 }
 
