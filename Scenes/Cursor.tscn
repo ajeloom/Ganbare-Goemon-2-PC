@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://djskipwr1cpw1"]
+
+[ext_resource type="Script" path="res://Scripts/Cursor.cs" id="1_pcb5b"]
+[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="2_8d2vq"]
+[ext_resource type="Texture2D" uid="uid://dp4mibkqdfevv" path="res://Sprites/UI/CSS/Cursors.png" id="3_h0jf2"]
+
+[node name="Cursor" type="Node2D"]
+scale = Vector2(4, 4)
+script = ExtResource("1_pcb5b")
+
+[node name="AudioComponent" parent="." instance=ExtResource("2_8d2vq")]
+position = Vector2(-0.25, -0.25)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+scale = Vector2(4, 4)
+texture = ExtResource("3_h0jf2")
+hframes = 3
+vframes = 2

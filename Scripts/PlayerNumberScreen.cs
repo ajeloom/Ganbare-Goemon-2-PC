@@ -45,6 +45,7 @@ public partial class PlayerNumberScreen : Control
 		if (button1.ButtonPressed || button2.ButtonPressed || button3.ButtonPressed) {
 			var gm = GetNode<GameManager>("/root/GameManager");
 			gm.setNum(playerNum);
+			gm.selectCharacter = true;
 			gm.GoToScene("res://Scenes/CharacterSelectScreen.tscn");
 		}
 	}

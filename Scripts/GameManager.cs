@@ -13,8 +13,11 @@ public partial class GameManager : Node2D
 	public bool isImpactStage = false;
 	public bool isBossStage = false;
 	public bool stageStart = false;
+	public bool selectCharacter = false;
 	private bool initLoad = false;
 	private bool checkPlayer = false;
+	public bool addedCursors = false;
+	public bool deletedCursors = false;
 
 	public int playerNum { get; set; }
 	public int characterNum { get; set; }
@@ -147,6 +150,14 @@ public partial class GameManager : Node2D
 				if (endLevel) {
 					closeGame();
 				}
+			}
+		}
+		else {
+			if (selectCharacter) {
+				pickCharacter();
+			}
+			else {
+				deleteCursors();
 			}
 		}
 	}
@@ -362,5 +373,42 @@ public partial class GameManager : Node2D
 			}
 		}
 		return false;
+	}
+
+	private void pickCharacter() {
+		if (!addedCursors) {
+			addedCursors = true;
+
+			for (int i = 0; i < playerNum; i++) {
+				int num = i + 1;
+
+				var scene = GD.Load<PackedScene>("res://Scenes/Cursor.tscn");
+				var instance = scene.Instantiate();
+				AddChild(instance, true);
+
+				// Access the child
+				Cursor node = (Cursor)GetChild(GetChildCount() - 1);
+				node.playerNum = num;
+
+				Sprite2D sprite = node.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
+				sprite.Frame = i;
+			}
+
+			deletedCursors = false;
+		}
+	}
+
+	public void deleteCursors() {
+		if (!deletedCursors) {
+			deletedCursors = true;
+
+			for (int i = 0; i < playerNum; i++) {
+				// Access the child
+				Node2D node = (Node2D)GetChild(GetChildCount() - 1);
+				RemoveChild(node);
+			}
+
+			addedCursors = false;
+		}
 	}
 }
