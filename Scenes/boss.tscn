@@ -59,11 +59,11 @@ shape = SubResource("RectangleShape2D_go4x6")
 [node name="Kabuki" parent="." instance=ExtResource("5_dkkn2")]
 position = Vector2(320, 140)
 
-[node name="SpawnPoint1" type="Node2D" parent="."]
+[node name="SpawnPoint0" type="Node2D" parent="."]
 position = Vector2(540, 220)
 
-[node name="SpawnPoint2" type="Node2D" parent="."]
+[node name="SpawnPoint1" type="Node2D" parent="."]
 position = Vector2(580, 220)
 
-[node name="SpawnPoint3" type="Node2D" parent="."]
+[node name="SpawnPoint2" type="Node2D" parent="."]
 position = Vector2(620, 220)
