@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="3_1kawl"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_4kmcg"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="5_ohypq"]
-[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Enemies/Explosion2.png" id="6_ire8r"]
+[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Effects/Explosion2.png" id="6_ire8r"]
 [ext_resource type="AudioStream" uid="uid://cvir7ehhk3f21" path="res://Sounds/SFX/explosion.wav" id="7_1dqtb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bseib"]

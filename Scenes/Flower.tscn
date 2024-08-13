@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Flower.cs" id="1_84yqe"]
 [ext_resource type="Texture2D" uid="uid://djyprdfxqingr" path="res://Sprites/Bosses/Kabuki/Flower.png" id="1_blafa"]
-[ext_resource type="Texture2D" uid="uid://di0v210sftuet" path="res://Sprites/Enemies/Dust.png" id="3_1a1dn"]
+[ext_resource type="Texture2D" uid="uid://di0v210sftuet" path="res://Sprites/Effects/Dust.png" id="3_1a1dn"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_geai1"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_iuko3"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="5_hlyqt"]

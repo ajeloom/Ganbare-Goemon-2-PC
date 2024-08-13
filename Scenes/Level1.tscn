@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://do87prko86xvb"]
 
-[ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stage/Level1_Background1.png" id="1_8nk3a"]
-[ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stage/Level1_Ryukyu_Resort.png" id="1_xxir4"]
-[ext_resource type="Texture2D" uid="uid://cgfn6qxbt45wl" path="res://Sprites/Stage/Level1_Background2.png" id="2_5gjpm"]
+[ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stages/Level 1/Level1_Background1.png" id="1_8nk3a"]
+[ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stages/Level 1/Level1_Ryukyu_Resort.png" id="1_xxir4"]
+[ext_resource type="Texture2D" uid="uid://cgfn6qxbt45wl" path="res://Sprites/Stages/Level 1/Level1_Background2.png" id="2_5gjpm"]
 [ext_resource type="PackedScene" uid="uid://c1ufqqv2rqbcg" path="res://Scenes/Pass.tscn" id="4_qtiqd"]
 
 [sub_resource type="Animation" id="Animation_500ca"]

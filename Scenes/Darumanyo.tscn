@@ -1,11 +1,11 @@
 [gd_scene load_steps=15 format=3 uid="uid://bqdecnyl4cnt4"]
 
-[ext_resource type="Texture2D" uid="uid://j8my4hsoly8b" path="res://Sprites/Enemies/Darumanyo.png" id="1_r1jwx"]
+[ext_resource type="Texture2D" uid="uid://j8my4hsoly8b" path="res://Sprites/Enemies/Darumanyo/Darumanyo.png" id="1_r1jwx"]
 [ext_resource type="Script" path="res://Scripts/Darumanyo.cs" id="1_yommi"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_q5koc"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_4bxx2"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="5_4u8ql"]
-[ext_resource type="Texture2D" uid="uid://cp3ctm1jld6ng" path="res://Sprites/Enemies/Explosion.png" id="6_v5q1d"]
+[ext_resource type="Texture2D" uid="uid://cp3ctm1jld6ng" path="res://Sprites/Effects/Explosion.png" id="6_v5q1d"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="7_4xjds"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rjj4e"]

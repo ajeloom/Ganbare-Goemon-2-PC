@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="7_twd2f"]
 [ext_resource type="FontFile" uid="uid://cdpnyde43yiux" path="res://Sprites/Characters/Impact/ImpactNumbers.png" id="8_52ktq"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="9_memyw"]
-[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Enemies/Explosion2.png" id="10_jmay7"]
+[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Effects/Explosion2.png" id="10_jmay7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t48vn"]
 radius = 28.0045

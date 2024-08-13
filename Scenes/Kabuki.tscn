@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="6_50uyh"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="7_hcmvo"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_ew6ln"]
-[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Enemies/Explosion2.png" id="10_8ouiu"]
+[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Effects/Explosion2.png" id="10_8ouiu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvgh7"]
 size = Vector2(47.7778, 41.1111)

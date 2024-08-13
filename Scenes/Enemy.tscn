@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="2_7df4b"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="3_eaq0b"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="4_2ei7n"]
-[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Enemies/Explosion2.png" id="6_rw5bk"]
+[ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Effects/Explosion2.png" id="6_88sq7"]
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 z_index = -1
@@ -36,5 +36,5 @@ collision_mask = 2
 [node name="Explosion" type="Sprite2D" parent="."]
 z_index = 1
 z_as_relative = false
-texture = ExtResource("6_rw5bk")
+texture = ExtResource("6_88sq7")
 hframes = 4

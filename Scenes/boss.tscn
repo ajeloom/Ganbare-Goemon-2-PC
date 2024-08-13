@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://ctvdt3cnvwaa5"]
 
 [ext_resource type="PackedScene" uid="uid://dxewj87osches" path="res://Scenes/BossCam.tscn" id="3_fjt1y"]
-[ext_resource type="Texture2D" uid="uid://cfgh51awk6goo" path="res://Sprites/Stage/Background.png" id="4_qnqp1"]
+[ext_resource type="Texture2D" uid="uid://cfgh51awk6goo" path="res://Sprites/Stages/Boss Stage/Background.png" id="4_qnqp1"]
 [ext_resource type="PackedScene" uid="uid://cf6vus17cvgau" path="res://Scenes/Kabuki.tscn" id="5_dkkn2"]
-[ext_resource type="Texture2D" uid="uid://bd2rkyrtjcyl3" path="res://Sprites/Stage/Ground.png" id="7_5lumd"]
+[ext_resource type="Texture2D" uid="uid://bd2rkyrtjcyl3" path="res://Sprites/Stages/Boss Stage/Ground.png" id="7_5lumd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4isy"]
 size = Vector2(2, 285)

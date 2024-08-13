@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c1ufqqv2rqbcg"]
 
-[ext_resource type="Texture2D" uid="uid://b3oq8n8skfv5u" path="res://Sprites/Pass.png" id="1_g21t0"]
 [ext_resource type="Script" path="res://Scripts/Pass.cs" id="1_ryhwd"]
+[ext_resource type="Texture2D" uid="uid://b3oq8n8skfv5u" path="res://Sprites/Stages/Level 1/Pass.png" id="2_5rj70"]
 [ext_resource type="AudioStream" uid="uid://cjeeq13cv24wi" path="res://Sounds/Music/StageClear.mp3" id="3_yqixg"]
 [ext_resource type="AudioStream" uid="uid://c3acovuknmo64" path="res://Sounds/SFX/pass.wav" id="4_2vc3d"]
 
@@ -12,7 +12,7 @@ size = Vector2(20, 15)
 script = ExtResource("1_ryhwd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_g21t0")
+texture = ExtResource("2_5rj70")
 
 [node name="Area2D" type="Area2D" parent="." groups=["Goal"]]
 collision_layer = 8
