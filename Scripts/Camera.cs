@@ -44,7 +44,7 @@ public partial class Camera : Camera2D
 					Array.Sort(posArray);
 
 					// Find the average between the characters closest to each side of the screen
-					posX = posArray[0] + posArray[gm.playerNum - 1];
+					posX = posArray[0] + posArray[gm.playerNum];
 					averageX = posX / 2;
 
 					gotAveragePos = false;

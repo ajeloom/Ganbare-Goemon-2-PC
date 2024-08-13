@@ -205,13 +205,13 @@ libraries = {
 }
 autoplay = "Background"
 
-[node name="SpawnPoint1" type="Node2D" parent="."]
+[node name="SpawnPoint0" type="Node2D" parent="."]
 position = Vector2(-2489, 123)
 
-[node name="SpawnPoint2" type="Node2D" parent="."]
+[node name="SpawnPoint1" type="Node2D" parent="."]
 position = Vector2(-2519, 123)
 
-[node name="SpawnPoint3" type="Node2D" parent="."]
+[node name="SpawnPoint2" type="Node2D" parent="."]
 position = Vector2(-2549, 123)
 
 [node name="Pass" parent="." instance=ExtResource("4_qtiqd")]

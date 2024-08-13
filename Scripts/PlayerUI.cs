@@ -37,18 +37,18 @@ public partial class PlayerUI : Node2D
 	{
 		if (!gotPosition) {
 			gotPosition = true;
-			if (player.playerNum == 1) {
+			if (player.playerNum == 0) {
 				node.Position = new Vector2(0.0f, 0.0f);
 			}
-			else if (player.playerNum == 2) {
+			else if (player.playerNum == 1) {
 				node.Position = new Vector2(575.0f, 0.0f);
 			}
-			else if (player.playerNum == 3) {
+			else if (player.playerNum == 2) {
 				node.Position = new Vector2(1150.0f, 0.0f);
 			}
 		}
 		
-		int coins = gm.players[player.playerNum - 1].coins;
+		int coins = gm.players[player.playerNum].coins;
 		if (coins < 10) {
 			coinsLabel.Text = Convert.ToString("00" + coins);
 		}
@@ -59,7 +59,7 @@ public partial class PlayerUI : Node2D
 			coinsLabel.Text = Convert.ToString(coins);
 		}
 
-		int lives = gm.players[player.playerNum - 1].lives;
+		int lives = gm.players[player.playerNum].lives;
 		if (lives == -1) {
 			livesLabel.Text = Convert.ToString("00");
 		}

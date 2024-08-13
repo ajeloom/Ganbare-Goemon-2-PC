@@ -121,8 +121,7 @@ public partial class Player : CharacterBody2D
 				velocity.Y += gravity * (float)delta;
 
 				// Player can do short hop by not holding the jump button
-				if (Input.IsActionJustReleased("jump") && velocity.Y < -250.0f) {
-				// if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && velocity.Y < -250.0f) {
+				if (Input.IsActionJustReleased("jump" + playerNum.ToString()) && velocity.Y < -250.0f) {
 					velocity.Y += 1500 * 6.0f * (float)delta;
 				}
 
@@ -151,15 +150,13 @@ public partial class Player : CharacterBody2D
 			}
 			else {
 				// Can only jump once off the ground
-				if (Input.IsActionJustPressed("jump")) {
-				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A) && !holdingJumpButton) {
+				if (Input.IsActionJustPressed("jump" + playerNum.ToString())) {
 					holdingJumpButton = true;
 					velocity.Y = jumpVelocity;
 					
 					audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/jump.wav", -20.0f);
 				}
-				else if (Input.IsActionJustReleased("jump")) {
-				// else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.A)) {
+				else if (Input.IsActionJustReleased("jump" + playerNum.ToString())) {
 					holdingJumpButton = false;
 				}
 				
@@ -176,12 +173,10 @@ public partial class Player : CharacterBody2D
 
 				// Play one of these animations if the player is not moving
 				if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
-					if (Input.IsActionPressed("crouch")) {
-					// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown)) {
+					if (Input.IsActionPressed("crouch" + playerNum.ToString())) {
 						animPlayer.Play("Crouch");
 					}
-					else if (Input.IsActionPressed("lookUp")) {
-					// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp)) {
+					else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
 						animPlayer.Play("LookUp");
 					}
 					else {
@@ -209,13 +204,11 @@ public partial class Player : CharacterBody2D
 			}
 
 			// For running
-			if (Input.IsActionPressed("attack")) {
-			// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
+			if (Input.IsActionPressed("attack" + playerNum.ToString())) {
 				Attacking();
 				holdingRunButton = true;
 			}
-			else if (Input.IsActionJustReleased("attack")) {
-			// else if (!Input.IsJoyButtonPressed(playerNum - 1, JoyButton.X)) {
+			else if (Input.IsActionJustReleased("attack" + playerNum.ToString())) {
 				holdingRunButton = false;
 			}
 
@@ -237,8 +230,7 @@ public partial class Player : CharacterBody2D
 		// Player can only move when not attacking or taking damage
 		if (!takingDamage) {
 			// Can only turn when not attacking
-			if (Input.IsActionPressed("walkRight")) {
-			// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadRight)) {
+			if (Input.IsActionPressed("walkRight" + playerNum.ToString())) {
 				bodySprite.FlipH = false;
 				
 				direction = lastDirection = new Vector2(1.0f, 0.0f);
@@ -248,8 +240,7 @@ public partial class Player : CharacterBody2D
 				else if (isAttacking && IsOnFloor())
 					return Mathf.MoveToward(Velocity.X, 0, speed);
 			}
-			else if (Input.IsActionPressed("walkLeft")) {
-			// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadLeft)) {
+			else if (Input.IsActionPressed("walkLeft" + playerNum.ToString())) {
 				bodySprite.FlipH = true;
 
 				direction = lastDirection = new Vector2(-1.0f, 0.0f);
@@ -270,8 +261,7 @@ public partial class Player : CharacterBody2D
 	private void movementAnimation() {
 		// Play a movement animation based on the player's input
 		if (IsOnFloor()) {
-			if (Input.IsActionPressed("crouch"))
-			// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown))
+			if (Input.IsActionPressed("crouch" + playerNum.ToString()))
 				animPlayer.Play("Crawl");
 			else if (holdingRunButton)
 				animPlayer.Play("Run");
@@ -288,15 +278,13 @@ public partial class Player : CharacterBody2D
 
 			float time = 0.25f;
 			if (lastDirection.X >= 0.0f) {
-				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
-				if (Input.IsActionPressed("crouch") && IsOnFloor()) {
+				if (Input.IsActionPressed("crouch" + playerNum.ToString()) && IsOnFloor()) {
 					animPlayer.Play(charaName[chara] +"/CrouchAttackR");
 					if (chara == 2) {
 						time = 0.35f;
 					}
 				}
-				// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
-				else if (Input.IsActionPressed("lookUp")) {
+				else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
 					if (chara == 2) {
 						if (IsOnFloor()) {
 							animPlayer.Play("Sasuke/UpAttackR");
@@ -314,15 +302,13 @@ public partial class Player : CharacterBody2D
 				}
 			}
 			else {
-				// if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadDown) && IsOnFloor())
-				if (Input.IsActionPressed("crouch") && IsOnFloor()) {
+				if (Input.IsActionPressed("crouch" + playerNum.ToString()) && IsOnFloor()) {
 					animPlayer.Play(charaName[chara] +"/CrouchAttackL");
 					if (chara == 2) {
 						time = 0.35f;
 					}
 				}
-				// else if (Input.IsJoyButtonPressed(playerNum - 1, JoyButton.DpadUp))
-				else if (Input.IsActionPressed("lookUp")) {
+				else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
 					if (chara == 2) {
 						if (IsOnFloor()) {
 							animPlayer.Play("Sasuke/UpAttackL");

@@ -283,7 +283,7 @@ public partial class GameManager : Node2D
 
 	private void LoadPlayers(bool isReloading) {
 		for (int i = 0; i < 3; i++) {
-			int num = i + 1;
+			// int num = i + 1;
 
 			if (i < playerNum) {
 				if (characterNum == 0) {
@@ -296,7 +296,7 @@ public partial class GameManager : Node2D
 					AddChild("res://Scenes/Sasuke.tscn", this);
 				}
 				Player temp = GetChild<Player>(GetChildCount() - 1);
-				temp.playerNum = num;
+				temp.playerNum = i;
 
 				if (isReloading) {
 					temp.coins = players[i].coins;
@@ -319,23 +319,23 @@ public partial class GameManager : Node2D
 					temp.lives = 2;
 					temp.isAlive = true;
 					temp.chara = characterNum;
-					players[i] = new player(temp, num, temp.lives, temp.coins, temp.isAlive);
+					players[i] = new player(temp, i, temp.lives, temp.coins, temp.isAlive);
 				}
 
 				// Get spawn point
 				Node2D node;
 				if (isBossStage) {
-					node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + num);
+					node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + i);
 				}
 				else {
-					node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + num);
+					node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + i);
 				}
 				
 				// Set player location to spawn point
 				temp.Position = node.GlobalPosition;
 			}
 			else {
-				players[i] = new player(null, num, -1, 0, false);
+				players[i] = new player(null, i, -1, 0, false);
 			}
 		}
 
@@ -380,15 +380,13 @@ public partial class GameManager : Node2D
 			addedCursors = true;
 
 			for (int i = 0; i < playerNum; i++) {
-				int num = i + 1;
-
 				var scene = GD.Load<PackedScene>("res://Scenes/Cursor.tscn");
 				var instance = scene.Instantiate();
 				AddChild(instance, true);
 
 				// Access the child
 				Cursor node = (Cursor)GetChild(GetChildCount() - 1);
-				node.playerNum = num;
+				node.playerNum = i;
 
 				Sprite2D sprite = node.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 				sprite.Frame = i;

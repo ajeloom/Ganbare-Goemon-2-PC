@@ -32,7 +32,7 @@ public partial class Cursor : Node2D
 	{	
 		// 
 		if (characterSelected) {			
-			if (Input.IsActionJustPressed("attack")) {
+			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
 				TextureButton button;
 				if (slot == 2) {
 					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Ebisumaru");
@@ -60,18 +60,18 @@ public partial class Cursor : Node2D
 		else {
 			// Position the cursor based on player
 			if (gm.playerNum == 3) {
-				if (playerNum == 1) {
+				if (playerNum == 0) {
 					pos = new Vector2(-64.0f, 0.0f);
 				}
-				else if (playerNum == 3) {
+				else if (playerNum == 2) {
 					pos = new Vector2(64.0f, 0.0f);
 				}
 			}
 			else if (gm.playerNum == 2) {
-				if (playerNum == 1) {
+				if (playerNum == 0) {
 					pos = new Vector2(-32.0f, 0.0f);
 				}
-				else if (playerNum == 2) {
+				else if (playerNum == 1) {
 					pos = new Vector2(32.0f, 0.0f);
 				}
 			}
@@ -88,17 +88,17 @@ public partial class Cursor : Node2D
 			}
 
 			// Move the cursor
-			if (Input.IsActionJustPressed("walkLeft") && slot > 1) {
+			if (Input.IsActionJustPressed("walkLeft" + playerNum.ToString()) && slot > 1) {
 				slot -= 1;
 				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -10.0f);
 			}
-			else if (Input.IsActionJustPressed("walkRight") && slot < 3) {
+			else if (Input.IsActionJustPressed("walkRight" + playerNum.ToString()) && slot < 3) {
 				slot += 1;
 				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -10.0f);
 			}
 
 			// Player selects a character
-			if (Input.IsActionJustPressed("jump")) {
+			if (Input.IsActionJustPressed("jump" + playerNum.ToString())) {
 				audio.playSFX("res://Sounds/SFX/menuClick.wav", 0.0f);
 
 				TextureButton button;
@@ -121,7 +121,7 @@ public partial class Cursor : Node2D
 			}
 
 			// Exit the CSS
-			if (Input.IsActionJustPressed("attack")) {
+			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
 				gm.selectCharacter = false;
 				gm.GoToScene("res://Scenes/PlayerNumberScreen.tscn");
 			}
