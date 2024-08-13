@@ -30,7 +30,6 @@ public partial class Cursor : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{	
-		// 
 		if (characterSelected) {			
 			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
 				TextureButton button;
@@ -50,8 +49,6 @@ public partial class Cursor : Node2D
 			}
 
 			if (Input.IsActionJustPressed("start")) {
-				CharacterSelectScreen chara = GetNode<CharacterSelectScreen>("/root/Character Select Screen");
-				gm.setCharacter(chara.getCharaNum());
 				gm.deleteCursors();
 				gm.selectCharacter = false;
 				gm.GoToScene("res://Scenes/StageSelectScreen.tscn");
@@ -105,14 +102,17 @@ public partial class Cursor : Node2D
 				if (slot == 2) {
 					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Ebisumaru");
 					audio.playSFX("res://Sounds/SFX/Ebisumaru/selected.wav", -10.0f);
+					gm.setCharacter(playerNum, 1);
 				}
 				else if (slot == 3) {
 					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Sasuke");
 					audio.playSFX("res://Sounds/SFX/Sasuke/selected.wav", -10.0f);
+					gm.setCharacter(playerNum, 2);
 				}
 				else {
 					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Goemon");
 					audio.playSFX("res://Sounds/SFX/Goemon/selected.wav", -10.0f);
+					gm.setCharacter(playerNum, 0);
 				}
 
 				button.ButtonPressed = true;

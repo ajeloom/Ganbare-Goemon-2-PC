@@ -25,8 +25,9 @@ public partial class GameManager : Node2D
 	public player[] players;
 
 	public struct player {
-		public player(Player Node, int Slot, int Lives, int Coins, bool IsAlive) {
+		public player(Player Node, int Character, int Slot, int Lives, int Coins, bool IsAlive) {
 			node = Node;
+			character = Character;
 			slot = Slot;
 			lives = Lives;
 			coins = Coins;
@@ -34,6 +35,7 @@ public partial class GameManager : Node2D
 		}
 
 		public Player node { get; set; }
+		public int character { get; set; }
 		public int slot { get; }
 		public int lives { get; set; }
 		public int coins { get; set; }
@@ -68,6 +70,9 @@ public partial class GameManager : Node2D
 
 		audio = GetNode<AudioStreamPlayer>("BG Music");
 		
+		// Initialize player array
+		players = new player[3];
+
 		// Load title screen
 		GoToScene("res://Scenes/TitleScreen.tscn");
 	}
@@ -114,9 +119,6 @@ public partial class GameManager : Node2D
 
 					// Show the bottom UI
 					canvas.Visible = true;
-
-					// Initialize player array
-					players = new player[3];
 
 					LoadPlayers(false);
 				}
@@ -213,8 +215,9 @@ public partial class GameManager : Node2D
 		playerNum = value;
 	}
 
-	public void setCharacter(int value) {
-		characterNum = value;
+	// Sets the character for each player
+	public void setCharacter(int playerNum, int value) {
+		players[playerNum].character = value;
 	}
 
 	private async void closeGame() {
@@ -283,25 +286,24 @@ public partial class GameManager : Node2D
 
 	private void LoadPlayers(bool isReloading) {
 		for (int i = 0; i < 3; i++) {
-			// int num = i + 1;
-
 			if (i < playerNum) {
-				if (characterNum == 0) {
+				if (players[i].character == 0) {
 					AddChild("res://Scenes/Goemon.tscn", this);
 				}
-				else if (characterNum == 1) {
+				else if (players[i].character == 1) {
 					AddChild("res://Scenes/Ebisumaru.tscn", this);
 				}
-				else if (characterNum == 2) {
+				else if (players[i].character == 2) {
 					AddChild("res://Scenes/Sasuke.tscn", this);
 				}
+
 				Player temp = GetChild<Player>(GetChildCount() - 1);
 				temp.playerNum = i;
-
+				
 				if (isReloading) {
 					temp.coins = players[i].coins;
 					temp.lives = players[i].lives;
-					temp.chara = characterNum;
+					temp.chara = players[i].character;
 					players[i].node = temp;
 					if (players[i].lives > -1) {
 						temp.isAlive = true;
@@ -318,8 +320,8 @@ public partial class GameManager : Node2D
 					temp.coins = 100;
 					temp.lives = 2;
 					temp.isAlive = true;
-					temp.chara = characterNum;
-					players[i] = new player(temp, i, temp.lives, temp.coins, temp.isAlive);
+					temp.chara = players[i].character;
+					players[i] = new player(temp, temp.chara, i, temp.lives, temp.coins, temp.isAlive);
 				}
 
 				// Get spawn point
@@ -335,7 +337,7 @@ public partial class GameManager : Node2D
 				temp.Position = node.GlobalPosition;
 			}
 			else {
-				players[i] = new player(null, i, -1, 0, false);
+				players[i] = new player(null, 0, i, -1, 0, false);
 			}
 		}
 
