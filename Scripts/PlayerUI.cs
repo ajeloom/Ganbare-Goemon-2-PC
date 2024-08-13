@@ -7,6 +7,7 @@ public partial class PlayerUI : Node2D
 	private Node2D node;
 	private Label coinsLabel;
 	private Label livesLabel;
+	private Sprite2D charaIcon;
 	private TextureProgressBar bar1;
 	private TextureProgressBar bar2;
 	private TextureProgressBar bar3;
@@ -14,7 +15,7 @@ public partial class PlayerUI : Node2D
 	private Player player;
 	private GameManager gm;
 	
-	private bool gotPosition = false;
+	private bool initialized = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -22,10 +23,12 @@ public partial class PlayerUI : Node2D
 		gm = GetNode<GameManager>("/root/GameManager");
 		player = GetParent<Player>();
 
+		node = GetNode<Node2D>("CanvasLayer/Node2D");
+
 		coinsLabel = GetNode<Label>("CanvasLayer/Node2D/Coins Label");
 		livesLabel = GetNode<Label>("CanvasLayer/Node2D/Lives Label");
 
-		node = GetNode<Node2D>("CanvasLayer/Node2D");
+		charaIcon = GetNode<Sprite2D>("CanvasLayer/Node2D/Icon");
 
 		bar1 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 1");
 		bar2 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 2");
@@ -35,8 +38,10 @@ public partial class PlayerUI : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (!gotPosition) {
-			gotPosition = true;
+		if (!initialized) {
+			initialized = true;
+
+			// Set the position of the UI based on player number
 			if (player.playerNum == 0) {
 				node.Position = new Vector2(0.0f, 0.0f);
 			}
@@ -46,8 +51,12 @@ public partial class PlayerUI : Node2D
 			else if (player.playerNum == 2) {
 				node.Position = new Vector2(1150.0f, 0.0f);
 			}
+
+			// Set the matching icon to the character
+			charaIcon.Frame = player.chara;
 		}
-		
+
+		// Display the coins
 		int coins = gm.players[player.playerNum].coins;
 		if (coins < 10) {
 			coinsLabel.Text = Convert.ToString("00" + coins);
@@ -59,6 +68,7 @@ public partial class PlayerUI : Node2D
 			coinsLabel.Text = Convert.ToString(coins);
 		}
 
+		// Display the lives
 		int lives = gm.players[player.playerNum].lives;
 		if (lives == -1) {
 			livesLabel.Text = Convert.ToString("00");
@@ -70,6 +80,7 @@ public partial class PlayerUI : Node2D
 			livesLabel.Text = Convert.ToString(lives);
 		}
 
+		// Update the health bar UI
 		bar1.Value = player.healthComponent.health;
 		bar2.Value = player.healthComponent.health;
 		bar3.Value = player.healthComponent.health;

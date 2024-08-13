@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://c7n2c5vh1xphl" path="res://Sprites/UI/WeaponSlot.png" id="1_iy1rq"]
 [ext_resource type="Script" path="res://Scripts/PlayerUI.cs" id="1_mfghx"]
 [ext_resource type="Texture2D" uid="uid://jpfjgh7s76c1" path="res://Sprites/UI/Weapon1Icon.png" id="2_u30ub"]
-[ext_resource type="Texture2D" uid="uid://borvutymp6f" path="res://Sprites/UI/Icons/GoemonIcon.png" id="3_1o60p"]
 [ext_resource type="Texture2D" uid="uid://y5dunor5h7d5" path="res://Sprites/UI/Coin.png" id="4_qut1u"]
+[ext_resource type="Texture2D" uid="uid://dvjh4gkm685l5" path="res://Sprites/UI/Icons/charaIcons.png" id="4_vq47i"]
 [ext_resource type="FontFile" uid="uid://7xqnkjkii468" path="res://Sprites/UI/Numbers.png" id="5_6v8a7"]
 [ext_resource type="Texture2D" uid="uid://klbsuh70xadc" path="res://Sprites/UI/HP/HealthBarUnder.png" id="6_h3n3i"]
 [ext_resource type="Texture2D" uid="uid://28x5i70gsaji" path="res://Sprites/UI/HP/HealthBarOver.png" id="7_l7w3q"]
@@ -39,7 +39,8 @@ texture = ExtResource("2_u30ub")
 [node name="Icon" type="Sprite2D" parent="CanvasLayer/Node2D"]
 position = Vector2(245, 1028.5)
 scale = Vector2(5, 5)
-texture = ExtResource("3_1o60p")
+texture = ExtResource("4_vq47i")
+hframes = 3
 
 [node name="Coin Sprite" type="Sprite2D" parent="CanvasLayer/Node2D"]
 position = Vector2(220, 948.5)
