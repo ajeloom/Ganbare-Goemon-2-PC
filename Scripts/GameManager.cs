@@ -22,6 +22,8 @@ public partial class GameManager : Node2D
 	public int playerNum { get; set; }
 	public int characterNum { get; set; }
 
+	public bool characterSelected = false;
+
 	public player[] players;
 
 	public struct player {

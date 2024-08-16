@@ -7,11 +7,9 @@ public partial class Cursor : Node2D
 	private Sprite2D sprite;
 	private AudioComponent audio;
 	private GameManager gm;
+	private CharacterSelectScreen css;
 
-	[Export] private int slot = 1;
-
-	private bool isInputPressed = false;
-	private bool characterSelected = false;
+	[Export] public int slot = 1;
 
 	private Vector2 pos = new Vector2(0.0f, 0.0f);
 
@@ -25,27 +23,15 @@ public partial class Cursor : Node2D
 		sprite = GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 		audio = GetNode<AudioComponent>("AudioComponent");
 		gm = GetNode<GameManager>("/root/GameManager");
+		css = GetNode<CharacterSelectScreen>("/root/Character Select Screen");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{	
-		if (characterSelected) {			
+		if (gm.characterSelected) {			
 			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
-				TextureButton button;
-				if (slot == 2) {
-					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Ebisumaru");
-				}
-				else if (slot == 3) {
-					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Sasuke");
-				}
-				else {
-					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Goemon");
-				}
-
-				button.ButtonPressed = false;
-				sprite.Frame = sprite.Frame - 3;
-				characterSelected = false;
+				css.EnableButtons();
 			}
 
 			if (Input.IsActionJustPressed("start")) {
@@ -96,34 +82,23 @@ public partial class Cursor : Node2D
 
 			// Player selects a character
 			if (Input.IsActionJustPressed("jump" + playerNum.ToString())) {
-				audio.playSFX("res://Sounds/SFX/menuClick.wav", 0.0f);
-
-				TextureButton button;
 				if (slot == 2) {
-					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Ebisumaru");
-					audio.playSFX("res://Sounds/SFX/Ebisumaru/selected.wav", -10.0f);
+					css.EbisumaruButtonPressed();
 					gm.setCharacter(playerNum, 1);
 				}
 				else if (slot == 3) {
-					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Sasuke");
-					audio.playSFX("res://Sounds/SFX/Sasuke/selected.wav", -10.0f);
+					css.SasukeButtonPressed();
 					gm.setCharacter(playerNum, 2);
 				}
 				else {
-					button = GetNode<TextureButton>("/root/Character Select Screen/CanvasLayer/Goemon");
-					audio.playSFX("res://Sounds/SFX/Goemon/selected.wav", -10.0f);
+					css.GoemonButtonPressed();
 					gm.setCharacter(playerNum, 0);
 				}
-
-				button.ButtonPressed = true;
-				sprite.Frame = sprite.Frame + 3;
-				characterSelected = true;
 			}
 
 			// Exit the CSS
 			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
-				gm.selectCharacter = false;
-				gm.GoToScene("res://Scenes/PlayerNumberScreen.tscn");
+				css.BackButtonPressed();
 			}
 		}
 	}

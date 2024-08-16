@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bcrwta754hk2"]
+[gd_scene load_steps=13 format=3 uid="uid://bcrwta754hk2"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
 [ext_resource type="Texture2D" uid="uid://cewmtfr2ce3k1" path="res://Sprites/UI/CSS/GoeButton.png" id="2_xhufp"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c80mw0y703o3x" path="res://Sprites/UI/CSS/EbiButtonPressed.png" id="5_7tbts"]
 [ext_resource type="Texture2D" uid="uid://dwcgao88fadtp" path="res://Sprites/UI/CSS/SasButton.png" id="6_8lpgf"]
 [ext_resource type="Texture2D" uid="uid://boqavemoqb6p4" path="res://Sprites/UI/CSS/SasButtonPressed.png" id="7_6f554"]
+[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_yarf4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
 font_size = 100
@@ -161,8 +162,16 @@ scale = Vector2(3, 3)
 pivot_offset = Vector2(39.5, 15.5)
 text = "Back"
 
+[node name="AudioComponent" parent="." instance=ExtResource("8_yarf4")]
+
+[connection signal="mouse_entered" from="CanvasLayer/Goemon" to="." method="GoemonMouseEntered"]
+[connection signal="mouse_exited" from="CanvasLayer/Goemon" to="." method="MouseExitedButton"]
 [connection signal="pressed" from="CanvasLayer/Goemon" to="." method="GoemonButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/Ebisumaru" to="." method="EbisumaruMouseEntered"]
+[connection signal="mouse_exited" from="CanvasLayer/Ebisumaru" to="." method="MouseExitedButton"]
 [connection signal="pressed" from="CanvasLayer/Ebisumaru" to="." method="EbisumaruButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/Sasuke" to="." method="SasukeMouseEntered"]
+[connection signal="mouse_exited" from="CanvasLayer/Sasuke" to="." method="MouseExitedButton"]
 [connection signal="pressed" from="CanvasLayer/Sasuke" to="." method="SasukeButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/ContinueButton" to="." method="ContinueButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]
