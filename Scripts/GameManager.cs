@@ -6,6 +6,8 @@ public partial class GameManager : Node2D
 	private Control pauseMenu;
 	public AudioStreamPlayer audio;
 	private CanvasLayer canvas;
+	private Control transition;
+	private AnimationPlayer transitionAP;
 
 	public Node currentScene { get; set; }
 
@@ -18,6 +20,9 @@ public partial class GameManager : Node2D
 	private bool checkPlayer = false;
 	public bool addedCursors = false;
 	public bool deletedCursors = false;
+	private bool isTransitioning = false;
+	public bool inMenu = false;
+	private bool musicPlaying = false;
 
 	public int playerNum { get; set; }
 	public int characterNum { get; set; }
@@ -72,6 +77,9 @@ public partial class GameManager : Node2D
 
 		audio = GetNode<AudioStreamPlayer>("BG Music");
 		
+		transition = GetNode<Control>("Fade Transition");
+		transitionAP = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
+
 		// Initialize player array
 		players = new player[3];
 
@@ -82,12 +90,43 @@ public partial class GameManager : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (inMenu) {
+			if (!musicPlaying) {
+				musicPlaying = true;
+				audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
+				audio.VolumeDb = -5.0f;
+				audio.Play();
+			}
+		}
+		else {
+			// Stop the music if you go back to the title screen
+			if (!stageStart) {
+				musicPlaying = false;
+				audio.Stop();
+			}	
+		}
+
+		// GD.Print("isTransitioning: " + isTransitioning);
+
+		// Change the layer of the transition control node to not block any buttons
+		if (isTransitioning) {
+			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
+			layer.Layer = 20;
+		}
+		else {
+			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
+			layer.Layer = 0;
+		}
+
+		// if (!transitionAP.IsPlaying()) {
+		// 	isTransitioning = false;
+		// }
+
 		if (stageStart) {
 			if (isImpactStage) {
 				if (!initLoad) {
 					initLoad = true;
 					// Load fade transition
-					AddChild("res://Scenes/FadeTransition.tscn", this);
 					getTransition("FadeIn");
 				}
 
@@ -116,7 +155,6 @@ public partial class GameManager : Node2D
 					initLoad = true;				
 					
 					// Load fade transition
-					AddChild("res://Scenes/FadeTransition.tscn", this);
 					getTransition("FadeIn");
 
 					// Show the bottom UI
@@ -266,10 +304,28 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	private void getTransition(string name) {
-		Control transition = GetNode<Control>("Fade Transition");
-		AnimationPlayer animPlayer = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
-		animPlayer.Play(name);
+	public void getTransition(string name) {
+		if (!isTransitioning) {
+			isTransitioning = true;
+			AnimationPlayer animPlayer = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
+			animPlayer.Play(name);
+		}
+	}
+
+	// For transitioning between two scenes
+	public async void Transition(string nextScene) {
+		if (!isTransitioning) {
+			isTransitioning = true;
+			transitionAP.Play("Fade");
+
+			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+
+			GoToScene(nextScene);
+
+			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+			
+			isTransitioning = false;
+		}
 	}
 
 	private async void GameOver() {

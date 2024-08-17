@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://boqavemoqb6p4"
-path="res://.godot/imported/SasButtonPressed.png-6f1f7839f7fa8428bfa44085791819e4.ctex"
+uid="uid://d1xgsny0d7mnm"
+path="res://.godot/imported/EbiButton.png-0f15859ff4dbcde236665fbe25280203.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/CSS/SasButtonPressed.png"
-dest_files=["res://.godot/imported/SasButtonPressed.png-6f1f7839f7fa8428bfa44085791819e4.ctex"]
+source_file="res://Sprites/UI/Menu/EbiButton.png"
+dest_files=["res://.godot/imported/EbiButton.png-0f15859ff4dbcde236665fbe25280203.ctex"]
 
 [params]
 

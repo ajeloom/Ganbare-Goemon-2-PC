@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cewmtfr2ce3k1"
-path="res://.godot/imported/GoeButton.png-cf558576bdad86fc2c0e904087b8c554.ctex"
+uid="uid://v6w61taysqvg"
+path="res://.godot/imported/StartHover.png-6575063ec531ed03e16251e8e3483488.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/CSS/GoeButton.png"
-dest_files=["res://.godot/imported/GoeButton.png-cf558576bdad86fc2c0e904087b8c554.ctex"]
+source_file="res://Sprites/UI/Menu/StartHover.png"
+dest_files=["res://.godot/imported/StartHover.png-6575063ec531ed03e16251e8e3483488.ctex"]
 
 [params]
 

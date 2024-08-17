@@ -3,9 +3,15 @@ using System;
 
 public partial class TitleScreen : Control
 {
+	private GameManager gm;
+	private AudioStreamPlayer audio;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		gm = GetNode<GameManager>("/root/GameManager");
+		gm.inMenu = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -14,8 +20,8 @@ public partial class TitleScreen : Control
 	}
 
 	private void PlayButtonPressed() {
-		var gm = GetNode<GameManager>("/root/GameManager");
-		gm.GoToScene("res://Scenes/PlayerNumberScreen.tscn");
+		audio.Playing = false;
+		gm.Transition("res://Scenes/PlayerNumberScreen.tscn");
 	}
 
 	private void QuitButtonPressed() {

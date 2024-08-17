@@ -1,17 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://bcrwta754hk2"]
+[gd_scene load_steps=14 format=3 uid="uid://bcrwta754hk2"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
-[ext_resource type="Texture2D" uid="uid://cewmtfr2ce3k1" path="res://Sprites/UI/CSS/GoeButton.png" id="2_xhufp"]
-[ext_resource type="Texture2D" uid="uid://bihb86ohlxiwx" path="res://Sprites/UI/CSS/GoeButtonPressed.png" id="3_5jb1j"]
-[ext_resource type="Texture2D" uid="uid://d1xgsny0d7mnm" path="res://Sprites/UI/CSS/EbiButton.png" id="4_h6siq"]
-[ext_resource type="Texture2D" uid="uid://c80mw0y703o3x" path="res://Sprites/UI/CSS/EbiButtonPressed.png" id="5_7tbts"]
-[ext_resource type="Texture2D" uid="uid://dwcgao88fadtp" path="res://Sprites/UI/CSS/SasButton.png" id="6_8lpgf"]
-[ext_resource type="Texture2D" uid="uid://boqavemoqb6p4" path="res://Sprites/UI/CSS/SasButtonPressed.png" id="7_6f554"]
+[ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1phk"]
+[ext_resource type="Texture2D" uid="uid://cewmtfr2ce3k1" path="res://Sprites/UI/Menu/GoeButton.png" id="2_xhufp"]
+[ext_resource type="Texture2D" uid="uid://bihb86ohlxiwx" path="res://Sprites/UI/Menu/GoeButtonPressed.png" id="3_5jb1j"]
+[ext_resource type="Texture2D" uid="uid://d1xgsny0d7mnm" path="res://Sprites/UI/Menu/EbiButton.png" id="4_h6siq"]
+[ext_resource type="Texture2D" uid="uid://c80mw0y703o3x" path="res://Sprites/UI/Menu/EbiButtonPressed.png" id="5_7tbts"]
+[ext_resource type="Texture2D" uid="uid://dwcgao88fadtp" path="res://Sprites/UI/Menu/SasButton.png" id="6_8lpgf"]
+[ext_resource type="Texture2D" uid="uid://boqavemoqb6p4" path="res://Sprites/UI/Menu/SasButtonPressed.png" id="7_6f554"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_yarf4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
 font_size = 100
-outline_size = 18
+outline_size = 12
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_y4iv6"]
@@ -32,18 +33,18 @@ script = ExtResource("1_tq4jl")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-offset_right = 1920.0
-offset_bottom = 1080.0
-color = Color(0.431373, 0.6, 0.992157, 1)
+[node name="Background" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 540)
+texture = ExtResource("2_u1phk")
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -468.0
+offset_top = 100.0
 offset_right = 468.0
-offset_bottom = 137.0
+offset_bottom = 237.0
 grow_horizontal = 2
 text = "Choose Player"
 label_settings = SubResource("LabelSettings_hcibv")

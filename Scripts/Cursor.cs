@@ -73,11 +73,11 @@ public partial class Cursor : Node2D
 			// Move the cursor
 			if (Input.IsActionJustPressed("walkLeft" + playerNum.ToString()) && slot > 1) {
 				slot -= 1;
-				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -10.0f);
+				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
 			}
 			else if (Input.IsActionJustPressed("walkRight" + playerNum.ToString()) && slot < 3) {
 				slot += 1;
-				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -10.0f);
+				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
 			}
 
 			// Player selects a character

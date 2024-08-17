@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpif61mntayjk"]
+[gd_scene load_steps=4 format=3 uid="uid://dpif61mntayjk"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerNumberScreen.cs" id="1_uwfy5"]
+[ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_2wuyv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_k0g5y"]
 font_size = 100
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Player Number Screen" type="Control"]
 layout_mode = 3
@@ -14,13 +17,18 @@ script = ExtResource("1_uwfy5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="Background" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 540)
+texture = ExtResource("2_2wuyv")
+
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -450.5
+offset_top = 100.0
 offset_right = 450.5
-offset_bottom = 137.0
+offset_bottom = 237.0
 grow_horizontal = 2
 text = "Number of Players"
 label_settings = SubResource("LabelSettings_k0g5y")

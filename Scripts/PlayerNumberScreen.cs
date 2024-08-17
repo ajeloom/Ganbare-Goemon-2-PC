@@ -6,6 +6,7 @@ public partial class PlayerNumberScreen : Control
 	private int playerNum;
 
 	private Button button1, button2, button3;
+	private GameManager gm;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -13,11 +14,13 @@ public partial class PlayerNumberScreen : Control
 		button1 = GetNode<Button>("CanvasLayer/1");
 		button2 = GetNode<Button>("CanvasLayer/2");
 		button3 = GetNode<Button>("CanvasLayer/3");
+		gm = GetNode<GameManager>("/root/GameManager");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		gm.inMenu = true;
 	}
 
 	private void OneButtonPressed() {
@@ -43,15 +46,12 @@ public partial class PlayerNumberScreen : Control
 
 	private void ContinueButtonPressed() {
 		if (button1.ButtonPressed || button2.ButtonPressed || button3.ButtonPressed) {
-			var gm = GetNode<GameManager>("/root/GameManager");
 			gm.setNum(playerNum);
-			gm.selectCharacter = true;
-			gm.GoToScene("res://Scenes/CharacterSelectScreen.tscn");
+			gm.Transition("res://Scenes/CharacterSelectScreen.tscn");
 		}
 	}
 
 	private void BackButtonPressed() {
-		var gm = GetNode<GameManager>("/root/GameManager");
-		gm.GoToScene("res://Scenes/TitleScreen.tscn");
+		gm.Transition("res://Scenes/TitleScreen.tscn");
 	}
 }
