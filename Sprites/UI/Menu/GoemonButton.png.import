@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1xgsny0d7mnm"
-path="res://.godot/imported/EbiButton.png-0f15859ff4dbcde236665fbe25280203.ctex"
+uid="uid://cewmtfr2ce3k1"
+path="res://.godot/imported/GoemonButton.png-d50072b76765ce67240a96b578534959.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/EbiButton.png"
-dest_files=["res://.godot/imported/EbiButton.png-0f15859ff4dbcde236665fbe25280203.ctex"]
+source_file="res://Sprites/UI/Menu/GoemonButton.png"
+dest_files=["res://.godot/imported/GoemonButton.png-d50072b76765ce67240a96b578534959.ctex"]
 
 [params]
 

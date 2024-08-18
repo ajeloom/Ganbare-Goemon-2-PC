@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
 [ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1phk"]
-[ext_resource type="Texture2D" uid="uid://cewmtfr2ce3k1" path="res://Sprites/UI/Menu/GoeButton.png" id="2_xhufp"]
-[ext_resource type="Texture2D" uid="uid://bihb86ohlxiwx" path="res://Sprites/UI/Menu/GoeButtonPressed.png" id="3_5jb1j"]
-[ext_resource type="Texture2D" uid="uid://d1xgsny0d7mnm" path="res://Sprites/UI/Menu/EbiButton.png" id="4_h6siq"]
-[ext_resource type="Texture2D" uid="uid://c80mw0y703o3x" path="res://Sprites/UI/Menu/EbiButtonPressed.png" id="5_7tbts"]
-[ext_resource type="Texture2D" uid="uid://dwcgao88fadtp" path="res://Sprites/UI/Menu/SasButton.png" id="6_8lpgf"]
-[ext_resource type="Texture2D" uid="uid://boqavemoqb6p4" path="res://Sprites/UI/Menu/SasButtonPressed.png" id="7_6f554"]
+[ext_resource type="Texture2D" uid="uid://cewmtfr2ce3k1" path="res://Sprites/UI/Menu/GoemonButton.png" id="2_xhufp"]
+[ext_resource type="Texture2D" uid="uid://bihb86ohlxiwx" path="res://Sprites/UI/Menu/GoemonButtonPressed.png" id="3_5jb1j"]
+[ext_resource type="Texture2D" uid="uid://d1xgsny0d7mnm" path="res://Sprites/UI/Menu/EbisumaruButton.png" id="4_h6siq"]
+[ext_resource type="Texture2D" uid="uid://c80mw0y703o3x" path="res://Sprites/UI/Menu/EbisumaruButtonPressed.png" id="5_7tbts"]
+[ext_resource type="Texture2D" uid="uid://dwcgao88fadtp" path="res://Sprites/UI/Menu/SasukeButton.png" id="6_8lpgf"]
+[ext_resource type="Texture2D" uid="uid://boqavemoqb6p4" path="res://Sprites/UI/Menu/SasukeButtonPressed.png" id="7_6f554"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_yarf4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hcibv"]

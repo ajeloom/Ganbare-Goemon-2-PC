@@ -8,10 +8,13 @@ public partial class CharacterSelectScreen : Control
 	private AudioComponent audio;
 	private Cursor cursor;
 
-	private int lastSelected = 0;
+	public TextureButton[] buttons;
+
+	public int mouseCurrentSlot = 0;
 
 	private bool initialized = false;
-	private bool mouseEntered = false;
+	public bool hoveringButton = false;
+	private bool checkButtons = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -23,6 +26,8 @@ public partial class CharacterSelectScreen : Control
 		audio = GetNode<AudioComponent>("AudioComponent");
 
 		gm.selectCharacter = true;
+
+		buttons = new TextureButton[3];
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -31,23 +36,31 @@ public partial class CharacterSelectScreen : Control
 		if (!initialized) {
 			initialized = true;
 			cursor = GetNode<Cursor>("/root/GameManager/Cursor");
+
+			buttons[0] = button1;
+			buttons[1] = button2;
+			buttons[2] = button3;
 		}
 
-		if (gm.characterSelected) {
+		if (cursor.characterSelected) {
+			// Disable the buttons from being pressed
+			DisableButtons();
+
 			if (Input.IsActionJustPressed("back")) {
 				EnableButtons();
 				
 				// Play sound when mouse is on another character slot
-				if (mouseEntered) {
+				if (hoveringButton) {
 					audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
+					cursor.slot = mouseCurrentSlot;
 				}
 			}
 		}
 	}
 
 	public void GoemonButtonPressed() {
-		if (!gm.characterSelected) {
-			gm.characterSelected = true;
+		if (!cursor.characterSelected) {
+			cursor.characterSelected = true;
 
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
@@ -55,88 +68,82 @@ public partial class CharacterSelectScreen : Control
 			gm.setCharacter(0, 0);
 
 			button1.ButtonPressed = true;
-			button2.ButtonPressed = false;
-			button3.ButtonPressed = false;
 
 			// Disable the other buttons from being pressed
-			button1.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/GoeButtonPressed.png");
+			button1.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/GoemonButtonPressed.png");
 			DisableButtons();
 
 			Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 			sprite.Frame = sprite.Frame + 3;
-
-			lastSelected = 1;
 		}
 	}
 
 	private void GoemonMouseEntered() {
-		if (!gm.characterSelected) {
+		if (!cursor.characterSelected) {
 			audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
+
+			cursor.slot = 0;
 		}
-		mouseEntered = true;
-		cursor.slot = 1;
+		hoveringButton = true;
+		mouseCurrentSlot = 0;
 	}
 
 	public void EbisumaruButtonPressed() {
-		if (!gm.characterSelected) {
-			gm.characterSelected = true;
+		if (!cursor.characterSelected) {
+			cursor.characterSelected = true;
 
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Ebisumaru/selected.wav", -15.0f);
 			gm.setCharacter(0, 1);
 
-			button1.ButtonPressed = false;
 			button2.ButtonPressed = true;
-			button3.ButtonPressed = false;
 
-			button2.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/EbiButtonPressed.png");
+			button2.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/EbisumaruButtonPressed.png");
 			DisableButtons();
 
 			Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 			sprite.Frame = sprite.Frame + 3;
-
-			lastSelected = 2;
 		}
 	}
 
 	private void EbisumaruMouseEntered() {
-		if (!gm.characterSelected) {
+		if (!cursor.characterSelected) {
 			audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
+
+			cursor.slot = 1;
 		}
-		mouseEntered = true;
-		cursor.slot = 2;
+		hoveringButton = true;
+		mouseCurrentSlot = 1;
 	}
 
 	public void SasukeButtonPressed() {
-		if (!gm.characterSelected) {
-			gm.characterSelected = true;
+		if (!cursor.characterSelected) {
+			cursor.characterSelected = true;
 
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Sasuke/selected.wav", -15.0f);
 			gm.setCharacter(0, 2);
 
-			button1.ButtonPressed = false;
-			button2.ButtonPressed = false;
 			button3.ButtonPressed = true;
 
-			button3.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/SasButtonPressed.png");
+			button3.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/SasukeButtonPressed.png");
 			DisableButtons();
 
 			Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 			sprite.Frame = sprite.Frame + 3;
-
-			lastSelected = 3;
 		}
 	}
 
 	private void SasukeMouseEntered() {
-		if (!gm.characterSelected) {
+		if (!cursor.characterSelected) {
 			audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
+
+			cursor.slot = 2;
 		}
-		mouseEntered = true;
-		cursor.slot = 3;
+		hoveringButton = true;
+		mouseCurrentSlot = 2;
 	}
 
 	private void ContinueButtonPressed() {
@@ -163,30 +170,40 @@ public partial class CharacterSelectScreen : Control
 
 	// This function is used when player deselects their character
 	public void EnableButtons() {
-		// Switch texture to all the buttons to the unselected image
-		button1.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/GoeButton.png");
-		button2.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/EbiButton.png");
-		button3.TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/SasButton.png");
-
-		// Make sure no buttons are pressed
-		button1.ButtonPressed = false;
-		button2.ButtonPressed = false;
-		button3.ButtonPressed = false;
+		// Switch texture of the button to the unselected version
+		if (cursor.slot == 0) {
+			buttons[cursor.slot].TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/GoemonButton.png");
+		}
+		else if (cursor.slot == 1) {
+			buttons[cursor.slot].TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/EbisumaruButton.png");
+		}
+		else if (cursor.slot == 2) {
+			buttons[cursor.slot].TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/SasukeButton.png");
+		}		
+	
+		// Make the current button unpressed
+		buttons[cursor.slot].ButtonPressed = false;
 
 		// Allows the buttons to be pushed again
-		button1.Disabled = false;
-		button2.Disabled = false;
-		button3.Disabled = false;
+		if (!checkButtons) {
+			checkButtons = true;
+			for (int i = 0; i < 3; i++) {
+				// If button is not pressed then enable the button to be pressed
+				if (!buttons[i].ButtonPressed) {
+					buttons[i].Disabled = false;
+				}
+			}
+			checkButtons = false;
+		}
 
 		// Change the cursor the arrow sprite
 		Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 		sprite.Frame = sprite.Frame - 3;
 
-		gm.characterSelected = false;
+		cursor.characterSelected = false;
 	}
 
 	private void MouseExitedButton() {
-		mouseEntered = false;
-		cursor.slot = lastSelected;
+		hoveringButton = false;
 	}
 }

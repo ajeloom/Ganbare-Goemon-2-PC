@@ -90,24 +90,6 @@ public partial class GameManager : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (inMenu) {
-			if (!musicPlaying) {
-				musicPlaying = true;
-				audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
-				audio.VolumeDb = -5.0f;
-				audio.Play();
-			}
-		}
-		else {
-			// Stop the music if you go back to the title screen
-			if (!stageStart) {
-				musicPlaying = false;
-				audio.Stop();
-			}	
-		}
-
-		// GD.Print("isTransitioning: " + isTransitioning);
-
 		// Change the layer of the transition control node to not block any buttons
 		if (isTransitioning) {
 			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
@@ -118,10 +100,7 @@ public partial class GameManager : Node2D
 			layer.Layer = 0;
 		}
 
-		// if (!transitionAP.IsPlaying()) {
-		// 	isTransitioning = false;
-		// }
-
+		// In-game
 		if (stageStart) {
 			if (isImpactStage) {
 				if (!initLoad) {
@@ -195,6 +174,23 @@ public partial class GameManager : Node2D
 			}
 		}
 		else {
+			if (inMenu) {
+				if (!musicPlaying) {
+					musicPlaying = true;
+					audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
+					audio.VolumeDb = -5.0f;
+					audio.Play();
+				}
+			}
+			else {
+				// Stop the music if you go back to the title screen
+				if (!stageStart) {
+					musicPlaying = false;
+					audio.Stop();
+				}	
+			}
+
+			// You enter the CSS
 			if (selectCharacter) {
 				pickCharacter();
 			}

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwcgao88fadtp"
-path="res://.godot/imported/SasButton.png-b4bd05a496360b40d5d98af7419f0172.ctex"
+uid="uid://boqavemoqb6p4"
+path="res://.godot/imported/SasukeButtonPressed.png-d256a2888cc08a9232866ba056ea733a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/SasButton.png"
-dest_files=["res://.godot/imported/SasButton.png-b4bd05a496360b40d5d98af7419f0172.ctex"]
+source_file="res://Sprites/UI/Menu/SasukeButtonPressed.png"
+dest_files=["res://.godot/imported/SasukeButtonPressed.png-d256a2888cc08a9232866ba056ea733a.ctex"]
 
 [params]
 

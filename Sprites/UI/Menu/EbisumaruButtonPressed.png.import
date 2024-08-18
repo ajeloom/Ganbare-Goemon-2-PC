@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cewmtfr2ce3k1"
-path="res://.godot/imported/GoeButton.png-b15b1678d9033c2d1bb4457c86ade380.ctex"
+uid="uid://c80mw0y703o3x"
+path="res://.godot/imported/EbisumaruButtonPressed.png-160546f6ed8a7bf56fa3eaff8f20de09.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/GoeButton.png"
-dest_files=["res://.godot/imported/GoeButton.png-b15b1678d9033c2d1bb4457c86ade380.ctex"]
+source_file="res://Sprites/UI/Menu/EbisumaruButtonPressed.png"
+dest_files=["res://.godot/imported/EbisumaruButtonPressed.png-160546f6ed8a7bf56fa3eaff8f20de09.ctex"]
 
 [params]
 
