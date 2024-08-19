@@ -4,19 +4,22 @@ using System;
 public partial class StageSelectScreen : Control
 {
 	private GameManager gm;
-	private Button impactButton;
+	private TextureButton stageButton, bossButton, impactButton;
+	private string path;
+	private bool bossStage = false;
+	private bool impactStage = false;
+	private bool stageSelected = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		gm = GetNode<GameManager>("/root/GameManager");
-		impactButton = GetNode<Button>("CanvasLayer/Impact");
+		stageButton = GetNode<TextureButton>("CanvasLayer/Level 1");
+		bossButton = GetNode<TextureButton>("CanvasLayer/Boss");
+		impactButton = GetNode<TextureButton>("CanvasLayer/Impact");
 		
 		if (gm.playerNum > 1) {
-			impactButton.Visible = false;
-		}
-		else {
-			impactButton.Visible = true;
+			impactButton.Disabled = true;
 		}
 	}
 
@@ -26,26 +29,49 @@ public partial class StageSelectScreen : Control
 	}
 
 	private void LevelButtonPressed() {
-		gm.inMenu = false;
-		gm.stageStart = true;
-		gm.isBossStage = false;
-		gm.isImpactStage = false;
-		gm.GoToScene("res://Scenes/Stage1.tscn");
+		bossStage = false;
+		impactStage = false;
+		path = "res://Scenes/Stage1.tscn";
+		stageButton.ButtonPressed = true;
+		bossButton.ButtonPressed = false;
+		impactButton.ButtonPressed = false;
+
+		stageSelected = true;
 	}
 
 	private void BossButtonPressed() {
-		gm.inMenu = false;
-		gm.stageStart = true;
-		gm.isBossStage = true;
-		gm.isImpactStage = false;
-		gm.GoToScene("res://Scenes/boss.tscn");
+		bossStage = true;
+		impactStage = false;
+		path = "res://Scenes/boss.tscn";
+		stageButton.ButtonPressed = false;
+		bossButton.ButtonPressed = true;
+		impactButton.ButtonPressed = false;
+
+		stageSelected = true;
 	}
 
 	private void ImpactButtonPressed() {
-		gm.inMenu = false;
-		gm.stageStart = true;
-		gm.isBossStage = false;
-		gm.isImpactStage = true;
-		gm.GoToScene("res://Scenes/ImpactBattle.tscn");
+		bossStage = false;
+		impactStage = true;
+		path = "res://Scenes/ImpactBattle.tscn";
+		stageButton.ButtonPressed = false;
+		bossButton.ButtonPressed = false;
+		impactButton.ButtonPressed = true;
+
+		stageSelected = true;
+	}
+
+	private void ContinueButtonPressed() {
+		if (stageSelected) {
+			gm.inMenu = false;
+			gm.stageStart = true;
+			gm.isBossStage = bossStage;
+			gm.isImpactStage = impactStage;
+			gm.GoToScene(path);
+		}
+	}
+
+	private void BackButtonPressed() {
+		gm.Transition("res://Scenes/CharacterSelectScreen.tscn");
 	}
 }

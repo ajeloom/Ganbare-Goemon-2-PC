@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcrwta754hk2"]
+[gd_scene load_steps=18 format=3 uid="uid://bcrwta754hk2"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
 [ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1phk"]
@@ -9,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://dwcgao88fadtp" path="res://Sprites/UI/Menu/SasukeButton.png" id="6_8lpgf"]
 [ext_resource type="Texture2D" uid="uid://boqavemoqb6p4" path="res://Sprites/UI/Menu/SasukeButtonPressed.png" id="7_6f554"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_yarf4"]
+[ext_resource type="Texture2D" uid="uid://neik2lwxd03p" path="res://Sprites/UI/Menu/Continue.png" id="9_m1lpn"]
+[ext_resource type="Texture2D" uid="uid://xsfj1v5mcdar" path="res://Sprites/UI/Menu/ContinueHover.png" id="10_vderd"]
+[ext_resource type="Texture2D" uid="uid://i053ltixg3q1" path="res://Sprites/UI/Menu/Back.png" id="11_x3632"]
+[ext_resource type="Texture2D" uid="uid://dxrriq3a5wqyc" path="res://Sprites/UI/Menu/BackHover.png" id="12_h7isq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
 font_size = 100
@@ -131,7 +135,7 @@ offset_bottom = 91.2
 text = "Sasuke"
 label_settings = SubResource("LabelSettings_haib7")
 
-[node name="ContinueButton" type="Button" parent="CanvasLayer"]
+[node name="ContinueButton" type="TextureButton" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -143,25 +147,25 @@ offset_right = 39.5
 offset_bottom = 265.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(3, 3)
 pivot_offset = Vector2(39.5, 15.5)
-text = "Continue"
+texture_normal = ExtResource("9_m1lpn")
+texture_hover = ExtResource("10_vderd")
 
-[node name="BackButton" type="Button" parent="CanvasLayer"]
+[node name="BackButton" type="TextureButton" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -39.5
-offset_top = 380.5
-offset_right = 39.5
-offset_bottom = 411.5
+offset_left = -192.0
+offset_top = 346.0
+offset_right = 192.0
+offset_bottom = 446.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(3, 3)
 pivot_offset = Vector2(39.5, 15.5)
-text = "Back"
+texture_normal = ExtResource("11_x3632")
+texture_hover = ExtResource("12_h7isq")
 
 [node name="AudioComponent" parent="." instance=ExtResource("8_yarf4")]
 

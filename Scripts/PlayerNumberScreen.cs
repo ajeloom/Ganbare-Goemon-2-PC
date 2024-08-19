@@ -5,15 +5,15 @@ public partial class PlayerNumberScreen : Control
 {
 	private int playerNum;
 
-	private Button button1, button2, button3;
+	private TextureButton button1, button2, button3;
 	private GameManager gm;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		button1 = GetNode<Button>("CanvasLayer/1");
-		button2 = GetNode<Button>("CanvasLayer/2");
-		button3 = GetNode<Button>("CanvasLayer/3");
+		button1 = GetNode<TextureButton>("CanvasLayer/1");
+		button2 = GetNode<TextureButton>("CanvasLayer/2");
+		button3 = GetNode<TextureButton>("CanvasLayer/3");
 		gm = GetNode<GameManager>("/root/GameManager");
 	}
 
@@ -24,21 +24,21 @@ public partial class PlayerNumberScreen : Control
 	}
 
 	private void OneButtonPressed() {
-		playerNum = Convert.ToUInt16(button1.Text);
+		playerNum = 1;
 		button1.ButtonPressed = true;
 		button2.ButtonPressed = false;
 		button3.ButtonPressed = false;
 	}
 
 	private void TwoButtonPressed() {
-		playerNum = Convert.ToUInt16(button2.Text);
+		playerNum = 2;
 		button1.ButtonPressed = false;
 		button2.ButtonPressed = true;
 		button3.ButtonPressed = false;
 	}
 
 	private void ThreeButtonPressed() {
-		playerNum = Convert.ToUInt16(button3.Text);
+		playerNum = 3;
 		button1.ButtonPressed = false;
 		button2.ButtonPressed = false;
 		button3.ButtonPressed = true;
