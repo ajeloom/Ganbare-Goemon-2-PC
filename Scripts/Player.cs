@@ -29,6 +29,8 @@ public partial class Player : CharacterBody2D
 	// public bool isHitting = false;
 	private bool isAttacking = false;
 	private bool playingHurtSFX = false;
+	private bool attackingRight = false;
+	private bool attackingLeft = false;
 
 	// Variable for running
 	private bool holdingRunButton = false;
@@ -219,39 +221,48 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+	/*
+	 * Player can move when not taking damage or attacking
+	 * Stop movement when attacking on the ground
+	 * You can move in the direction you are attacking towards in the air
+	 * Player can't turn during the attack animation 
+	*/
 	private float horizontalMovement() {
 		Vector2 direction = Vector2.Zero;
 
-		// - Move when not taking damage or attacking
-		// X - Stop moving when attacking on the ground
-		// - You can't move while attacking in the air unless you are already moving before attacking
-		// - Can't turn during the attack animation 
-
 		// Player can only move when not attacking or taking damage
 		if (!takingDamage) {
-			// Can only turn when not attacking
-			if (Input.IsActionPressed("walkRight" + playerNum.ToString())) {
+			if (Input.IsActionPressed("walkRight" + playerNum.ToString()) && !attackingLeft) {
+				// Turn the sprite towards the right direction
 				bodySprite.FlipH = false;
 				
+				// Set the direction of the player
 				direction = lastDirection = new Vector2(1.0f, 0.0f);
 
-				if (!isAttacking)
+				if (!isAttacking) {
+					// Play movement animation if not attacking
 					movementAnimation();
-				else if (isAttacking && IsOnFloor())
+				}
+				else if (isAttacking && IsOnFloor()) {
+					// Stop player if they attack on the ground
 					return Mathf.MoveToward(Velocity.X, 0, speed);
+				}					
 			}
-			else if (Input.IsActionPressed("walkLeft" + playerNum.ToString())) {
+			else if (Input.IsActionPressed("walkLeft" + playerNum.ToString()) && !attackingRight) {
 				bodySprite.FlipH = true;
 
 				direction = lastDirection = new Vector2(-1.0f, 0.0f);
 
-				if (!isAttacking)
+				if (!isAttacking) {
 					movementAnimation();
-				else if (isAttacking && IsOnFloor())
+				}
+				else if (isAttacking && IsOnFloor()) {
 					return Mathf.MoveToward(Velocity.X, 0, speed);
+				}			
 			}
 		}
 
+		// Return the velocity of the player in the x-direction
 		if (direction != Vector2.Zero)
 			return direction.X * speed;
 		else
@@ -276,8 +287,12 @@ public partial class Player : CharacterBody2D
 
 			audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/attack.wav", -20.0f);
 
+			// Used for different animation times
 			float time = 0.25f;
 			if (lastDirection.X >= 0.0f) {
+				attackingRight = true;
+
+				// Play appropriate animation for the character
 				if (Input.IsActionPressed("crouch" + playerNum.ToString()) && IsOnFloor()) {
 					animPlayer.Play(charaName[chara] +"/CrouchAttackR");
 					if (chara == 2) {
@@ -302,6 +317,9 @@ public partial class Player : CharacterBody2D
 				}
 			}
 			else {
+				attackingLeft = true;
+
+				// Play appropriate animation for the character
 				if (Input.IsActionPressed("crouch" + playerNum.ToString()) && IsOnFloor()) {
 					animPlayer.Play(charaName[chara] +"/CrouchAttackL");
 					if (chara == 2) {
@@ -326,8 +344,11 @@ public partial class Player : CharacterBody2D
 				}
 			}
 
+			// Wait for animation to finish
 			await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 
+			attackingRight = false;
+			attackingLeft = false;
 			isAttacking = false;
 		}
 	}
