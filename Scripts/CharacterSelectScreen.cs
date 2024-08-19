@@ -62,6 +62,8 @@ public partial class CharacterSelectScreen : Control
 		if (!cursor.characterSelected) {
 			cursor.characterSelected = true;
 
+			cursor.slot = 0;
+
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Goemon/selected.wav", -15.0f);
@@ -92,6 +94,8 @@ public partial class CharacterSelectScreen : Control
 		if (!cursor.characterSelected) {
 			cursor.characterSelected = true;
 
+			cursor.slot = 1;
+
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Ebisumaru/selected.wav", -15.0f);
@@ -120,6 +124,8 @@ public partial class CharacterSelectScreen : Control
 	public void SasukeButtonPressed() {
 		if (!cursor.characterSelected) {
 			cursor.characterSelected = true;
+
+			cursor.slot = 2;
 
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 

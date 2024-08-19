@@ -133,9 +133,6 @@ public partial class Cursor : Node2D
 		if (playerNum == 0) {
 			// Enable the buttons to be pressed with mouse
 			css.EnableButtons();
-
-			if (css.hoveringButton)
-				slot = css.mouseCurrentSlot;
 		}
 		else {
 			css.buttons[slot].ButtonPressed = false;
