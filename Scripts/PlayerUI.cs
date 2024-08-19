@@ -7,6 +7,7 @@ public partial class PlayerUI : Node2D
 	private Node2D node;
 	private Label coinsLabel;
 	private Label livesLabel;
+	private Sprite2D weaponIcon;
 	private Sprite2D charaIcon;
 	private TextureProgressBar bar1;
 	private TextureProgressBar bar2;
@@ -28,6 +29,7 @@ public partial class PlayerUI : Node2D
 		coinsLabel = GetNode<Label>("CanvasLayer/Node2D/Coins Label");
 		livesLabel = GetNode<Label>("CanvasLayer/Node2D/Lives Label");
 
+		weaponIcon = GetNode<Sprite2D>("CanvasLayer/Node2D/Weapon Icon");
 		charaIcon = GetNode<Sprite2D>("CanvasLayer/Node2D/Icon");
 
 		bar1 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 1");
@@ -51,6 +53,14 @@ public partial class PlayerUI : Node2D
 			else if (player.playerNum == 2) {
 				node.Position = new Vector2(1150.0f, 0.0f);
 			}
+
+			// Set the matching weapon icon
+			if (player.chara == 0)
+				weaponIcon.Texture = (Texture2D)GD.Load("res://Sprites/UI/Player UI/Weapon1Icon.png");
+			else if (player.chara == 1)
+				weaponIcon.Texture = (Texture2D)GD.Load("res://Sprites/UI/Player UI/Fan1Icon.png");
+			else if (player.chara == 2)
+				weaponIcon.Texture = (Texture2D)GD.Load("res://Sprites/UI/Player UI/Kunai1Icon.png");
 
 			// Set the matching icon to the character
 			charaIcon.Frame = player.chara;

@@ -43,7 +43,7 @@ texture = ExtResource("4_goep6")
 hframes = 3
 
 [node name="Coin Sprite" type="Sprite2D" parent="CanvasLayer/Node2D"]
-position = Vector2(220, 948.5)
+position = Vector2(225, 948.5)
 scale = Vector2(5, 5)
 texture = ExtResource("5_slavm")
 
