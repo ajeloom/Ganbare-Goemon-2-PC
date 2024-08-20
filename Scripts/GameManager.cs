@@ -131,7 +131,6 @@ public partial class GameManager : Node2D
 				if (endLevel) {
 					closeGame();
 				}
-					
 			}
 			else {
 				if (!initLoad) {
@@ -160,6 +159,7 @@ public partial class GameManager : Node2D
 						else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
 							if (!gameOver) {
 								gameOver = true;
+								canPause = false;
 								GameOver();	
 							}
 						}
@@ -276,6 +276,7 @@ public partial class GameManager : Node2D
 	private async void reloadScene() {
 		if (!reloadingLevel) {
 			reloadingLevel = true;
+			canPause = false;
 			stageStart = false;
 			
 			getTransition("FadeOut");
@@ -303,6 +304,7 @@ public partial class GameManager : Node2D
 			LoadPlayers(true);
 
 			getTransition("FadeIn");
+			canPause = true;
 			reloadingLevel = false;
 		}
 	}
