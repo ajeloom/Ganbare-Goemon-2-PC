@@ -27,6 +27,7 @@ offset_bottom = 40.0
 script = ExtResource("1_08dsc")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
 
 [node name="Background" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(960, 540)

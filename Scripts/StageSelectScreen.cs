@@ -61,13 +61,14 @@ public partial class StageSelectScreen : Control
 		stageSelected = true;
 	}
 
-	private void ContinueButtonPressed() {
+	private async void ContinueButtonPressed() {
 		if (stageSelected) {
 			gm.inMenu = false;
-			gm.stageStart = true;
 			gm.isBossStage = bossStage;
 			gm.isImpactStage = impactStage;
-			gm.GoToScene(path);
+			gm.Transition(path);
+			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+			gm.inStage = true;
 		}
 	}
 

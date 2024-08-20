@@ -44,7 +44,7 @@ public partial class Cursor : Node2D
 			}
 
 			if (Input.IsActionJustPressed("start")) {
-				gm.deleteCursors();
+				gm.DeleteCursors();
 				gm.selectCharacter = false;
 				gm.GoToScene("res://Scenes/StageSelectScreen.tscn");
 			}
@@ -114,7 +114,7 @@ public partial class Cursor : Node2D
 	private void CharacterSelected(string characterName) {
 		audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 		audio.playSFX("res://Sounds/SFX/" + characterName + "/selected.wav", -15.0f);
-		gm.setCharacter(playerNum, slot);
+		gm.SetCharacter(playerNum, slot);
 
 		// Button is pressed
 		css.buttons[slot].ButtonPressed = true;

@@ -15,12 +15,14 @@ public partial class PlayerNumberScreen : Control
 		button2 = GetNode<TextureButton>("CanvasLayer/2");
 		button3 = GetNode<TextureButton>("CanvasLayer/3");
 		gm = GetNode<GameManager>("/root/GameManager");
+		gm.inTitleScreen = false;
+		gm.inMenu = true;
+		gm.inStage = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		gm.inMenu = true;
 	}
 
 	private void OneButtonPressed() {
@@ -46,7 +48,7 @@ public partial class PlayerNumberScreen : Control
 
 	private void ContinueButtonPressed() {
 		if (button1.ButtonPressed || button2.ButtonPressed || button3.ButtonPressed) {
-			gm.setNum(playerNum);
+			gm.SetNum(playerNum);
 			gm.Transition("res://Scenes/CharacterSelectScreen.tscn");
 		}
 	}

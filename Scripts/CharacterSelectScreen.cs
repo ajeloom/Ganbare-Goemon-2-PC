@@ -67,7 +67,7 @@ public partial class CharacterSelectScreen : Control
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Goemon/selected.wav", -15.0f);
-			gm.setCharacter(0, 0);
+			gm.SetCharacter(0, 0);
 
 			button1.ButtonPressed = true;
 
@@ -99,7 +99,7 @@ public partial class CharacterSelectScreen : Control
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Ebisumaru/selected.wav", -15.0f);
-			gm.setCharacter(0, 1);
+			gm.SetCharacter(0, 1);
 
 			button2.ButtonPressed = true;
 
@@ -130,7 +130,7 @@ public partial class CharacterSelectScreen : Control
 			audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 
 			audio.playSFX("res://Sounds/SFX/Sasuke/selected.wav", -15.0f);
-			gm.setCharacter(0, 2);
+			gm.SetCharacter(0, 2);
 
 			button3.ButtonPressed = true;
 
@@ -154,15 +154,15 @@ public partial class CharacterSelectScreen : Control
 
 	private void ContinueButtonPressed() {
 		if (button1.ButtonPressed || button2.ButtonPressed || button3.ButtonPressed) {
-			gm.deleteCursors();
+			gm.DeleteCursors();
 			gm.selectCharacter = false;
 			gm.Transition("res://Scenes/StageSelectScreen.tscn");
 		}
 	}
 
 	public void BackButtonPressed() {
+		gm.DeleteCursors();
 		gm.selectCharacter = false;
-		gm.characterSelected = false;
 		gm.Transition("res://Scenes/PlayerNumberScreen.tscn");
 	}
 

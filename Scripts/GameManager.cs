@@ -11,23 +11,50 @@ public partial class GameManager : Node2D
 
 	public Node currentScene { get; set; }
 
-	public bool isPaused = false;
-	public bool isImpactStage = false;
-	public bool isBossStage = false;
-	public bool stageStart = false;
-	public bool selectCharacter = false;
+	// Tells when the game is paused or not
+	public bool isPaused = false; 
+
+	// For controlling when a player can pause
+	public bool canPause = true;
+	
+	// For loading players and UI at the start of the stage
 	private bool initLoad = false;
-	private bool checkPlayer = false;
+
+	// Tells what part of the game you are in
+	public bool inTitleScreen = false;
+	public bool inMenu = false;
+	public bool inStage = false;
+
+	// For character select screen
+	public bool selectCharacter = false;
 	public bool addedCursors = false;
 	public bool deletedCursors = false;
+
+	// Tells when the game is transitioning between scenes
 	private bool isTransitioning = false;
-	public bool inMenu = false;
+
+	// For changing the music in the AudioStreamPlayer
 	private bool musicPlaying = false;
+	
+	// Tells what stage is being played
+	public bool isImpactStage = false;
+	public bool isBossStage = false;
+
+	// For the end of the level
+	public bool reloadingLevel = false;
+	public bool endLevel = false;
+
+	// For returning back to the title screen	
+	private bool exitGame = false;
+	
+	// For when the game is currently in the game over screen
+	private bool gameOver = false;
+
+	// For loading the correct music for the stage
+	private bool loadedMusic = false;
 
 	public int playerNum { get; set; }
 	public int characterNum { get; set; }
-
-	public bool characterSelected = false;
 
 	public player[] players;
 
@@ -57,13 +84,6 @@ public partial class GameManager : Node2D
 		"res://Sounds/Music/Boss.mp3"
 	};
 
-	public bool endLevel = false;
-	public bool canPause = true;
-	private bool exitGame = false;
-	public bool reloadingLevel = false;
-	private bool gameOver = false;
-	private bool loadedMusic = false;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -91,23 +111,37 @@ public partial class GameManager : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// Change the layer of the transition control node to not block any buttons
-		if (isTransitioning) {
-			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
-			layer.Layer = 20;
-		}
-		else {
-			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
-			layer.Layer = 0;
-		}
+		if (inTitleScreen) {
+			// Stop the time from going down
+			Timer timer = GetNode<Timer>("UI/Timer");
+			timer.Stop();
 
-		// In-game
-		if (stageStart) {
+			// Stop the music if you go back to the title screen
+			if (musicPlaying) {
+				musicPlaying = false;
+				audio.Stop();
+			}
+		}
+		else if (inMenu) {
+			if (!musicPlaying) {
+				musicPlaying = true;
+				audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
+				audio.VolumeDb = -5.0f;
+				audio.Play();
+			}
+
+			// You enter the CSS
+			if (selectCharacter) {
+				PickCharacter();
+			}
+		}
+		else if (inStage) {
 			if (isImpactStage) {
 				if (!initLoad) {
 					initLoad = true;
-					// Load fade transition
-					getTransition("FadeIn");
+
+					// Show the bottom UI
+					canvas.Visible = false;
 				}
 
 				if (Input.IsActionJustPressed("pause") && canPause && !isPaused) {
@@ -129,15 +163,12 @@ public partial class GameManager : Node2D
 				}
 
 				if (endLevel) {
-					closeGame();
+					GoToMenu();
 				}
 			}
 			else {
 				if (!initLoad) {
-					initLoad = true;				
-					
-					// Load fade transition
-					getTransition("FadeIn");
+					initLoad = true;
 
 					// Show the bottom UI
 					canvas.Visible = true;
@@ -176,34 +207,19 @@ public partial class GameManager : Node2D
 				}
 
 				if (endLevel) {
-					closeGame();
+					GoToMenu();
 				}
 			}
 		}
-		else {
-			if (inMenu) {
-				if (!musicPlaying) {
-					musicPlaying = true;
-					audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
-					audio.VolumeDb = -5.0f;
-					audio.Play();
-				}
-			}
-			else {
-				// Stop the music if you go back to the title screen
-				if (!stageStart) {
-					musicPlaying = false;
-					audio.Stop();
-				}	
-			}
 
-			// You enter the CSS
-			if (selectCharacter) {
-				pickCharacter();
-			}
-			else {
-				deleteCursors();
-			}
+		// Change the layer of the transition control node to not block any buttons
+		if (isTransitioning) {
+			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
+			layer.Layer = 20;
+		}
+		else {
+			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
+			layer.Layer = 10;
 		}
 	}
 
@@ -211,6 +227,11 @@ public partial class GameManager : Node2D
 		isPaused = false;
 		pauseMenu.Visible = false;
 		GetTree().Paused = false;
+	}
+
+	private void MenuButtonPressed() {
+		pauseMenu.Visible = false;
+		GoToMenu();
 	}
 
 	private void QuitButtonPressed() {
@@ -254,22 +275,57 @@ public partial class GameManager : Node2D
 		CallDeferred(MethodName.LoadScene, path);
 	}
 
-	public void setNum(int value) {
+	public void SetNum(int value) {
 		playerNum = value;
 	}
 
 	// Sets the character for each player
-	public void setCharacter(int playerNum, int value) {
+	public void SetCharacter(int playerNum, int value) {
 		players[playerNum].character = value;
 	}
 
-	private async void closeGame() {
+	private async void GoToMenu() {
 		if (!exitGame) {
 			exitGame = true;
-			getTransition("FadeOut");
 
-			await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
-			GetTree().Quit();
+			Transition("res://Scenes/TitleScreen.tscn");
+
+			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+
+			if (!isImpactStage) {
+				// Remove extra nodes when in level 1
+				if (!isBossStage) {
+					for (int i = 0; i < 3; i++) {
+						// Remove camera and boundaries
+						Node2D temp = GetChild<Node2D>(GetChildCount() - 1);
+						RemoveChild(temp);
+					}
+				}
+
+				// Remove players
+				for (int i = 0; i < playerNum; i++) {
+					Node2D temp = GetChild<Node2D>(GetChildCount() - 1);
+					RemoveChild(temp);
+				}
+			}
+			
+			// Reset values
+			players = new player[3];
+
+			isPaused = false;
+			selectCharacter = false;
+			initLoad = false;
+
+			addedCursors = false;
+			deletedCursors = false;
+
+			endLevel = false;
+			canPause = true;
+			reloadingLevel = false;
+			gameOver = false;
+			loadedMusic = false;
+
+			exitGame = false;
 		}
 	}
 
@@ -277,9 +333,9 @@ public partial class GameManager : Node2D
 		if (!reloadingLevel) {
 			reloadingLevel = true;
 			canPause = false;
-			stageStart = false;
+			inStage = false;			
 			
-			getTransition("FadeOut");
+			SmallTransition("FadeOut");
 
 			audio.Stop();
 
@@ -292,28 +348,32 @@ public partial class GameManager : Node2D
 
 			if (isBossStage) {
 				GoToScene("res://Scenes/boss.tscn");
-				stageStart = true;
+				inStage = true;
 				isBossStage = true;
 			}
 			else {
 				GoToScene("res://Scenes/Stage1.tscn");
-				stageStart = true;
+				inStage = true;
 				isBossStage = false;
 			}
 
 			LoadPlayers(true);
 
-			getTransition("FadeIn");
+			SmallTransition("FadeIn");
 			canPause = true;
 			reloadingLevel = false;
 		}
 	}
 
-	public void getTransition(string name) {
+	// For transitioning during game reloads
+	public async void SmallTransition(string name) {
 		if (!isTransitioning) {
 			isTransitioning = true;
-			AnimationPlayer animPlayer = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
-			animPlayer.Play(name);
+			transitionAP.Play(name);
+
+			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+
+			isTransitioning = false;
 		}
 	}
 
@@ -336,15 +396,15 @@ public partial class GameManager : Node2D
 	private async void GameOver() {
 		// Wait for all players to be off screen
 		await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
-		getTransition("FadeOut");
+		SmallTransition("FadeOut");
 		
 		// Wait for fade out transition to end
-		await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
-		getTransition("FadeIn");
-		AddChild("res://Scenes/GameOverScreen.tscn", this);
-		
+		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+		GoToScene("res://Scenes/GameOverScreen.tscn");
+		SmallTransition("FadeIn");
+
 		await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
-		closeGame();
+		GoToMenu();
 	}
 
 	private void LoadPlayers(bool isReloading) {
@@ -390,10 +450,10 @@ public partial class GameManager : Node2D
 				// Get spawn point
 				Node2D node;
 				if (isBossStage) {
-					node = GetTree().Root.GetNode<Node2D>("Boss Fight/SpawnPoint" + i);
+					node = GetNode<Node2D>("/root/Boss Fight/SpawnPoint" + i);
 				}
 				else {
-					node = GetTree().Root.GetNode<Node2D>("Stage1/Level1/SpawnPoint" + i);
+					node = GetNode<Node2D>("/root/Stage1/Level1/SpawnPoint" + i);
 				}
 				
 				// Set player location to spawn point
@@ -428,6 +488,10 @@ public partial class GameManager : Node2D
 			audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/Boss.mp3");
 			audio.VolumeDb = -20.0f;
 			audio.Play();
+
+			// Reset time
+			UIManager ui = GetNode<UIManager>("UI");
+			ui.time = 99;
 		}
 	}
 	
@@ -440,7 +504,7 @@ public partial class GameManager : Node2D
 		return false;
 	}
 
-	private void pickCharacter() {
+	private void PickCharacter() {
 		if (!addedCursors) {
 			addedCursors = true;
 
@@ -461,7 +525,7 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	public void deleteCursors() {
+	public void DeleteCursors() {
 		if (!deletedCursors) {
 			deletedCursors = true;
 

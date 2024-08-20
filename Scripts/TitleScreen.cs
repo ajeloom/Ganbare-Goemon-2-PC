@@ -11,7 +11,14 @@ public partial class TitleScreen : Control
 	{
 		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		gm = GetNode<GameManager>("/root/GameManager");
+		gm.inTitleScreen = true;
 		gm.inMenu = false;
+		gm.inStage = false;
+
+		// Unpause the game if you return to title from pause screen
+		GetTree().Paused = false;
+
+		Input.MouseMode = Input.MouseModeEnum.Visible;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
