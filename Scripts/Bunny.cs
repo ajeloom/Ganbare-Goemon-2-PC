@@ -67,7 +67,7 @@ public partial class Bunny : CharacterBody2D
 	private async void getLastPosX() {
 		lastXPos = Position.X;
 		await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
-		if (lastXPos - Position.X == 0) {
+		if (lastXPos - Position.X == 0 && onScreen) {
 			direction = -direction;
 			sprite.FlipH = (sprite.FlipH) ? false : true;
 		}
