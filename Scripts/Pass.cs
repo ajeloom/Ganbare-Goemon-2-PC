@@ -24,11 +24,13 @@ public partial class Pass : Node2D
 		if (!gotPass) {
 			gotPass = true;
 
+			var gm = GetNode<GameManager>("/root/GameManager");
+			gm.canPause = false;
+
 			grabbedAudio.Play();
 
 			Visible = false;
 
-			var gm = GetNode<GameManager>("/root/GameManager");
 			gm.audio.Stop();
 
 			Timer timer = gm.GetNode<Timer>("UI/Timer");

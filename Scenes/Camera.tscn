@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Camera.cs" id="1_heltp"]
 
 [node name="Camera2D" type="Camera2D"]
+process_mode = 1
 zoom = Vector2(3, 3)
 limit_left = 1
 limit_top = 0

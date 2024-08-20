@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://nad2u4n88r13"]
+[gd_scene load_steps=6 format=3 uid="uid://nad2u4n88r13"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_p1civ"]
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
 [ext_resource type="AudioStream" uid="uid://bl4vug7lv7kmx" path="res://Sounds/Music/Boss.mp3" id="3_4xv7j"]
 [ext_resource type="PackedScene" uid="uid://c4n08gut6ib5q" path="res://Scenes/FadeTransition.tscn" id="4_xjmtb"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_lalf3"]
+font_size = 100
+
 [node name="Game Manager" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_p1civ")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -13,7 +17,6 @@ layer = 21
 
 [node name="PauseMenu" type="Control" parent="CanvasLayer"]
 process_mode = 2
-visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -72,13 +75,32 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Quit"
 
+[node name="Label" type="Label" parent="CanvasLayer/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = -320.0
+offset_right = 144.5
+offset_bottom = -183.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(144.5, 68.5)
+text = "Pause"
+label_settings = SubResource("LabelSettings_lalf3")
+
 [node name="UI" parent="." instance=ExtResource("2_3b0cp")]
+process_mode = 1
 
 [node name="BG Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_4xv7j")
 volume_db = -5.0
 
 [node name="Fade Transition" parent="." instance=ExtResource("4_xjmtb")]
+visible = false
 
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Resume Button" to="." method="ResumeButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Quit Button" to="." method="QuitButtonPressed"]

@@ -58,6 +58,7 @@ public partial class GameManager : Node2D
 	};
 
 	public bool endLevel = false;
+	public bool canPause = true;
 	private bool exitGame = false;
 	public bool reloadingLevel = false;
 	private bool gameOver = false;
@@ -109,11 +110,14 @@ public partial class GameManager : Node2D
 					getTransition("FadeIn");
 				}
 
-				if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
+				if (Input.IsActionJustPressed("pause") && canPause && !isPaused) {
 					isPaused = true;
 					Input.MouseMode = Input.MouseModeEnum.Visible;
 					pauseMenu.Visible = true;
 					GetTree().Paused = true;
+				}
+				else if (Input.IsActionJustPressed("pause") && isPaused) {
+					ResumeButtonPressed();
 				}
 
 				// Load stage music
@@ -162,10 +166,13 @@ public partial class GameManager : Node2D
 					}
 				}
 
-				if (Input.IsActionJustPressed("pause") && !endLevel && !gameOver) {
+				if (Input.IsActionJustPressed("pause") && canPause && !isPaused) {
 					isPaused = true;
 					pauseMenu.Visible = true;
 					GetTree().Paused = true;
+				}
+				else if (Input.IsActionJustPressed("pause") && isPaused) {
+					ResumeButtonPressed();
 				}
 
 				if (endLevel) {

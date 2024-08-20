@@ -350,6 +350,7 @@ public partial class Kabuki : CharacterBody2D
 	private async void EndLevel() {
 		if (!endLevel) {
 			endLevel = true;
+			gm.canPause = false;
 
 			animPlayer.Play("death");
 

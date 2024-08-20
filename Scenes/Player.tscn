@@ -2299,6 +2299,7 @@ radius = 8.125
 size = Vector2(50.7626, 39.3751)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+process_mode = 1
 scale = Vector2(1.6, 1.6)
 collision_layer = 2
 collision_mask = 17

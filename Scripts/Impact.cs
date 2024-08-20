@@ -122,6 +122,7 @@ public partial class Impact : Node2D
 		}
 		else {
 			isAlive = false;
+			gm.canPause = false;
 			SpawnExplosion();
 			if (bigExplosion) {
 				if (!spawnedExplosion) {

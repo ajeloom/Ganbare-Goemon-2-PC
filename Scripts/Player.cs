@@ -74,6 +74,7 @@ public partial class Player : CharacterBody2D
 
 		if (healthComponent.health <= 0.0f) {		
 			isAlive = false;
+			gm.canPause = false;
 
 			// Stop any horizontal movement	
 			velocity.X = 0.0f;
@@ -116,6 +117,7 @@ public partial class Player : CharacterBody2D
 		}
 		else {
 			isAlive = true;
+			gm.canPause = true;
 			velocity.X = horizontalMovement();	
 
 			// Add the gravity.

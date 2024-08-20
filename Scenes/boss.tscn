@@ -12,6 +12,7 @@ size = Vector2(2, 285)
 size = Vector2(405, 28.75)
 
 [node name="Boss Fight" type="Node2D"]
+process_mode = 1
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

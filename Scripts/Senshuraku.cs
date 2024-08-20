@@ -308,6 +308,7 @@ public partial class Senshuraku : CharacterBody2D
 	private async void EndLevel() {
 		if (!endLevel) {
 			endLevel = true;
+			gm.canPause = false;
 
 			animPlayer.Play("Hurt");
 			gm.audio.Stop();
