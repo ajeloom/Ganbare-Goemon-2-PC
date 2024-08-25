@@ -57,4 +57,8 @@ public partial class Darumanyo : CharacterBody2D
 			}
 		}
 	}
+	
+	private void OnScreenExited() {
+		QueueFree();
+	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://do87prko86xvb"]
+[gd_scene load_steps=8 format=3 uid="uid://do87prko86xvb"]
 
 [ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stages/Level 1/Level1_Background1.png" id="1_8nk3a"]
 [ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stages/Level 1/Level1_Ryukyu_Resort.png" id="1_xxir4"]
@@ -9,6 +9,7 @@
 resource_name = "Background"
 length = 0.2
 loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -46,42 +47,9 @@ tracks/2/keys = {
 "values": [0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_m2gqd"]
-resource_name = "Background1"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="Animation" id="Animation_ean14"]
-resource_name = "Background2"
-length = 0.2
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background2:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
 [sub_resource type="Animation" id="Animation_qmsj1"]
 length = 0.001
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -122,8 +90,6 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0ax2v"]
 _data = {
 "Background": SubResource("Animation_500ca"),
-"Background1": SubResource("Animation_m2gqd"),
-"Background2": SubResource("Animation_ean14"),
 "RESET": SubResource("Animation_qmsj1")
 }
 

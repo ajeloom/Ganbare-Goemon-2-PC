@@ -242,3 +242,8 @@ hframes = 7
 
 [node name="Audio Component" parent="." instance=ExtResource("7_4xjds")]
 position = Vector2(0, 0.625)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-15, -15, 30, 30)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnScreenExited"]

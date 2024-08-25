@@ -79,6 +79,7 @@ public partial class Bunny : CharacterBody2D
 
 	private void ScreenExited() {
 		onScreen = false;
+		QueueFree();
 	}
 }
 

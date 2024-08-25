@@ -283,8 +283,7 @@ disabled = true
 visible = false
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." index="8"]
-position = Vector2(0.625001, 0)
-scale = Vector2(1.3125, 2.3125)
+rect = Rect2(-40, -25, 80, 50)
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="ScreenEntered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="ScreenExited"]
