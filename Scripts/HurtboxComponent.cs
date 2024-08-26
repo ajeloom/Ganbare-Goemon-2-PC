@@ -8,6 +8,7 @@ public partial class HurtboxComponent : Area2D
 
 	private bool isInvincible = false;
 	private bool check = false;
+	private bool checkOverlapping = false;	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -20,8 +21,10 @@ public partial class HurtboxComponent : Area2D
 	{
 		isInvincible = healthComponent.isInvincible;
 
-		if (GetParent().IsInGroup("Player"))
-			checkOverlappingHitboxes();
+		if (GetParent().IsInGroup("Player")) {
+			if (checkOverlapping)
+				checkOverlappingHitboxes();
+		}
 	}
 
 	private async void OnAreaEntered(Area2D area) {
@@ -35,6 +38,7 @@ public partial class HurtboxComponent : Area2D
 			else if (IsInGroup("ImpactBoss"))
 				await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
 
+			checkOverlapping = true;
 			takingDamage = false;
 		}
 	}
@@ -59,6 +63,7 @@ public partial class HurtboxComponent : Area2D
 						break;
 					}
 				}
+				checkOverlapping = false;
 				check = false;
 			}
 		}
