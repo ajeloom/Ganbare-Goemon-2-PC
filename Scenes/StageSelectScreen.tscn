@@ -16,8 +16,9 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_h8wmo"]
 font_size = 100
-outline_size = 12
 outline_color = Color(0, 0, 0, 1)
+shadow_size = 15
+shadow_color = Color(0, 0, 0, 0.392157)
 
 [node name="Stage Select Screen" type="Control"]
 layout_mode = 3

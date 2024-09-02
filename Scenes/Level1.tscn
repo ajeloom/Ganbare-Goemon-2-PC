@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://do87prko86xvb"]
+[gd_scene load_steps=12 format=3 uid="uid://do87prko86xvb"]
 
 [ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stages/Level 1/Level1_Background1.png" id="1_8nk3a"]
 [ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stages/Level 1/Level1_Ryukyu_Resort.png" id="1_xxir4"]
@@ -7,7 +7,7 @@
 
 [sub_resource type="Animation" id="Animation_500ca"]
 resource_name = "Background"
-length = 0.2
+length = 0.6
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -17,7 +17,7 @@ tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -29,7 +29,37 @@ tracks/1/path = NodePath("ParallaxBackground/ParallaxLayer/Background2:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_4nygg"]
+resource_name = "Background_2"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParallaxBackground/ParallaxLayer/Background2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -41,10 +71,52 @@ tracks/2/path = NodePath("Ground:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_pvyeg"]
+resource_name = "Background_3"
+length = 0.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [0, 1]
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParallaxBackground/ParallaxLayer/Background2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ground:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
 }
 
 [sub_resource type="Animation" id="Animation_qmsj1"]
@@ -90,7 +162,32 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0ax2v"]
 _data = {
 "Background": SubResource("Animation_500ca"),
+"Background_2": SubResource("Animation_4nygg"),
+"Background_3": SubResource("Animation_pvyeg"),
 "RESET": SubResource("Animation_qmsj1")
+}
+
+[sub_resource type="Animation" id="Animation_lgc4k"]
+resource_name = "Foreground"
+length = 0.3
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ground:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xnmve"]
+_data = {
+"Foreground": SubResource("Animation_lgc4k")
 }
 
 [node name="Level1" type="StaticBody2D"]
@@ -170,6 +267,12 @@ libraries = {
 "": SubResource("AnimationLibrary_0ax2v")
 }
 autoplay = "Background"
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xnmve")
+}
+autoplay = "Foreground"
 
 [node name="SpawnPoint0" type="Node2D" parent="."]
 position = Vector2(-2489, 123)

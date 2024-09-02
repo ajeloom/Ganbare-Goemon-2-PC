@@ -12,6 +12,8 @@
 font_size = 100
 font_color = Color(0.952941, 0.0313726, 0.0313726, 1)
 outline_size = 12
+shadow_size = 25
+shadow_color = Color(0, 0, 0, 0.392157)
 
 [node name="Title Screen" type="Control"]
 layout_mode = 3
