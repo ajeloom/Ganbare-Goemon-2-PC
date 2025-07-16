@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://dfpofh05ddw5m"]
 
-[ext_resource type="Script" path="res://Scripts/Flower.cs" id="1_84yqe"]
+[ext_resource type="Script" uid="uid://dgw4thi8gflbg" path="res://Scripts/Flower.cs" id="1_84yqe"]
 [ext_resource type="Texture2D" uid="uid://djyprdfxqingr" path="res://Sprites/Bosses/Kabuki/Flower.png" id="1_blafa"]
 [ext_resource type="Texture2D" uid="uid://di0v210sftuet" path="res://Sprites/Effects/Dust.png" id="3_1a1dn"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_geai1"]
@@ -432,12 +432,12 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dk0t7"]
 _data = {
-"Explosion": SubResource("Animation_nnfsc"),
-"Fall1": SubResource("Animation_231k4"),
-"Fall2": SubResource("Animation_ahgfu"),
-"Fall3": SubResource("Animation_cgemv"),
-"RESET": SubResource("Animation_0pxck"),
-"Rise": SubResource("Animation_pwktx")
+&"Explosion": SubResource("Animation_nnfsc"),
+&"Fall1": SubResource("Animation_231k4"),
+&"Fall2": SubResource("Animation_ahgfu"),
+&"Fall3": SubResource("Animation_cgemv"),
+&"RESET": SubResource("Animation_0pxck"),
+&"Rise": SubResource("Animation_pwktx")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2b16"]
@@ -467,11 +467,12 @@ hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_dk0t7")
+&"": SubResource("AnimationLibrary_dk0t7")
 }
 autoplay = "Rise"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_g2b16")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -484,6 +485,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="Hitbox" type="CollisionShape2D" parent="HitboxComponent"]
+visible = false
 shape = SubResource("RectangleShape2D_a7lck")
 disabled = true
 
@@ -492,6 +494,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtboxComponent"]
+visible = false
 shape = SubResource("RectangleShape2D_n00ak")
 disabled = true
 

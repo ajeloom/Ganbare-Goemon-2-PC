@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://gtgvqh3tl35q" path="res://Sprites/Stages/Impact Stage/ImpactBattleBG.png" id="1_jeqhw"]
 [ext_resource type="PackedScene" uid="uid://crrpstbmmg26i" path="res://Scenes/Senshuraku.tscn" id="2_34ygy"]
 [ext_resource type="PackedScene" uid="uid://xsoj6go7jf0r" path="res://Scenes/Impact.tscn" id="3_6ugix"]
-[ext_resource type="Script" path="res://Scripts/ScreenShake.cs" id="4_p5556"]
+[ext_resource type="Script" uid="uid://i0on4bos80vy" path="res://Scripts/ScreenShake.cs" id="4_p5556"]
 
 [node name="Impact Battle" type="Node2D"]
 process_mode = 1

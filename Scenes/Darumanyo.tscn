@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://bqdecnyl4cnt4"]
 
 [ext_resource type="Texture2D" uid="uid://j8my4hsoly8b" path="res://Sprites/Enemies/Darumanyo/Darumanyo.png" id="1_r1jwx"]
-[ext_resource type="Script" path="res://Scripts/Darumanyo.cs" id="1_yommi"]
+[ext_resource type="Script" uid="uid://boo2vpoj88x1p" path="res://Scripts/Darumanyo.cs" id="1_yommi"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_q5koc"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_4bxx2"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="5_4u8ql"]
@@ -181,9 +181,9 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y2yeo"]
 _data = {
-"Explosion": SubResource("Animation_sl4td"),
-"Idle": SubResource("Animation_3utrm"),
-"RESET": SubResource("Animation_71fr8")
+&"Explosion": SubResource("Animation_sl4td"),
+&"Idle": SubResource("Animation_3utrm"),
+&"RESET": SubResource("Animation_71fr8")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7cdvu"]
@@ -209,7 +209,7 @@ shape = SubResource("CircleShape2D_rjj4e")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_y2yeo")
+&"": SubResource("AnimationLibrary_y2yeo")
 }
 autoplay = "Idle"
 

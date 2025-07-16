@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://bcrwta754hk2"]
 
-[ext_resource type="Script" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
+[ext_resource type="Script" uid="uid://bpb2p2o4yvjru" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
 [ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1phk"]
 [ext_resource type="Texture2D" uid="uid://dgb1yjkhajrul" path="res://Sprites/UI/Menu/GoemonButton.png" id="3_t115k"]
 [ext_resource type="Texture2D" uid="uid://buargi121awbk" path="res://Sprites/UI/Menu/GoemonButtonPressed.png" id="4_o4lj2"]

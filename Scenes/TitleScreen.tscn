@@ -1,12 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://dajtcc1643xis"]
+[gd_scene load_steps=12 format=3 uid="uid://dajtcc1643xis"]
 
-[ext_resource type="Script" path="res://Scripts/TitleScreen.cs" id="1_0bc46"]
+[ext_resource type="Script" uid="uid://dnbvqk1t5elg1" path="res://Scripts/TitleScreen.cs" id="1_0bc46"]
+[ext_resource type="Texture2D" uid="uid://dm5hinvf473v4" path="res://Sprites/UI/Menu/title.png" id="2_6ba52"]
 [ext_resource type="AudioStream" uid="uid://bu44a3htxavq6" path="res://Sounds/Music/TitleScreen.mp3" id="2_qu5tk"]
 [ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1jul"]
 [ext_resource type="Texture2D" uid="uid://bgh47cd8ioj3v" path="res://Sprites/UI/Menu/Start.png" id="3_0k0q6"]
 [ext_resource type="Texture2D" uid="uid://dvmen7tfwpach" path="res://Sprites/UI/Menu/Quit.png" id="4_26nv7"]
 [ext_resource type="Texture2D" uid="uid://v6w61taysqvg" path="res://Sprites/UI/Menu/StartHover.png" id="4_wamst"]
 [ext_resource type="Texture2D" uid="uid://dp04l13wna1uy" path="res://Sprites/UI/Menu/QuitHover.png" id="6_rtslc"]
+[ext_resource type="Shader" uid="uid://ktaq6wq1ptda" path="res://Shaders/CRTShader2.gdshader" id="7_dujtj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xqgs4"]
 font_size = 100
@@ -14,6 +16,10 @@ font_color = Color(0.952941, 0.0313726, 0.0313726, 1)
 outline_size = 12
 shadow_size = 25
 shadow_color = Color(0, 0, 0, 0.392157)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mm3of"]
+shader = ExtResource("7_dujtj")
+shader_parameter/scanline_count = 50.0
 
 [node name="Title Screen" type="Control"]
 layout_mode = 3
@@ -25,7 +31,12 @@ script = ExtResource("1_0bc46")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 540)
+texture = ExtResource("2_6ba52")
+
 [node name="Background" type="Sprite2D" parent="CanvasLayer"]
+visible = false
 position = Vector2(960, 540)
 texture = ExtResource("2_u1jul")
 
@@ -71,6 +82,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("4_26nv7")
 texture_hover = ExtResource("6_rtslc")
+
+[node name="TextureRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_mm3of")
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_qu5tk")

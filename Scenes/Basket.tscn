@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://3mdrsmke3or0"]
 
 [ext_resource type="Texture2D" uid="uid://corwrh5jm03wa" path="res://Sprites/Bosses/Kabuki/Kabuki_Basket.png" id="1_qdmeo"]
-[ext_resource type="Script" path="res://Scripts/Basket.cs" id="1_qh3o5"]
+[ext_resource type="Script" uid="uid://b4qunnlepcye6" path="res://Scripts/Basket.cs" id="1_qh3o5"]
 [ext_resource type="Texture2D" uid="uid://dh4fg3x73iy7a" path="res://Sprites/Effects/Explosion2.png" id="2_7l5jb"]
 [ext_resource type="AudioStream" uid="uid://cvir7ehhk3f21" path="res://Sounds/SFX/explosion.wav" id="4_f5c5u"]
 
@@ -109,8 +109,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dsun1"]
 _data = {
-"Explosion": SubResource("Animation_8qfhy"),
-"RESET": SubResource("Animation_jyrwy")
+&"Explosion": SubResource("Animation_8qfhy"),
+&"RESET": SubResource("Animation_jyrwy")
 }
 
 [node name="Basket" type="Node2D"]
@@ -132,7 +132,7 @@ hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_dsun1")
+&"": SubResource("AnimationLibrary_dsun1")
 }
 autoplay = "Explosion"
 

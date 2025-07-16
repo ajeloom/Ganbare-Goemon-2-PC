@@ -1,12 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://nad2u4n88r13"]
+[gd_scene load_steps=8 format=3 uid="uid://nad2u4n88r13"]
 
-[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_p1civ"]
+[ext_resource type="Script" uid="uid://dsxuh6dk3m8m4" path="res://Scripts/GameManager.cs" id="1_p1civ"]
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
+[ext_resource type="Shader" uid="uid://ktaq6wq1ptda" path="res://Shaders/CRTShader2.gdshader" id="2_dygde"]
 [ext_resource type="AudioStream" uid="uid://bl4vug7lv7kmx" path="res://Sounds/Music/Boss.mp3" id="3_4xv7j"]
 [ext_resource type="PackedScene" uid="uid://c4n08gut6ib5q" path="res://Scenes/FadeTransition.tscn" id="4_xjmtb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lalf3"]
 font_size = 100
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e8q6f"]
+resource_local_to_scene = true
+shader = ExtResource("2_dygde")
+shader_parameter/scanline_count = 700.0
 
 [node name="Game Manager" type="Node2D"]
 process_mode = 3
@@ -115,6 +121,15 @@ stream = ExtResource("3_4xv7j")
 volume_db = -5.0
 
 [node name="Fade Transition" parent="." instance=ExtResource("4_xjmtb")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 10
+visible = false
+
+[node name="CRT Filter" type="ColorRect" parent="CanvasLayer2"]
+material = SubResource("ShaderMaterial_e8q6f")
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Resume Button" to="." method="ResumeButtonPressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Menu Button" to="." method="MenuButtonPressed"]

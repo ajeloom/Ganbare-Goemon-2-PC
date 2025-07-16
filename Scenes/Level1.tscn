@@ -161,10 +161,10 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0ax2v"]
 _data = {
-"Background": SubResource("Animation_500ca"),
-"Background_2": SubResource("Animation_4nygg"),
-"Background_3": SubResource("Animation_pvyeg"),
-"RESET": SubResource("Animation_qmsj1")
+&"Background": SubResource("Animation_500ca"),
+&"Background_2": SubResource("Animation_4nygg"),
+&"Background_3": SubResource("Animation_pvyeg"),
+&"RESET": SubResource("Animation_qmsj1")
 }
 
 [sub_resource type="Animation" id="Animation_lgc4k"]
@@ -187,7 +187,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xnmve"]
 _data = {
-"Foreground": SubResource("Animation_lgc4k")
+&"Foreground": SubResource("Animation_lgc4k")
 }
 
 [node name="Level1" type="StaticBody2D"]
@@ -264,13 +264,13 @@ polygon = PackedVector2Array(2560, 156, 2560, -32, 2562, -32, 2562, 156)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_0ax2v")
+&"": SubResource("AnimationLibrary_0ax2v")
 }
 autoplay = "Background"
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_xnmve")
+&"": SubResource("AnimationLibrary_xnmve")
 }
 autoplay = "Foreground"
 

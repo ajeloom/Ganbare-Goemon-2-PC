@@ -1,12 +1,13 @@
 [gd_scene load_steps=2 format=3 uid="uid://ddeecbi8dtmcf"]
 
-[ext_resource type="Script" path="res://Scripts/Camera.cs" id="1_heltp"]
+[ext_resource type="Script" uid="uid://ds53gdoctkhj1" path="res://Scripts/Camera.cs" id="1_heltp"]
 
 [node name="Camera2D" type="Camera2D"]
 process_mode = 1
 zoom = Vector2(3, 3)
-limit_left = 1
+limit_left = 0
 limit_top = 0
 limit_right = 8192
-limit_bottom = 1
+limit_bottom = 360
+editor_draw_limits = true
 script = ExtResource("1_heltp")

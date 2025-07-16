@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=3 uid="uid://crrpstbmmg26i"]
 
-[ext_resource type="Script" path="res://Scripts/Senshuraku.cs" id="1_w2jbs"]
+[ext_resource type="Script" uid="uid://cad42nk5p0bv3" path="res://Scripts/Senshuraku.cs" id="1_w2jbs"]
 [ext_resource type="Texture2D" uid="uid://c4r6bg7hld0jq" path="res://Sprites/Bosses/Senshuraku/Senshuraku.png" id="2_2thxw"]
 [ext_resource type="Texture2D" uid="uid://dttmgxty0hay5" path="res://Sprites/Bosses/Senshuraku/Senshuraku_Shadow.png" id="3_0hlbh"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="4_qychw"]
@@ -723,13 +723,13 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hftyk"]
 _data = {
-"BallAttack": SubResource("Animation_7cs8q"),
-"Death": SubResource("Animation_snt8d"),
-"Hurt": SubResource("Animation_xis5d"),
-"Idle": SubResource("Animation_yd2k7"),
-"RESET": SubResource("Animation_pw67p"),
-"SpinAttack": SubResource("Animation_y8dfy"),
-"SpinStartUp": SubResource("Animation_qgcaf")
+&"BallAttack": SubResource("Animation_7cs8q"),
+&"Death": SubResource("Animation_snt8d"),
+&"Hurt": SubResource("Animation_xis5d"),
+&"Idle": SubResource("Animation_yd2k7"),
+&"RESET": SubResource("Animation_pw67p"),
+&"SpinAttack": SubResource("Animation_y8dfy"),
+&"SpinStartUp": SubResource("Animation_qgcaf")
 }
 
 [sub_resource type="Animation" id="Animation_h1mst"]
@@ -765,8 +765,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bo8hk"]
 _data = {
-"Hurt": SubResource("Animation_h1mst"),
-"RESET": SubResource("Animation_je5f0")
+&"Hurt": SubResource("Animation_h1mst"),
+&"RESET": SubResource("Animation_je5f0")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gt4wi"]
@@ -804,13 +804,13 @@ effectsPlayer = NodePath("../EffectsPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_hftyk")
+&"": SubResource("AnimationLibrary_hftyk")
 }
 autoplay = "Idle"
 
 [node name="EffectsPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_bo8hk")
+&"": SubResource("AnimationLibrary_bo8hk")
 }
 autoplay = "RESET"
 

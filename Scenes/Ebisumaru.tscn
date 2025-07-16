@@ -2212,25 +2212,25 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t18eo"]
 _data = {
-"Crawl": SubResource("Animation_eeja4"),
-"Crouch": SubResource("Animation_h2ofj"),
-"CrouchAttackL": SubResource("Animation_ru65o"),
-"CrouchAttackR": SubResource("Animation_pa857"),
-"DeathDown": SubResource("Animation_nq56f"),
-"DeathUp": SubResource("Animation_gm7rx"),
-"Fall1": SubResource("Animation_6m3tm"),
-"Fall2": SubResource("Animation_l4ei6"),
-"Hurt": SubResource("Animation_cboi1"),
-"Idle": SubResource("Animation_a8bus"),
-"Jump": SubResource("Animation_1b7ys"),
-"LookUp": SubResource("Animation_br4jg"),
-"NormalAttackL": SubResource("Animation_3qlqm"),
-"NormalAttackR": SubResource("Animation_e866e"),
-"RESET": SubResource("Animation_mepd2"),
-"Run": SubResource("Animation_5gmhf"),
-"UpAttackL": SubResource("Animation_1xuq6"),
-"UpAttackR": SubResource("Animation_fi1cp"),
-"Walk": SubResource("Animation_3xs0l")
+&"Crawl": SubResource("Animation_eeja4"),
+&"Crouch": SubResource("Animation_h2ofj"),
+&"CrouchAttackL": SubResource("Animation_ru65o"),
+&"CrouchAttackR": SubResource("Animation_pa857"),
+&"DeathDown": SubResource("Animation_nq56f"),
+&"DeathUp": SubResource("Animation_gm7rx"),
+&"Fall1": SubResource("Animation_6m3tm"),
+&"Fall2": SubResource("Animation_l4ei6"),
+&"Hurt": SubResource("Animation_cboi1"),
+&"Idle": SubResource("Animation_a8bus"),
+&"Jump": SubResource("Animation_1b7ys"),
+&"LookUp": SubResource("Animation_br4jg"),
+&"NormalAttackL": SubResource("Animation_3qlqm"),
+&"NormalAttackR": SubResource("Animation_e866e"),
+&"RESET": SubResource("Animation_mepd2"),
+&"Run": SubResource("Animation_5gmhf"),
+&"UpAttackL": SubResource("Animation_1xuq6"),
+&"UpAttackR": SubResource("Animation_fi1cp"),
+&"Walk": SubResource("Animation_3xs0l")
 }
 
 [sub_resource type="Animation" id="Animation_vtea6"]
@@ -3284,13 +3284,13 @@ tracks/12/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0bq50"]
 _data = {
-"CrouchAttackL": SubResource("Animation_vtea6"),
-"CrouchAttackR": SubResource("Animation_17wgn"),
-"Fall": SubResource("Animation_31y06"),
-"NormalAttackL": SubResource("Animation_kwxt4"),
-"NormalAttackR": SubResource("Animation_yjiq7"),
-"UpAttackL": SubResource("Animation_0ow2a"),
-"UpAttackR": SubResource("Animation_f15gw")
+&"CrouchAttackL": SubResource("Animation_vtea6"),
+&"CrouchAttackR": SubResource("Animation_17wgn"),
+&"Fall": SubResource("Animation_31y06"),
+&"NormalAttackL": SubResource("Animation_kwxt4"),
+&"NormalAttackR": SubResource("Animation_yjiq7"),
+&"UpAttackL": SubResource("Animation_0ow2a"),
+&"UpAttackR": SubResource("Animation_f15gw")
 }
 
 [node name="Player" instance=ExtResource("1_s0e2v")]
@@ -3300,8 +3300,8 @@ texture = ExtResource("2_a64dn")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
-"": SubResource("AnimationLibrary_t18eo"),
-"Ebisumaru": SubResource("AnimationLibrary_0bq50")
+&"": SubResource("AnimationLibrary_t18eo"),
+&"Ebisumaru": SubResource("AnimationLibrary_0bq50")
 }
 
 [node name="Weapon" parent="HitboxComponent" index="1"]

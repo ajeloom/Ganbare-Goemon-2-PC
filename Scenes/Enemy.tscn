@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://gci6tujscbay"]
 
-[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_dl31r"]
+[ext_resource type="Script" uid="uid://c47nx6hqf4e8a" path="res://Scripts/Enemy.cs" id="1_dl31r"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="1_x6mh8"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="2_7df4b"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="3_eaq0b"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://dkfqn31muldxk"]
 
-[ext_resource type="Script" path="res://Scripts/Ball.cs" id="1_mqv8u"]
+[ext_resource type="Script" uid="uid://cc7nlho1pnwpb" path="res://Scripts/Ball.cs" id="1_mqv8u"]
 [ext_resource type="Texture2D" uid="uid://dptx4b3hp0upx" path="res://Sprites/Bosses/Senshuraku/Ball.png" id="1_n4gtm"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="3_1kawl"]
 [ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_4kmcg"]
@@ -151,9 +151,9 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pk6o3"]
 _data = {
-"Explosion": SubResource("Animation_ikwh1"),
-"Idle": SubResource("Animation_h6t70"),
-"RESET": SubResource("Animation_amk74")
+&"Explosion": SubResource("Animation_ikwh1"),
+&"Idle": SubResource("Animation_h6t70"),
+&"RESET": SubResource("Animation_amk74")
 }
 
 [node name="Ball" type="CharacterBody2D"]
@@ -193,7 +193,7 @@ shape = SubResource("CircleShape2D_7cn7a")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_pk6o3")
+&"": SubResource("AnimationLibrary_pk6o3")
 }
 autoplay = "Idle"
 

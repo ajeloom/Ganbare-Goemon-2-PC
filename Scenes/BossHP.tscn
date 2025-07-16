@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dbxbf53ndhjlv"]
 
-[ext_resource type="Script" path="res://Scripts/BossHP.cs" id="1_f1bqp"]
+[ext_resource type="Script" uid="uid://3cdi2udnxxor" path="res://Scripts/BossHP.cs" id="1_f1bqp"]
 
 [node name="Boss HP" type="CanvasLayer"]
 script = ExtResource("1_f1bqp")

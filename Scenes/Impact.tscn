@@ -1,7 +1,7 @@
 [gd_scene load_steps=27 format=3 uid="uid://xsoj6go7jf0r"]
 
 [ext_resource type="Texture2D" uid="uid://bswtfqhj7ewb1" path="res://Sprites/Characters/Impact/Hand.png" id="1_0nwfs"]
-[ext_resource type="Script" path="res://Scripts/Impact.cs" id="1_mc6ui"]
+[ext_resource type="Script" uid="uid://c4xt0t2tf1gnp" path="res://Scripts/Impact.cs" id="1_mc6ui"]
 [ext_resource type="Texture2D" uid="uid://l28bcqb4lqhf" path="res://Sprites/Characters/Impact/Arm.png" id="2_nq5bk"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_xxtsp"]
 [ext_resource type="Texture2D" uid="uid://wkuldncqes8s" path="res://Sprites/Characters/Impact/Crosshair.png" id="4_16sd5"]
@@ -757,12 +757,12 @@ tracks/9/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0rvvy"]
 _data = {
-"Death": SubResource("Animation_8u1ex"),
-"RESET": SubResource("Animation_h25a7"),
-"leftPunch": SubResource("Animation_oou2d"),
-"leftPunch_2": SubResource("Animation_mvk8v"),
-"rightPunch": SubResource("Animation_4gf6k"),
-"rightPunch_2": SubResource("Animation_gqgg8")
+&"Death": SubResource("Animation_8u1ex"),
+&"RESET": SubResource("Animation_h25a7"),
+&"leftPunch": SubResource("Animation_oou2d"),
+&"leftPunch_2": SubResource("Animation_mvk8v"),
+&"rightPunch": SubResource("Animation_4gf6k"),
+&"rightPunch_2": SubResource("Animation_gqgg8")
 }
 
 [node name="Impact" type="Node2D" groups=["Impact", "Player"]]
@@ -920,7 +920,7 @@ health = 200.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_0rvvy")
+&"": SubResource("AnimationLibrary_0rvvy")
 }
 autoplay = "RESET"
 speed_scale = 1.2

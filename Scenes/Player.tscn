@@ -1,6 +1,6 @@
 [gd_scene load_steps=35 format=3 uid="uid://dcmg4010lym4k"]
 
-[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_67tfp"]
+[ext_resource type="Script" uid="uid://cya30qfmcxsj7" path="res://Scripts/Player.cs" id="1_67tfp"]
 [ext_resource type="Texture2D" uid="uid://bvkjf3wpkh2ju" path="res://Sprites/Characters/Goemon/Goemon.png" id="2_w5f63"]
 [ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="3_pb73u"]
 [ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="4_ey4v5"]
@@ -2233,25 +2233,25 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t18eo"]
 _data = {
-"Crawl": SubResource("Animation_eeja4"),
-"Crouch": SubResource("Animation_h2ofj"),
-"CrouchAttackL": SubResource("Animation_ru65o"),
-"CrouchAttackR": SubResource("Animation_pa857"),
-"DeathDown": SubResource("Animation_nq56f"),
-"DeathUp": SubResource("Animation_gm7rx"),
-"Fall1": SubResource("Animation_6m3tm"),
-"Fall2": SubResource("Animation_l4ei6"),
-"Hurt": SubResource("Animation_cboi1"),
-"Idle": SubResource("Animation_a8bus"),
-"Jump": SubResource("Animation_1b7ys"),
-"LookUp": SubResource("Animation_br4jg"),
-"NormalAttackL": SubResource("Animation_3qlqm"),
-"NormalAttackR": SubResource("Animation_e866e"),
-"RESET": SubResource("Animation_mepd2"),
-"Run": SubResource("Animation_5gmhf"),
-"UpAttackL": SubResource("Animation_1xuq6"),
-"UpAttackR": SubResource("Animation_fi1cp"),
-"Walk": SubResource("Animation_3xs0l")
+&"Crawl": SubResource("Animation_eeja4"),
+&"Crouch": SubResource("Animation_h2ofj"),
+&"CrouchAttackL": SubResource("Animation_ru65o"),
+&"CrouchAttackR": SubResource("Animation_pa857"),
+&"DeathDown": SubResource("Animation_nq56f"),
+&"DeathUp": SubResource("Animation_gm7rx"),
+&"Fall1": SubResource("Animation_6m3tm"),
+&"Fall2": SubResource("Animation_l4ei6"),
+&"Hurt": SubResource("Animation_cboi1"),
+&"Idle": SubResource("Animation_a8bus"),
+&"Jump": SubResource("Animation_1b7ys"),
+&"LookUp": SubResource("Animation_br4jg"),
+&"NormalAttackL": SubResource("Animation_3qlqm"),
+&"NormalAttackR": SubResource("Animation_e866e"),
+&"RESET": SubResource("Animation_mepd2"),
+&"Run": SubResource("Animation_5gmhf"),
+&"UpAttackL": SubResource("Animation_1xuq6"),
+&"UpAttackR": SubResource("Animation_fi1cp"),
+&"Walk": SubResource("Animation_3xs0l")
 }
 
 [sub_resource type="Animation" id="Animation_b4osn"]
@@ -2288,8 +2288,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gnl32"]
 _data = {
-"Hurt": SubResource("Animation_b4osn"),
-"RESET": SubResource("Animation_d2fqv")
+&"Hurt": SubResource("Animation_b4osn"),
+&"RESET": SubResource("Animation_d2fqv")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ty2qx"]
@@ -2320,13 +2320,13 @@ shape = SubResource("CapsuleShape2D_pprda")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_t18eo")
+&"": SubResource("AnimationLibrary_t18eo")
 }
 autoplay = "Idle"
 
 [node name="EffectsPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_gnl32")
+&"": SubResource("AnimationLibrary_gnl32")
 }
 
 [node name="HealthComponent" parent="." node_paths=PackedStringArray("effectsPlayer") groups=["Player"] instance=ExtResource("3_pb73u")]

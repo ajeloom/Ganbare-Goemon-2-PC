@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://inu4m1xngjkm"]
 
-[ext_resource type="Script" path="res://Scripts/PlayerUI.cs" id="1_mfghx"]
+[ext_resource type="Script" uid="uid://dycf6dd7003u5" path="res://Scripts/PlayerUI.cs" id="1_mfghx"]
 [ext_resource type="Texture2D" uid="uid://c7n2c5vh1xphl" path="res://Sprites/UI/Player UI/WeaponSlot.png" id="2_ve0mb"]
 [ext_resource type="Texture2D" uid="uid://jpfjgh7s76c1" path="res://Sprites/UI/Player UI/Weapon1Icon.png" id="3_15qe2"]
 [ext_resource type="Texture2D" uid="uid://dvjh4gkm685l5" path="res://Sprites/UI/Player UI/charaIcons.png" id="4_goep6"]

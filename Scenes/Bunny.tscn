@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://gci6tujscbay" path="res://Scenes/Enemy.tscn" id="1_4l7yl"]
 [ext_resource type="Texture2D" uid="uid://ohne4p3wbhqk" path="res://Sprites/Enemies/Bunny/Enemy1.png" id="2_0mti8"]
-[ext_resource type="Script" path="res://Scripts/Bunny.cs" id="2_fisup"]
+[ext_resource type="Script" uid="uid://c3r3g1ikpk4hi" path="res://Scripts/Bunny.cs" id="2_fisup"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uib7d"]
 size = Vector2(20, 17.375)
@@ -237,9 +237,9 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_om71j"]
 _data = {
-"RESET": SubResource("Animation_luiol"),
-"death": SubResource("Animation_drowh"),
-"walk": SubResource("Animation_qxokk")
+&"RESET": SubResource("Animation_luiol"),
+&"death": SubResource("Animation_drowh"),
+&"walk": SubResource("Animation_qxokk")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5wayb"]
@@ -263,7 +263,7 @@ shape = SubResource("RectangleShape2D_uib7d")
 
 [node name="AnimationPlayer" parent="." index="2"]
 libraries = {
-"": SubResource("AnimationLibrary_om71j")
+&"": SubResource("AnimationLibrary_om71j")
 }
 movie_quit_on_finish = true
 

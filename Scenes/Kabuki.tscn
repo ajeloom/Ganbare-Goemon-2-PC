@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://cf6vus17cvgau"]
 
-[ext_resource type="Script" path="res://Scripts/Kabuki.cs" id="1_hm8n1"]
+[ext_resource type="Script" uid="uid://b4ol2ljkhr1l0" path="res://Scripts/Kabuki.cs" id="1_hm8n1"]
 [ext_resource type="Texture2D" uid="uid://corwrh5jm03wa" path="res://Sprites/Bosses/Kabuki/Kabuki_Basket.png" id="1_iu6s3"]
 [ext_resource type="Texture2D" uid="uid://dwju23mpv7tca" path="res://Sprites/Bosses/Kabuki/Kabuki.png" id="2_1e306"]
 [ext_resource type="Texture2D" uid="uid://hamna1ac8oco" path="res://Sprites/Bosses/Kabuki/Kabuki_Front.png" id="4_d3vao"]
@@ -1387,16 +1387,16 @@ tracks/10/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vpfle"]
 _data = {
-"RESET": SubResource("Animation_4mntw"),
-"attack1": SubResource("Animation_fv7pv"),
-"close": SubResource("Animation_xi7jm"),
-"death": SubResource("Animation_meb27"),
-"emerge": SubResource("Animation_0at7u"),
-"hide": SubResource("Animation_hhxnx"),
-"hurt": SubResource("Animation_wdq6w"),
-"jump": SubResource("Animation_1hj2u"),
-"land": SubResource("Animation_i8est"),
-"open": SubResource("Animation_bu01e")
+&"RESET": SubResource("Animation_4mntw"),
+&"attack1": SubResource("Animation_fv7pv"),
+&"close": SubResource("Animation_xi7jm"),
+&"death": SubResource("Animation_meb27"),
+&"emerge": SubResource("Animation_0at7u"),
+&"hide": SubResource("Animation_hhxnx"),
+&"hurt": SubResource("Animation_wdq6w"),
+&"jump": SubResource("Animation_1hj2u"),
+&"land": SubResource("Animation_i8est"),
+&"open": SubResource("Animation_bu01e")
 }
 
 [sub_resource type="Animation" id="Animation_lxgwf"]
@@ -1474,9 +1474,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u0bdi"]
 _data = {
-"Hurt": SubResource("Animation_lxgwf"),
-"Hurt2": SubResource("Animation_0f3kh"),
-"RESET": SubResource("Animation_ejags")
+&"Hurt": SubResource("Animation_lxgwf"),
+&"Hurt2": SubResource("Animation_0f3kh"),
+&"RESET": SubResource("Animation_ejags")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xjwyj"]
@@ -1539,13 +1539,13 @@ disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_vpfle")
+&"": SubResource("AnimationLibrary_vpfle")
 }
 autoplay = "RESET"
 
 [node name="Effects" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_u0bdi")
+&"": SubResource("AnimationLibrary_u0bdi")
 }
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

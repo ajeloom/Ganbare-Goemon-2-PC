@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://djskipwr1cpw1"]
 
-[ext_resource type="Script" path="res://Scripts/Cursor.cs" id="1_pcb5b"]
+[ext_resource type="Script" uid="uid://dpr78mobjn22d" path="res://Scripts/Cursor.cs" id="1_pcb5b"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="2_8d2vq"]
 [ext_resource type="Texture2D" uid="uid://dp4mibkqdfevv" path="res://Sprites/UI/Menu/Cursors.png" id="3_h0jf2"]
 
