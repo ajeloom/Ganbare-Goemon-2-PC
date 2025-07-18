@@ -103,6 +103,8 @@ public partial class GameManager : Node2D
 		transition = GetNode<Control>("Fade Transition");
 		transitionAP = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
 
+		Input.MouseMode = Input.MouseModeEnum.Visible;
+
 		// Initialize player array
 		players = new player[3];
 
@@ -142,15 +144,14 @@ public partial class GameManager : Node2D
 				if (!initLoad) {
 					initLoad = true;
 
+					Input.MouseMode = Input.MouseModeEnum.Hidden;
+
 					// Show the bottom UI
 					canvas.Visible = false;
 				}
 
 				if (Input.IsActionJustPressed("pause") && canPause && !isPaused) {
-					isPaused = true;
-					Input.MouseMode = Input.MouseModeEnum.Visible;
-					pauseMenu.Visible = true;
-					GetTree().Paused = true;
+					PauseGame();
 				}
 				else if (Input.IsActionJustPressed("pause") && isPaused) {
 					ResumeButtonPressed();
@@ -174,6 +175,8 @@ public partial class GameManager : Node2D
 
 					// Show the bottom UI
 					canvas.Visible = true;
+
+					Input.MouseMode = Input.MouseModeEnum.Hidden;
 
 					LoadPlayers(false);
 				}
@@ -200,9 +203,7 @@ public partial class GameManager : Node2D
 				}
 
 				if (Input.IsActionJustPressed("pause") && canPause && !isPaused) {
-					isPaused = true;
-					pauseMenu.Visible = true;
-					GetTree().Paused = true;
+					PauseGame();
 				}
 				else if (Input.IsActionJustPressed("pause") && isPaused) {
 					ResumeButtonPressed();
@@ -225,11 +226,19 @@ public partial class GameManager : Node2D
 		}
 	}
 
+	private void PauseGame() {
+		isPaused = true;
+		Input.MouseMode = Input.MouseModeEnum.Visible;
+		pauseMenu.Visible = true;
+		GetTree().Paused = true;
+	}
+
 	private void ResumeButtonPressed() {
 		PlayButtonClickedSFX();
 		isPaused = false;
 		pauseMenu.Visible = false;
 		GetTree().Paused = false;
+		Input.MouseMode = Input.MouseModeEnum.Hidden;
 	}
 
 	private void MenuButtonPressed() {

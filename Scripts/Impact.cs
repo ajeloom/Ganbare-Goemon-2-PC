@@ -43,17 +43,11 @@ public partial class Impact : Node2D
 		bossHealth = GetNode<HealthComponent>("/root/Impact Battle/Senshuraku/HealthComponent");
 
 		crosshair = GetNode<Sprite2D>("Crosshair");
-		Input.MouseMode = Input.MouseModeEnum.Hidden;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// Hide the mouse cursor if the game is not paused
-		if (!gm.isPaused) {
-			Input.MouseMode = Input.MouseModeEnum.Hidden;
-		}
-
 		// Update the boss hp
 		GetHP(bossHealth, boss);
 		GetHP(healthComponent, player);
