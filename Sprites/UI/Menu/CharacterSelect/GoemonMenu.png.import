@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7vro831dhubx"
-path="res://.godot/imported/Title.png-c7d7e10e4c96369d84840d952231ab09.ctex"
+uid="uid://cfmewkr0dke2i"
+path="res://.godot/imported/GoemonMenu.png-a0816c1cbd88106098378ab733eb98bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/Title.png"
-dest_files=["res://.godot/imported/Title.png-c7d7e10e4c96369d84840d952231ab09.ctex"]
+source_file="res://Sprites/UI/Menu/CharacterSelect/GoemonMenu.png"
+dest_files=["res://.godot/imported/GoemonMenu.png-a0816c1cbd88106098378ab733eb98bc.ctex"]
 
 [params]
 

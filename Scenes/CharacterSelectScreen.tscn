@@ -1,26 +1,24 @@
-[gd_scene load_steps=15 format=3 uid="uid://bcrwta754hk2"]
+[gd_scene load_steps=14 format=3 uid="uid://bcrwta754hk2"]
 
 [ext_resource type="Script" uid="uid://bpb2p2o4yvjru" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
-[ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1phk"]
-[ext_resource type="Texture2D" uid="uid://dgb1yjkhajrul" path="res://Sprites/UI/Menu/GoemonButton.png" id="3_t115k"]
-[ext_resource type="Texture2D" uid="uid://buargi121awbk" path="res://Sprites/UI/Menu/GoemonButtonPressed.png" id="4_o4lj2"]
-[ext_resource type="Texture2D" uid="uid://ddq31fj1hckps" path="res://Sprites/UI/Menu/EbisumaruButton.png" id="5_e47qc"]
-[ext_resource type="Texture2D" uid="uid://sricktkt7ow1" path="res://Sprites/UI/Menu/SasukeButton.png" id="7_kc3tm"]
-[ext_resource type="Texture2D" uid="uid://bb24rqy8y1lim" path="res://Sprites/UI/Menu/SasukeButtonPressed.png" id="8_5tnec"]
+[ext_resource type="Texture2D" uid="uid://uh1bf48b76h6" path="res://Sprites/UI/Menu/CharacterSelect/CharacterSelect.png" id="2_r4r73"]
+[ext_resource type="Texture2D" uid="uid://c4qfyc6u6lt5b" path="res://Sprites/UI/Menu/CharacterSelect/EbisumaruMenu.png" id="7_2wa3r"]
+[ext_resource type="Texture2D" uid="uid://cfmewkr0dke2i" path="res://Sprites/UI/Menu/CharacterSelect/GoemonMenu.png" id="7_sglen"]
+[ext_resource type="Texture2D" uid="uid://bnysfpt0722ob" path="res://Sprites/UI/Menu/CharacterSelect/GoemonMenuHover.png" id="8_spf3u"]
+[ext_resource type="Texture2D" uid="uid://cc3pq775t1jaa" path="res://Sprites/UI/Menu/CharacterSelect/EbisumaruMenuHover.png" id="8_vfjvp"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_yarf4"]
-[ext_resource type="Texture2D" uid="uid://neik2lwxd03p" path="res://Sprites/UI/Menu/Continue.png" id="9_m1lpn"]
-[ext_resource type="Texture2D" uid="uid://xsfj1v5mcdar" path="res://Sprites/UI/Menu/ContinueHover.png" id="10_vderd"]
-[ext_resource type="Texture2D" uid="uid://i053ltixg3q1" path="res://Sprites/UI/Menu/Back.png" id="11_x3632"]
-[ext_resource type="Texture2D" uid="uid://dxrriq3a5wqyc" path="res://Sprites/UI/Menu/BackHover.png" id="12_h7isq"]
+[ext_resource type="Texture2D" uid="uid://bkilbhx3cukt3" path="res://Sprites/UI/Menu/CharacterSelect/SasukeMenu.png" id="13_mvmmp"]
+[ext_resource type="Texture2D" uid="uid://bn7r3wckj0kk5" path="res://Sprites/UI/Menu/CharacterSelect/SasukeMenuHover.png" id="14_eduao"]
+[ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="19_eduao"]
+[ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="20_hwmi2"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_hcibv"]
-font_size = 100
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 15
-shadow_color = Color(0, 0, 0, 0.392157)
+[sub_resource type="LabelSettings" id="LabelSettings_hwmi2"]
+font = ExtResource("19_eduao")
+font_size = 35
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dvm6x"]
-load_path = "res://.godot/imported/EbiButtonPressed.png-14d63b5661a8aea0ab565913d9894521.ctex"
+[sub_resource type="LabelSettings" id="LabelSettings_eduao"]
+font = ExtResource("19_eduao")
+font_size = 35
 
 [node name="Character Select Screen" type="Control"]
 layout_mode = 3
@@ -32,119 +30,193 @@ script = ExtResource("1_tq4jl")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Background" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(960, 540)
-texture = ExtResource("2_u1phk")
+position = Vector2(960, 525)
+scale = Vector2(5, 5)
+texture = ExtResource("2_r4r73")
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -468.0
-offset_top = 100.0
-offset_right = 468.0
-offset_bottom = 237.0
+offset_left = -320.0
+offset_top = 25.0
+offset_right = 320.0
+offset_bottom = 60.0
 grow_horizontal = 2
-text = "Choose Player"
-label_settings = SubResource("LabelSettings_hcibv")
+text = "PLAYER SELECTION"
+label_settings = SubResource("LabelSettings_hwmi2")
 horizontal_alignment = 1
 
-[node name="Goemon" type="TextureButton" parent="CanvasLayer"]
+[node name="GoemonButton" type="TextureButton" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -375.0
-offset_top = -215.0
-offset_right = -225.0
-offset_bottom = 25.0
+offset_left = -535.0
+offset_top = -285.0
+offset_right = -471.0
+offset_bottom = -181.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.8, 1.8)
-pivot_offset = Vector2(25, 40)
+scale = Vector2(5, 5)
 toggle_mode = true
-texture_normal = ExtResource("3_t115k")
-texture_pressed = ExtResource("4_o4lj2")
+texture_normal = ExtResource("7_sglen")
+texture_pressed = ExtResource("8_spf3u")
+texture_hover = ExtResource("8_spf3u")
 
-[node name="Ebisumaru" type="TextureButton" parent="CanvasLayer"]
+[node name="EbisumaruButton" type="TextureButton" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -75.0
-offset_top = -215.0
-offset_right = 75.0
-offset_bottom = 25.0
+offset_left = -165.0
+offset_top = -210.0
+offset_right = -99.0
+offset_bottom = -121.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.8, 1.8)
-pivot_offset = Vector2(25, 40)
+scale = Vector2(5, 5)
 toggle_mode = true
-texture_normal = ExtResource("5_e47qc")
-texture_pressed = SubResource("CompressedTexture2D_dvm6x")
+texture_normal = ExtResource("7_2wa3r")
+texture_pressed = ExtResource("8_vfjvp")
+texture_hover = ExtResource("8_vfjvp")
 
-[node name="Sasuke" type="TextureButton" parent="CanvasLayer"]
+[node name="SasukeButton" type="TextureButton" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 225.0
-offset_top = -215.0
-offset_right = 375.0
-offset_bottom = 25.0
+offset_left = 235.0
+offset_top = -260.0
+offset_right = 306.0
+offset_bottom = -161.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.8, 1.8)
-pivot_offset = Vector2(25, 40)
+scale = Vector2(5, 5)
 toggle_mode = true
-texture_normal = ExtResource("7_kc3tm")
-texture_pressed = ExtResource("8_5tnec")
+texture_normal = ExtResource("13_mvmmp")
+texture_pressed = ExtResource("14_eduao")
+texture_hover = ExtResource("14_eduao")
 
-[node name="ContinueButton" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
+[node name="BackButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -39.5
-offset_top = 234.5
-offset_right = 39.5
-offset_bottom = 265.5
+offset_left = -635.0
+offset_top = 5.0
+offset_right = -385.0
+offset_bottom = 80.0
 grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(39.5, 15.5)
-texture_normal = ExtResource("9_m1lpn")
-texture_hover = ExtResource("10_vderd")
+theme = ExtResource("20_hwmi2")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "BACK"
 
-[node name="BackButton" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
+[node name="NextButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = 346.0
-offset_right = 192.0
-offset_bottom = 446.0
+anchor_bottom = 1.0
+offset_left = 275.0
+offset_top = -110.0
+offset_right = 525.0
+offset_bottom = -35.0
 grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(39.5, 15.5)
-texture_normal = ExtResource("11_x3632")
-texture_hover = ExtResource("12_h7isq")
+grow_vertical = 0
+theme = ExtResource("20_hwmi2")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "NEXT"
+
+[node name="CancelButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -526.0
+offset_top = -110.0
+offset_right = -276.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("20_hwmi2")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "CANCEL"
+
+[node name="SasukeLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 240.0
+offset_top = -212.0
+offset_right = 560.0
+offset_bottom = -177.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "SASUKE"
+label_settings = SubResource("LabelSettings_eduao")
+horizontal_alignment = 1
+
+[node name="EbisumaruLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -232.0
+offset_top = -212.0
+offset_right = 231.0
+offset_bottom = -167.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "EBISUMARU"
+label_settings = SubResource("LabelSettings_eduao")
+horizontal_alignment = 1
+
+[node name="GoemonLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -555.0
+offset_top = -212.0
+offset_right = -246.0
+offset_bottom = -167.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "GOEMON"
+label_settings = SubResource("LabelSettings_hwmi2")
+horizontal_alignment = 1
 
 [node name="AudioComponent" parent="." instance=ExtResource("8_yarf4")]
 
-[connection signal="mouse_entered" from="CanvasLayer/Goemon" to="." method="GoemonMouseEntered"]
-[connection signal="mouse_exited" from="CanvasLayer/Goemon" to="." method="MouseExitedButton"]
-[connection signal="pressed" from="CanvasLayer/Goemon" to="." method="GoemonButtonPressed"]
-[connection signal="mouse_entered" from="CanvasLayer/Ebisumaru" to="." method="EbisumaruMouseEntered"]
-[connection signal="mouse_exited" from="CanvasLayer/Ebisumaru" to="." method="MouseExitedButton"]
-[connection signal="pressed" from="CanvasLayer/Ebisumaru" to="." method="EbisumaruButtonPressed"]
-[connection signal="mouse_entered" from="CanvasLayer/Sasuke" to="." method="SasukeMouseEntered"]
-[connection signal="mouse_exited" from="CanvasLayer/Sasuke" to="." method="MouseExitedButton"]
-[connection signal="pressed" from="CanvasLayer/Sasuke" to="." method="SasukeButtonPressed"]
-[connection signal="pressed" from="CanvasLayer/ContinueButton" to="." method="ContinueButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/GoemonButton" to="." method="GoemonMouseEntered"]
+[connection signal="mouse_exited" from="CanvasLayer/GoemonButton" to="." method="MouseExitedButton"]
+[connection signal="pressed" from="CanvasLayer/GoemonButton" to="." method="GoemonButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/EbisumaruButton" to="." method="EbisumaruMouseEntered"]
+[connection signal="mouse_exited" from="CanvasLayer/EbisumaruButton" to="." method="MouseExitedButton"]
+[connection signal="pressed" from="CanvasLayer/EbisumaruButton" to="." method="EbisumaruButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/SasukeButton" to="." method="SasukeMouseEntered"]
+[connection signal="mouse_exited" from="CanvasLayer/SasukeButton" to="." method="MouseExitedButton"]
+[connection signal="pressed" from="CanvasLayer/SasukeButton" to="." method="SasukeButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/BackButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/NextButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/NextButton" to="." method="NextButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/CancelButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/CancelButton" to="." method="CancelButtonPressed"]

@@ -1,23 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://dpif61mntayjk"]
+[gd_scene load_steps=7 format=3 uid="uid://dpif61mntayjk"]
 
 [ext_resource type="Script" uid="uid://bsx5bccuep6js" path="res://Scripts/PlayerNumberScreen.cs" id="1_uwfy5"]
-[ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_2wuyv"]
-[ext_resource type="Texture2D" uid="uid://neik2lwxd03p" path="res://Sprites/UI/Menu/Continue.png" id="3_4c8hg"]
-[ext_resource type="Texture2D" uid="uid://xsfj1v5mcdar" path="res://Sprites/UI/Menu/ContinueHover.png" id="4_orqj4"]
-[ext_resource type="Texture2D" uid="uid://cr4v3rtto2hbi" path="res://Sprites/UI/Menu/Three.png" id="5_8rtfk"]
-[ext_resource type="Texture2D" uid="uid://bs4h7yamc3s7o" path="res://Sprites/UI/Menu/One.png" id="5_ppy03"]
-[ext_resource type="Texture2D" uid="uid://87e6podqtp1m" path="res://Sprites/UI/Menu/OneHover.png" id="6_oddh6"]
-[ext_resource type="Texture2D" uid="uid://cg62dkglipqei" path="res://Sprites/UI/Menu/ThreeHover.png" id="6_y64id"]
-[ext_resource type="Texture2D" uid="uid://i053ltixg3q1" path="res://Sprites/UI/Menu/Back.png" id="7_2ti8l"]
-[ext_resource type="Texture2D" uid="uid://bfrc2c3qm6rj5" path="res://Sprites/UI/Menu/Two.png" id="7_54u7x"]
-[ext_resource type="Texture2D" uid="uid://cjrkl6ijltn6j" path="res://Sprites/UI/Menu/TwoHover.png" id="8_3jkgu"]
-[ext_resource type="Texture2D" uid="uid://dxrriq3a5wqyc" path="res://Sprites/UI/Menu/BackHover.png" id="8_cu27e"]
+[ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="5_5jb8c"]
+[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="6_in0el"]
+[ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="6_uuo7i"]
+[ext_resource type="Texture2D" uid="uid://bxl7itvh706c3" path="res://Sprites/UI/Menu/NumberPlayerScreen.png" id="13_eyhly"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_k0g5y"]
-font_size = 100
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 15
-shadow_color = Color(0, 0, 0, 0.392157)
+[sub_resource type="LabelSettings" id="LabelSettings_in0el"]
+font = ExtResource("5_5jb8c")
+font_size = 45
 
 [node name="Player Number Screen" type="Control"]
 layout_mode = 3
@@ -29,107 +20,124 @@ script = ExtResource("1_uwfy5")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="Background" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(960, 540)
-texture = ExtResource("2_2wuyv")
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="Background" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 525)
+scale = Vector2(5, 5)
+texture = ExtResource("13_eyhly")
+
+[node name="1" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = 60.0
+offset_right = -150.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 16)
+theme = ExtResource("6_uuo7i")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+toggle_mode = true
+text = "1"
+
+[node name="2" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 60.0
+offset_right = 50.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 16)
+theme = ExtResource("6_uuo7i")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+toggle_mode = true
+text = "2"
+
+[node name="3" type="Button" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = 60.0
+offset_right = 250.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 16)
+theme = ExtResource("6_uuo7i")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+toggle_mode = true
+text = "3"
+
+[node name="NextButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -280.0
+offset_right = 192.0
+offset_bottom = -180.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(39.5, 15.5)
+theme = ExtResource("6_uuo7i")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "NEXT"
+
+[node name="BackButton" type="Button" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -450.5
-offset_top = 100.0
-offset_right = 450.5
-offset_bottom = 237.0
+offset_left = -635.0
+offset_top = 5.0
+offset_right = -385.0
+offset_bottom = 80.0
 grow_horizontal = 2
-text = "Number of Players"
-label_settings = SubResource("LabelSettings_k0g5y")
+theme = ExtResource("6_uuo7i")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "BACK"
 
-[node name="ContinueButton" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
+[node name="Label2" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -39.5
-offset_top = 234.5
-offset_right = 39.5
-offset_bottom = 265.5
+offset_left = -437.5
+offset_top = 150.0
+offset_right = 437.5
+offset_bottom = 195.0
 grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(39.5, 15.5)
-texture_normal = ExtResource("3_4c8hg")
-texture_hover = ExtResource("4_orqj4")
+text = "NUMBER OF PLAYERS"
+label_settings = SubResource("LabelSettings_in0el")
 
-[node name="1" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -216.0
-offset_top = -16.0
-offset_right = -184.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(16, 16)
-toggle_mode = true
-texture_normal = ExtResource("5_ppy03")
-texture_hover = ExtResource("6_oddh6")
+[node name="AudioComponent" parent="." instance=ExtResource("6_in0el")]
 
-[node name="2" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(16, 16)
-toggle_mode = true
-texture_normal = ExtResource("7_54u7x")
-texture_hover = ExtResource("8_3jkgu")
-
-[node name="3" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 184.0
-offset_top = -16.0
-offset_right = 216.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(16, 16)
-toggle_mode = true
-texture_normal = ExtResource("5_8rtfk")
-texture_hover = ExtResource("6_y64id")
-
-[node name="BackButton" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -39.5
-offset_top = 380.5
-offset_right = 39.5
-offset_bottom = 411.5
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(39.5, 15.5)
-texture_normal = ExtResource("7_2ti8l")
-texture_hover = ExtResource("8_cu27e")
-
-[connection signal="pressed" from="CanvasLayer/ContinueButton" to="." method="ContinueButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/1" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/1" to="." method="OneButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/2" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/2" to="." method="TwoButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/3" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/3" to="." method="ThreeButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/NextButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/NextButton" to="." method="NextButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/BackButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://br5bwway6rwhr"]
+
+[ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="1_vvmgv"]
+
+[resource]
+default_font = ExtResource("1_vvmgv")
+default_font_size = 35

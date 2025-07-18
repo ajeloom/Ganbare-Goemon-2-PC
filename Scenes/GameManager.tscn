@@ -1,13 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://nad2u4n88r13"]
+[gd_scene load_steps=11 format=3 uid="uid://nad2u4n88r13"]
 
 [ext_resource type="Script" uid="uid://dsxuh6dk3m8m4" path="res://Scripts/GameManager.cs" id="1_p1civ"]
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
 [ext_resource type="Shader" uid="uid://ktaq6wq1ptda" path="res://Shaders/CRTShader2.gdshader" id="2_dygde"]
+[ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="2_xqbpr"]
 [ext_resource type="AudioStream" uid="uid://bl4vug7lv7kmx" path="res://Sounds/Music/Boss.mp3" id="3_4xv7j"]
+[ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="3_je8vj"]
 [ext_resource type="PackedScene" uid="uid://c4n08gut6ib5q" path="res://Scenes/FadeTransition.tscn" id="4_xjmtb"]
+[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_f5c43"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lalf3"]
-font_size = 100
+font = ExtResource("3_je8vj")
+font_size = 75
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e8q6f"]
 resource_local_to_scene = true
@@ -58,13 +62,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -185.0
-offset_right = 192.0
-offset_bottom = -77.0
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Resume"
+theme = ExtResource("2_xqbpr")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "RESUME"
 
 [node name="Menu Button" type="Button" parent="CanvasLayer/PauseMenu"]
 layout_mode = 1
@@ -73,13 +79,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -20.0
-offset_right = 192.0
-offset_bottom = 88.0
+offset_left = -300.0
+offset_top = -50.0
+offset_right = 300.0
+offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Return to menu"
+theme = ExtResource("2_xqbpr")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "RETURN TO MENU"
 
 [node name="Quit Button" type="Button" parent="CanvasLayer/PauseMenu"]
 layout_mode = 1
@@ -88,29 +96,28 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = 145.0
-offset_right = 192.0
-offset_bottom = 253.0
+offset_left = -300.0
+offset_top = 100.0
+offset_right = 300.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Quit"
+theme = ExtResource("2_xqbpr")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "QUIT"
 
 [node name="Label" type="Label" parent="CanvasLayer/PauseMenu"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -144.5
-offset_top = -370.0
-offset_right = 144.5
-offset_bottom = -233.0
+offset_left = -257.0
+offset_top = -350.0
+offset_right = 258.0
+offset_bottom = -275.0
 grow_horizontal = 2
-grow_vertical = 2
 pivot_offset = Vector2(144.5, 68.5)
-text = "Pause"
+text = "PAUSED"
 label_settings = SubResource("LabelSettings_lalf3")
 
 [node name="UI" parent="." instance=ExtResource("2_3b0cp")]
@@ -131,6 +138,11 @@ material = SubResource("ShaderMaterial_e8q6f")
 offset_right = 1920.0
 offset_bottom = 1080.0
 
+[node name="AudioComponent" parent="." instance=ExtResource("8_f5c43")]
+
+[connection signal="mouse_entered" from="CanvasLayer/PauseMenu/Resume Button" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Resume Button" to="." method="ResumeButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/PauseMenu/Menu Button" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Menu Button" to="." method="MenuButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/PauseMenu/Quit Button" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Quit Button" to="." method="QuitButtonPressed"]

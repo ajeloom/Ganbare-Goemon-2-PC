@@ -8,6 +8,7 @@ public partial class GameManager : Node2D
 	private CanvasLayer canvas;
 	private Control transition;
 	private AnimationPlayer transitionAP;
+	private AudioComponent audioComponent;
 
 	public Node currentScene { get; set; }
 
@@ -97,6 +98,7 @@ public partial class GameManager : Node2D
 		canvas.Visible = false;
 
 		audio = GetNode<AudioStreamPlayer>("BG Music");
+		audioComponent = GetNode<AudioComponent>("AudioComponent");
 		
 		transition = GetNode<Control>("Fade Transition");
 		transitionAP = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
@@ -224,12 +226,14 @@ public partial class GameManager : Node2D
 	}
 
 	private void ResumeButtonPressed() {
+		PlayButtonClickedSFX();
 		isPaused = false;
 		pauseMenu.Visible = false;
 		GetTree().Paused = false;
 	}
 
 	private void MenuButtonPressed() {
+		PlayButtonClickedSFX();
 		pauseMenu.Visible = false;
 		GoToMenu();
 	}
@@ -537,5 +541,13 @@ public partial class GameManager : Node2D
 
 			addedCursors = false;
 		}
+	}
+	
+	private void ButtonMouseEntered() {
+		audioComponent.playSFX("res://Sounds/SFX/MenuSelect.wav", -15.0f);
+	}
+
+	private void PlayButtonClickedSFX() {
+		audioComponent.playSFX("res://Sounds/SFX/MenuClick.wav", -10.0f);
 	}
 }

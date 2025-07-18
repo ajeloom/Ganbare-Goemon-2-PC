@@ -1,97 +1,120 @@
-[gd_scene load_steps=12 format=3 uid="uid://dajtcc1643xis"]
+[gd_scene load_steps=10 format=3 uid="uid://d0f0vpigi0th6"]
 
-[ext_resource type="Script" uid="uid://dnbvqk1t5elg1" path="res://Scripts/TitleScreen.cs" id="1_0bc46"]
-[ext_resource type="Texture2D" uid="uid://dm5hinvf473v4" path="res://Sprites/UI/Menu/title.png" id="2_6ba52"]
-[ext_resource type="AudioStream" uid="uid://bu44a3htxavq6" path="res://Sounds/Music/TitleScreen.mp3" id="2_qu5tk"]
-[ext_resource type="Texture2D" uid="uid://c5o61pdeaic7u" path="res://Sprites/UI/Menu/MenuBG.png" id="2_u1jul"]
-[ext_resource type="Texture2D" uid="uid://bgh47cd8ioj3v" path="res://Sprites/UI/Menu/Start.png" id="3_0k0q6"]
-[ext_resource type="Texture2D" uid="uid://dvmen7tfwpach" path="res://Sprites/UI/Menu/Quit.png" id="4_26nv7"]
-[ext_resource type="Texture2D" uid="uid://v6w61taysqvg" path="res://Sprites/UI/Menu/StartHover.png" id="4_wamst"]
-[ext_resource type="Texture2D" uid="uid://dp04l13wna1uy" path="res://Sprites/UI/Menu/QuitHover.png" id="6_rtslc"]
-[ext_resource type="Shader" uid="uid://ktaq6wq1ptda" path="res://Shaders/CRTShader2.gdshader" id="7_dujtj"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_xqgs4"]
-font_size = 100
-font_color = Color(0.952941, 0.0313726, 0.0313726, 1)
-outline_size = 12
-shadow_size = 25
-shadow_color = Color(0, 0, 0, 0.392157)
+[ext_resource type="Script" uid="uid://dnbvqk1t5elg1" path="res://Scripts/TitleScreen.cs" id="1_2u0nv"]
+[ext_resource type="Texture2D" uid="uid://b7vro831dhubx" path="res://Sprites/UI/Menu/Title.png" id="2_8n4dn"]
+[ext_resource type="Shader" uid="uid://ktaq6wq1ptda" path="res://Shaders/CRTShader2.gdshader" id="8_dsco3"]
+[ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="9_g7thj"]
+[ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="10_kqa1d"]
+[ext_resource type="AudioStream" uid="uid://bu44a3htxavq6" path="res://Sounds/Music/TitleScreen.mp3" id="11_ki880"]
+[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="12_2jiiu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mm3of"]
-shader = ExtResource("7_dujtj")
+shader = ExtResource("8_dsco3")
 shader_parameter/scanline_count = 50.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qfyqv"]
+font = ExtResource("10_kqa1d")
+font_size = 45
 
 [node name="Title Screen" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_0bc46")
+script = ExtResource("1_2u0nv")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(960, 540)
-texture = ExtResource("2_6ba52")
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Background" type="Sprite2D" parent="CanvasLayer"]
-visible = false
-position = Vector2(960, 540)
-texture = ExtResource("2_u1jul")
+position = Vector2(960, 525)
+scale = Vector2(5, 5)
+texture = ExtResource("2_8n4dn")
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -468.0
-offset_top = 100.0
-offset_right = 468.0
-offset_bottom = 237.0
-grow_horizontal = 2
-text = "Ganbare Goemon 2"
-label_settings = SubResource("LabelSettings_xqgs4")
-horizontal_alignment = 1
-
-[node name="Start" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -54.0
-offset_right = 192.0
-offset_bottom = 46.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("3_0k0q6")
-texture_hover = ExtResource("4_wamst")
-
-[node name="Quit" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = 146.0
-offset_right = 192.0
-offset_bottom = 254.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("4_26nv7")
-texture_hover = ExtResource("6_rtslc")
-
-[node name="TextureRect" type="ColorRect" parent="CanvasLayer"]
+[node name="CRTEffectRect" type="ColorRect" parent="CanvasLayer"]
 visible = false
 material = SubResource("ShaderMaterial_mm3of")
 offset_right = 1920.0
 offset_bottom = 1080.0
 
+[node name="StartButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = -270.0
+offset_right = 175.0
+offset_bottom = -220.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("9_g7thj")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "START"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 385.1
+offset_top = 5.0
+offset_right = 635.1
+offset_bottom = 55.0
+grow_horizontal = 2
+theme = ExtResource("9_g7thj")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "QUIT"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = -205.0
+offset_right = 175.0
+offset_bottom = -155.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("9_g7thj")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "SETTINGS"
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -421.0
+offset_top = 187.0
+offset_right = 421.0
+offset_bottom = 233.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GANBARE GOEMON 2"
+label_settings = SubResource("LabelSettings_qfyqv")
+horizontal_alignment = 1
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_qu5tk")
+stream = ExtResource("11_ki880")
 autoplay = true
 
-[connection signal="pressed" from="CanvasLayer/Start" to="." method="PlayButtonPressed"]
-[connection signal="pressed" from="CanvasLayer/Quit" to="." method="QuitButtonPressed"]
+[node name="AudioComponent" parent="." instance=ExtResource("12_2jiiu")]
+
+[connection signal="mouse_entered" from="CanvasLayer/StartButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/StartButton" to="." method="PlayButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/QuitButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/QuitButton" to="." method="QuitButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/SettingsButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/SettingsButton" to="." method="SettingsButtonPressed"]
