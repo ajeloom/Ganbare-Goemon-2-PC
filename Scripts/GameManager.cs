@@ -304,6 +304,8 @@ public partial class GameManager : Node2D
 			Transition("res://Scenes/TitleScreen.tscn");
 
 			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+			
+			Input.MouseMode = Input.MouseModeEnum.Visible;
 
 			if (!isImpactStage) {
 				// Remove extra nodes when in level 1
