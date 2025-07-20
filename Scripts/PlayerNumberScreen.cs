@@ -18,9 +18,7 @@ public partial class PlayerNumberScreen : Control
 		nextButton = GetNode<Button>("CanvasLayer/NextButton");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
 		gm = GetNode<GameManager>("/root/GameManager");
-		gm.inTitleScreen = false;
-		gm.inMenu = true;
-		gm.inStage = false;
+		gm.gameState = GameManager.State.Menu;
 		nextButton.Visible = false;
 	}
 

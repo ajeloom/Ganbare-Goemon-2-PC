@@ -22,9 +22,15 @@ public partial class GameManager : Node2D
 	private bool initLoad = false;
 
 	// Tells what part of the game you are in
-	public bool inTitleScreen = false;
-	public bool inMenu = false;
-	public bool inStage = false;
+	public State gameState = State.TitleScreen;
+
+	public enum State {
+		TitleScreen,
+		Menu,
+		Stage
+	}
+
+	private bool checkedPlayers = false;
 
 	// For character select screen
 	public bool selectCharacter = false;
@@ -43,7 +49,6 @@ public partial class GameManager : Node2D
 
 	// For the end of the level
 	public bool reloadingLevel = false;
-	public bool endLevel = false;
 
 	// For returning back to the title screen	
 	private bool exitGame = false;
@@ -115,90 +120,79 @@ public partial class GameManager : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (inTitleScreen) {
-			// Stop the time from going down
-			Timer timer = GetNode<Timer>("UI/Timer");
-			timer.Stop();
+		switch (gameState) {
+			case State.TitleScreen:
+				// Stop the music in the title screen
+				if (musicPlaying) {
+					musicPlaying = false;
 
-			// Stop the music if you go back to the title screen
-			if (musicPlaying) {
-				musicPlaying = false;
-				audio.Stop();
-			}
-		}
-		else if (inMenu) {
-			if (!musicPlaying) {
-				musicPlaying = true;
-				audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
-				audio.VolumeDb = -5.0f;
-				audio.Play();
-			}
-
-			// You enter the CSS
-			if (selectCharacter) {
-				PickCharacter();
-			}
-		}
-		else if (inStage) {
-			if (isImpactStage) {
-				if (!initLoad) {
-					initLoad = true;
-
-					Input.MouseMode = Input.MouseModeEnum.Hidden;
-
-					// Show the bottom UI
-					canvas.Visible = false;
+					audio.Stop();
 				}
-
-				if (Input.IsActionJustPressed("pause") && canPause && !isPaused) {
-					PauseGame();
-				}
-				else if (Input.IsActionJustPressed("pause") && isPaused) {
-					ResumeButtonPressed();
-				}
-
-				// Load stage music
-				if (!loadedMusic) {
-					loadedMusic = true;
-					audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/ImpactBoss.mp3");
-					audio.VolumeDb = -10.0f;
+				break;
+			case State.Menu:
+				if (!musicPlaying) {
+					musicPlaying = true;
+					audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/FileSelect.mp3");
+					audio.VolumeDb = -5.0f;
 					audio.Play();
 				}
 
-				if (endLevel) {
-					GoToMenu();
+				// You enter the CSS
+				if (selectCharacter) {
+					PickCharacter();
 				}
-			}
-			else {
+				break;
+			case State.Stage:
 				if (!initLoad) {
 					initLoad = true;
 
-					// Show the bottom UI
-					canvas.Visible = true;
-
 					Input.MouseMode = Input.MouseModeEnum.Hidden;
 
-					LoadPlayers(false);
+					// Show the bottom UI based on the type of stage
+					if (isImpactStage) {
+						canvas.Visible = false;
+					}
+					else {
+						canvas.Visible = true;
+						LoadPlayers(false);
+					}
 				}
+			
+				if (isImpactStage) {
+					// Load stage music
+					if (!loadedMusic) {
+						loadedMusic = true;
+						audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/ImpactBoss.mp3");
+						audio.VolumeDb = -10.0f;
+						audio.Play();
+					}
+				}
+				else {
+					if (!checkedPlayers) {
+						checkedPlayers = true;
 
-				// Keep track of player lives/coins
-				for (int i = 0; i < playerNum; i++) {
-					players[i].coins = players[i].node.coins;
-					players[i].lives = players[i].node.lives;
-					players[i].isAlive = players[i].node.isAlive;
+						// Keep track of player lives/coins
+						for (int i = 0; i < playerNum; i++) {
+							players[i].coins = players[i].node.coins;
+							players[i].lives = players[i].node.lives;
+							players[i].isAlive = players[i].node.isAlive;
 
-					// Load game over
-					if (!players[0].isAlive && !players[1].isAlive && !players[2].isAlive) {
-						if (players[i].lives >= 0) {
-							reloadScene();
-						}
-						else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
-							if (!gameOver) {
-								gameOver = true;
-								canPause = false;
-								GameOver();	
+							// Load game over
+							if (!players[0].isAlive && !players[1].isAlive && !players[2].isAlive) {
+								if (players[i].lives >= 0) {
+									reloadScene();
+								}
+								else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
+									if (!gameOver) {
+										gameOver = true;
+										canPause = false;
+										GameOver();
+									}
+								}
 							}
 						}
+
+						checkedPlayers = false;
 					}
 				}
 
@@ -209,10 +203,7 @@ public partial class GameManager : Node2D
 					ResumeButtonPressed();
 				}
 
-				if (endLevel) {
-					GoToMenu();
-				}
-			}
+				break;
 		}
 
 		// Change the layer of the transition control node to not block any buttons
@@ -297,7 +288,7 @@ public partial class GameManager : Node2D
 		players[playerNum].character = value;
 	}
 
-	private async void GoToMenu() {
+	public async void GoToMenu() {
 		if (!exitGame) {
 			exitGame = true;
 
@@ -334,7 +325,6 @@ public partial class GameManager : Node2D
 			addedCursors = false;
 			deletedCursors = false;
 
-			endLevel = false;
 			canPause = true;
 			reloadingLevel = false;
 			gameOver = false;
@@ -348,7 +338,6 @@ public partial class GameManager : Node2D
 		if (!reloadingLevel) {
 			reloadingLevel = true;
 			canPause = false;
-			inStage = false;			
 			
 			SmallTransition("FadeOut");
 
@@ -363,12 +352,10 @@ public partial class GameManager : Node2D
 
 			if (isBossStage) {
 				GoToScene("res://Scenes/boss.tscn");
-				inStage = true;
 				isBossStage = true;
 			}
 			else {
 				GoToScene("res://Scenes/Stage1.tscn");
-				inStage = true;
 				isBossStage = false;
 			}
 
@@ -488,8 +475,8 @@ public partial class GameManager : Node2D
 			AddChild("res://Scenes/Camera.tscn", this);
 
 			// Start timer
-			Timer timer = GetNode<Timer>("UI/Timer");
 			UIManager ui = GetNode<UIManager>("UI");
+			Timer timer = ui.GetNode<Timer>("Timer");
 			ui.time = 99;
 			timer.Start();
 

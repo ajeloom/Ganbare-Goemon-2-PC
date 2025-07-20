@@ -39,7 +39,7 @@ public partial class Senshuraku : CharacterBody2D
 	private bool takingDamage = false;
 	private bool goBack = false;
 
-	private bool endLevel = false;
+	private bool isLevelEnding = false;
 
 	private Vector2 velocity;
 	private float gradualSpeed = 0.0f;
@@ -306,8 +306,8 @@ public partial class Senshuraku : CharacterBody2D
 	}
 
 	private async void EndLevel() {
-		if (!endLevel) {
-			endLevel = true;
+		if (!isLevelEnding) {
+			isLevelEnding = true;
 			gm.canPause = false;
 
 			animPlayer.Play("Hurt");
@@ -338,7 +338,7 @@ public partial class Senshuraku : CharacterBody2D
 			gm.audio.Play();
 			
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
-			gm.endLevel = true;
+			gm.GoToMenu();
 		}
 		
 	}

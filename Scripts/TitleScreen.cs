@@ -13,9 +13,7 @@ public partial class TitleScreen : Control
 		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
 		gm = GetNode<GameManager>("/root/GameManager");
-		gm.inTitleScreen = true;
-		gm.inMenu = false;
-		gm.inStage = false;
+		gm.gameState = GameManager.State.TitleScreen;
 
 		// Unpause the game if you return to title from pause screen
 		GetTree().Paused = false;

@@ -47,7 +47,7 @@ public partial class Kabuki : CharacterBody2D
 
 	private bool takingDamage = false;
 
-	private bool endLevel = false;
+	private bool isLevelEnding = false;
 
 	public override void _Ready()
 	{
@@ -348,8 +348,8 @@ public partial class Kabuki : CharacterBody2D
 	}
 
 	private async void EndLevel() {
-		if (!endLevel) {
-			endLevel = true;
+		if (!isLevelEnding) {
+			isLevelEnding = true;
 			gm.canPause = false;
 
 			animPlayer.Play("death");
@@ -365,8 +365,7 @@ public partial class Kabuki : CharacterBody2D
 			gm.audio.Play();
 			
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
-			gm.endLevel = true;
+			gm.GoToMenu();
 		}
-		
 	}
 }

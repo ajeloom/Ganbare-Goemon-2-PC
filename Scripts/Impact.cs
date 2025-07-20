@@ -121,7 +121,7 @@ public partial class Impact : Node2D
 			if (bigExplosion) {
 				if (!spawnedExplosion) {
 					spawnedExplosion = true;
-					gm.endLevel = true;
+					gm.GoToMenu();
 					var scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
 					Explosion instance = scene.Instantiate<Explosion>();
 					instance.explosion = 1;

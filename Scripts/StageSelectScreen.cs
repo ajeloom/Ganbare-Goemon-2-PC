@@ -68,12 +68,11 @@ public partial class StageSelectScreen : Control
 
 	private async void StartButtonPressed() {
 		PlayButtonClickedSFX();
-		gm.inMenu = false;
 		gm.isBossStage = bossStage;
 		gm.isImpactStage = impactStage;
 		gm.Transition(path);
 		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-		gm.inStage = true;
+		gm.gameState = GameManager.State.Stage;
 	}
 
 	private void BackButtonPressed() {

@@ -38,8 +38,7 @@ public partial class Pass : Node2D
 
 			audio.Play();
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
-			gm.endLevel = true;
+			gm.GoToMenu();
 		}
-		
 	}
 }
