@@ -765,7 +765,7 @@ _data = {
 &"rightPunch_2": SubResource("Animation_gqgg8")
 }
 
-[node name="Impact" type="Node2D" groups=["Impact", "Player"]]
+[node name="Impact" type="Node2D" groups=["Impact"]]
 scale = Vector2(1.6, 1.6)
 script = ExtResource("1_mc6ui")
 
@@ -776,7 +776,7 @@ visible = false
 position = Vector2(26.25, -26.25)
 texture = ExtResource("1_0nwfs")
 
-[node name="HitboxComponent" parent="Left/LHand" groups=["Impact"] instance=ExtResource("3_xxtsp")]
+[node name="HitboxComponent" parent="Left/LHand" instance=ExtResource("3_xxtsp")]
 collision_layer = 2
 collision_mask = 4
 damageNumber = 10.0

@@ -798,8 +798,9 @@ visible = false
 position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_4gu0m")
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("effectsPlayer") groups=["ImpactBoss"] instance=ExtResource("4_qychw")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("animPlayer", "effectsPlayer") instance=ExtResource("4_qychw")]
 health = 300.0
+animPlayer = NodePath("../AnimationPlayer")
 effectsPlayer = NodePath("../EffectsPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -814,10 +815,9 @@ libraries = {
 }
 autoplay = "RESET"
 
-[node name="HurtboxComponent" parent="." groups=["ImpactBoss"] instance=ExtResource("5_ypqto")]
+[node name="HurtboxComponent" parent="." instance=ExtResource("5_ypqto")]
 collision_layer = 4
 collision_mask = 2
-monitorable = false
 
 [node name="Hurtbox" type="CollisionShape2D" parent="HurtboxComponent"]
 position = Vector2(0, 16)

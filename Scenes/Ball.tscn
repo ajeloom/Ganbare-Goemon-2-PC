@@ -156,7 +156,7 @@ _data = {
 &"RESET": SubResource("Animation_amk74")
 }
 
-[node name="Ball" type="CharacterBody2D"]
+[node name="Ball" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_mqv8u")
@@ -173,7 +173,7 @@ shape = SubResource("CircleShape2D_bseib")
 [node name="HealthComponent" parent="." instance=ExtResource("3_1kawl")]
 health = 2.0
 
-[node name="HurtboxComponent" parent="." groups=["Enemy"] instance=ExtResource("4_4kmcg")]
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_4kmcg")]
 position = Vector2(0, -50)
 collision_layer = 4
 collision_mask = 2

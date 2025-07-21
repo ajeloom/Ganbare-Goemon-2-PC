@@ -449,7 +449,7 @@ size = Vector2(9, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n00ak"]
 size = Vector2(9, 7)
 
-[node name="Flower" type="CharacterBody2D"]
+[node name="Flower" type="CharacterBody2D" groups=["Enemy"]]
 z_index = -1
 scale = Vector2(1.6, 1.6)
 collision_layer = 4
@@ -477,7 +477,7 @@ shape = SubResource("RectangleShape2D_g2b16")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
-[node name="HealthComponent" parent="." groups=["Enemy"] instance=ExtResource("5_hlyqt")]
+[node name="HealthComponent" parent="." instance=ExtResource("5_hlyqt")]
 health = 1.0
 
 [node name="HitboxComponent" parent="." instance=ExtResource("3_geai1")]
@@ -489,7 +489,7 @@ visible = false
 shape = SubResource("RectangleShape2D_a7lck")
 disabled = true
 
-[node name="HurtboxComponent" parent="." groups=["Enemy"] instance=ExtResource("4_iuko3")]
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_iuko3")]
 collision_layer = 4
 collision_mask = 2
 

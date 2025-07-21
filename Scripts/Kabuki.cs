@@ -190,12 +190,14 @@ public partial class Kabuki : CharacterBody2D
 							velocity.X = 0.0f;
 						}
 
-						animPlayer.Play("jump");
 						audioComponent.playSFX("res://Sounds/SFX/Goemon/jump.wav", -25.0f);
 					}
 
 					if (takingDamage) {
 						animPlayer.Play("hurt");
+					}
+					else {
+						animPlayer.Play("jump");
 					}
 
 					
@@ -234,7 +236,7 @@ public partial class Kabuki : CharacterBody2D
 				}
 			}
 
-			takingDamage = hurtboxComponent.takingDamage;
+			takingDamage = hurtboxComponent.tookDamage;
 
 			Velocity = velocity;
 			MoveAndSlide();

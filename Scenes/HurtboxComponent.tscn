@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://26jkjyfc65ma" path="res://Scripts/HurtboxComponent.cs" id="1_ldwmb"]
 
-[node name="HurtboxComponent" type="Area2D"]
+[node name="HurtboxComponent" type="Area2D" groups=["Hurtbox"]]
 script = ExtResource("1_ldwmb")
 
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
+[connection signal="area_exited" from="." to="." method="OnAreaExited"]

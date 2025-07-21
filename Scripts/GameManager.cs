@@ -62,10 +62,10 @@ public partial class GameManager : Node2D
 	public int playerNum { get; set; }
 	public int characterNum { get; set; }
 
-	public player[] players;
+	public PlayerStruct[] players;
 
-	public struct player {
-		public player(Player Node, int Character, int Slot, int Lives, int Coins, bool IsAlive) {
+	public struct PlayerStruct {
+		public PlayerStruct(Player Node, int Character, int Slot, int Lives, int Coins, bool IsAlive) {
 			node = Node;
 			character = Character;
 			slot = Slot;
@@ -111,7 +111,7 @@ public partial class GameManager : Node2D
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 
 		// Initialize player array
-		players = new player[3];
+		players = new PlayerStruct[3];
 
 		// Load title screen
 		GoToScene("res://Scenes/TitleScreen.tscn");
@@ -316,7 +316,7 @@ public partial class GameManager : Node2D
 			}
 			
 			// Reset values
-			players = new player[3];
+			players = new PlayerStruct[3];
 
 			isPaused = false;
 			selectCharacter = false;
@@ -446,7 +446,7 @@ public partial class GameManager : Node2D
 					temp.lives = 2;
 					temp.isAlive = true;
 					temp.chara = players[i].character;
-					players[i] = new player(temp, temp.chara, i, temp.lives, temp.coins, temp.isAlive);
+					players[i] = new PlayerStruct(temp, temp.chara, i, temp.lives, temp.coins, temp.isAlive);
 				}
 
 				// Get spawn point
@@ -462,7 +462,7 @@ public partial class GameManager : Node2D
 				temp.Position = node.GlobalPosition;
 			}
 			else {
-				players[i] = new player(null, 0, i, -1, 0, false);
+				players[i] = new PlayerStruct(null, 0, i, -1, 0, false);
 			}
 		}
 

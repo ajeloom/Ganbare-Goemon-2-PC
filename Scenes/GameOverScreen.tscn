@@ -1,7 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b47eoeb1msvha"]
+[gd_scene load_steps=3 format=3 uid="uid://b47eoeb1msvha"]
+
+[ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="1_d4r0f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vllb"]
-font_size = 100
+font = ExtResource("1_d4r0f")
+font_size = 75
 font_color = Color(1, 0, 0, 1)
 
 [node name="Game Over Screen" type="Control"]
@@ -16,8 +19,11 @@ grow_vertical = 2
 layer = 14
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-offset_right = 1920.0
-offset_bottom = 1080.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -26,11 +32,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -43.5
-offset_top = -11.5
-offset_right = 43.5
-offset_bottom = 11.5
+offset_left = -386.0
+offset_top = -37.5
+offset_right = 386.0
+offset_bottom = 37.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Game Over"
+text = "GAME OVER"
 label_settings = SubResource("LabelSettings_5vllb")

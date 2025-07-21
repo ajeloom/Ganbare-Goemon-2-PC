@@ -1493,7 +1493,7 @@ height = 73.3333
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rjmc5"]
 size = Vector2(64.4445, 48.3333)
 
-[node name="Kabuki" type="CharacterBody2D" groups=["Enemy"]]
+[node name="Kabuki" type="CharacterBody2D" groups=["Boss"]]
 z_index = -1
 scale = Vector2(1.8, 1.8)
 collision_layer = 4
@@ -1552,7 +1552,7 @@ libraries = {
 target_position = Vector2(0, 70)
 collision_mask = 2
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("effectsPlayer") groups=["Boss"] instance=ExtResource("6_50uyh")]
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("effectsPlayer") instance=ExtResource("6_50uyh")]
 position = Vector2(0, 0.555556)
 health = 16.0
 effectsPlayer = NodePath("../Effects")
@@ -1569,7 +1569,7 @@ disabled = true
 position = Vector2(-1.05964e-06, -13.6111)
 shape = SubResource("RectangleShape2D_axigq")
 
-[node name="HurtboxComponent" parent="." groups=["Enemy"] instance=ExtResource("7_hcmvo")]
+[node name="HurtboxComponent" parent="." instance=ExtResource("7_hcmvo")]
 collision_layer = 4
 collision_mask = 2
 

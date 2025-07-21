@@ -33,6 +33,7 @@ public partial class Senshuraku : CharacterBody2D
 	private AudioComponent audio;
 	private Sprite2D sprite;
 	private ScreenShake camera;
+	private CollisionShape2D hurtbox;
 
 	private Impact impact;
 
@@ -46,8 +47,8 @@ public partial class Senshuraku : CharacterBody2D
 
 	public override void _Ready() {
 		Position = new Vector2(0.0f, 7.0f);
-		Scale = new Vector2(0.7f, 0.7f);;
-		
+		Scale = new Vector2(0.7f, 0.7f);
+
 		gm = GetNode<GameManager>("/root/GameManager");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
@@ -57,6 +58,8 @@ public partial class Senshuraku : CharacterBody2D
 		sprite = GetNode<Sprite2D>("Sprite2D");
 		camera = GetNode<ScreenShake>("/root/Impact Battle/Camera2D");
 		impact = GetNode<Impact>("/root/Impact Battle/Impact");
+		hurtbox = hurtboxComponent.GetNode<CollisionShape2D>("Hurtbox");
+		hurtbox.Disabled = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -100,14 +103,14 @@ public partial class Senshuraku : CharacterBody2D
 
 				// Hurtbox can be hit when boss gets close
 				if (Scale.X < 6.5f || goBack) {
-					hurtboxComponent.Monitorable = false;
+					hurtbox.Disabled = true;
 				}
 				else {
-					hurtboxComponent.Monitorable = true;
+					hurtbox.Disabled = false;
 				}
 
 				// Check if the boss is taking damage
-				takingDamage = healthComponent.takingDamage;
+				takingDamage = hurtboxComponent.tookDamage;
 
 				if (takingDamage) {
 					animPlayer.Play("Hurt");

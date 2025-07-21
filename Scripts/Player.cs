@@ -72,7 +72,7 @@ public partial class Player : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 
-		if (healthComponent.health <= 0.0f) {		
+		if (healthComponent.health <= 0.0f) {
 			isAlive = false;
 
 			// Stop any horizontal movement	
@@ -89,7 +89,7 @@ public partial class Player : CharacterBody2D
 					lives--;
 					audio.playSFX("res://Sounds/SFX/deathRing.wav", -12.5f);
 					audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/death.wav", -12.5f);
-				}				
+				}
 			}
 
 			// Fall down through the floor
@@ -110,13 +110,10 @@ public partial class Player : CharacterBody2D
 				if (lives >= 0 && !gm.isBossStage)
 					Respawn();
 			}
-
-			Velocity = velocity;
-			MoveAndSlide();
 		}
 		else {
 			isAlive = true;
-			velocity.X = horizontalMovement();	
+			velocity.X = horizontalMovement();
 
 			// Add the gravity.
 			if (!IsOnFloor()) {
@@ -145,8 +142,8 @@ public partial class Player : CharacterBody2D
 							}
 						}
 						else if (chara == 1 || chara == 2) {
-							animPlayer.Play(charaName[chara] +"/Fall");
-						}	
+							animPlayer.Play(charaName[chara] + "/Fall");
+						}
 					}
 				}
 			}
@@ -155,22 +152,22 @@ public partial class Player : CharacterBody2D
 				if (Input.IsActionJustPressed("jump" + playerNum.ToString())) {
 					holdingJumpButton = true;
 					velocity.Y = jumpVelocity;
-					
+
 					audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/jump.wav", -20.0f);
 				}
 				else if (Input.IsActionJustReleased("jump" + playerNum.ToString())) {
 					holdingJumpButton = false;
 				}
-				
+
 				if (velocity.X != 0.0f && holdingRunButton) {
 					if (speed < maxSpeed)
-						speed += 1.0f;				// Gradually increase speed to maxSpeed
+						speed += 1.0f;              // Gradually increase speed to maxSpeed
 				}
 				else if (!holdingRunButton) {
 					if (speed > baseSpeed)
-						speed -= 5.0f;				// Speed drops to baseSpeed quicker
+						speed -= 5.0f;              // Speed drops to baseSpeed quicker
 					else if (speed <= baseSpeed)
-						speed = baseSpeed;			// Make sure speed does not go below baseSpeed
+						speed = baseSpeed;          // Make sure speed does not go below baseSpeed
 				}
 
 				// Play one of these animations if the player is not moving
@@ -184,13 +181,13 @@ public partial class Player : CharacterBody2D
 					else {
 						animPlayer.Play("Idle");
 					}
-				}	
+				}
 			}
 
 			if (takingDamage) {
-				animPlayer.Play("Hurt");			
+				animPlayer.Play("Hurt");
 				Hurt();
-				
+
 				// Player bounces up everytime they hit the floor
 				if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
 					bounces++;
@@ -214,11 +211,11 @@ public partial class Player : CharacterBody2D
 				holdingRunButton = false;
 			}
 
-			takingDamage = hurtboxComponent.takingDamage;
-
-			Velocity = velocity;
-			MoveAndSlide();		
+			takingDamage = hurtboxComponent.tookDamage;
 		}
+
+		Velocity = velocity;
+		MoveAndSlide();
 	}
 
 	/*
