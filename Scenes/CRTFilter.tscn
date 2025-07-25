@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c202ausjmm3kk"]
+
+[ext_resource type="Shader" uid="uid://ktaq6wq1ptda" path="res://Shaders/CRTShader2.gdshader" id="1_6nqaw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e8q6f"]
+resource_local_to_scene = true
+shader = ExtResource("1_6nqaw")
+shader_parameter/scanline_count = 700.0
+
+[node name="CRTFilter" type="CanvasLayer"]
+layer = 11
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_e8q6f")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2

@@ -1,21 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://b432wouw8ummd"]
+[gd_scene load_steps=10 format=3 uid="uid://b432wouw8ummd"]
 
 [ext_resource type="Script" uid="uid://d0ncob4lwk07f" path="res://Scripts/Settings.cs" id="1_mjqtt"]
 [ext_resource type="Texture2D" uid="uid://bxl7itvh706c3" path="res://Sprites/UI/Menu/NumberPlayerScreen.png" id="2_ppjuv"]
 [ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="4_646k0"]
 [ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="5_efosg"]
+[ext_resource type="Texture2D" uid="uid://85jvgio63bek" path="res://Sprites/UI/Menu/Box_Checked.png" id="5_ipgag"]
+[ext_resource type="Texture2D" uid="uid://crb72w82nm0wt" path="res://Sprites/UI/Menu/Box_Unchecked.png" id="6_646k0"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="6_ppjuv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_in0el"]
 font = ExtResource("5_efosg")
 font_size = 45
 
-[node name="Settings" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ipgag"]
+
+[node name="Settings" type="Control" node_paths=PackedStringArray("CRTCheckBox")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_mjqtt")
+CRTCheckBox = NodePath("CanvasLayer/CRTCheckBox")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
@@ -59,7 +64,28 @@ text = "SETTINGS"
 label_settings = SubResource("LabelSettings_in0el")
 horizontal_alignment = 1
 
+[node name="CRTCheckBox" type="CheckBox" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -53.0
+offset_top = -15.5
+offset_right = 53.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_646k0")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 15
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ipgag")
+theme_override_icons/checked = ExtResource("5_ipgag")
+theme_override_icons/unchecked = ExtResource("6_646k0")
+text = "CRT EFFECT"
+
 [node name="AudioComponent" parent="." instance=ExtResource("6_ppjuv")]
 
 [connection signal="mouse_entered" from="CanvasLayer/BackButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]
+[connection signal="toggled" from="CanvasLayer/CRTCheckBox" to="." method="CRTEffectCheckBoxToggled"]

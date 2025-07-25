@@ -3,6 +3,9 @@ using System;
 
 public partial class GameManager : Node2D
 {
+	string savePath = "user://settings.ini";
+	private ConfigFile configFile = new ConfigFile();
+	
 	private Control pauseMenu;
 	public AudioStreamPlayer audio;
 	private CanvasLayer canvas;
@@ -104,7 +107,7 @@ public partial class GameManager : Node2D
 
 		audio = GetNode<AudioStreamPlayer>("BG Music");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
-		
+
 		transition = GetNode<Control>("Fade Transition");
 		transitionAP = transition.GetNode<AnimationPlayer>("CanvasLayer/AnimationPlayer");
 
@@ -115,6 +118,8 @@ public partial class GameManager : Node2D
 
 		// Load title screen
 		GoToScene("res://Scenes/TitleScreen.tscn");
+		
+		CallDeferred(MethodName.LoadSettings, null);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -547,5 +552,21 @@ public partial class GameManager : Node2D
 
 	private void PlayButtonClickedSFX() {
 		audioComponent.playSFX("res://Sounds/SFX/MenuClick.wav", -10.0f);
+	}
+	
+	private void LoadSettings()
+	{
+		// Load the saved settings
+		Error error = configFile.Load(savePath);
+		if (error != Error.Ok) {
+			return;
+		}
+
+		bool displayCRTFilter = (bool)configFile.GetValue("Settings", "DisplayCRTFilter");
+		if (displayCRTFilter) {
+			var scene = GD.Load<PackedScene>("res://Scenes/CRTFilter.tscn");
+			var instance = scene.Instantiate();
+			AddChild(instance);
+		}
 	}
 }
