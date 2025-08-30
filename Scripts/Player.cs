@@ -18,7 +18,6 @@ public partial class Player : CharacterBody2D
 	private HurtboxComponent hurtboxComponent;
 	public HealthComponent healthComponent;
 	private AudioComponent audio;
-	private GameManager gm;
 
 	// Variables for taking damage
 	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
@@ -42,7 +41,14 @@ public partial class Player : CharacterBody2D
 	public bool isAlive { get; set; }
 	public int chara { get; set; }
 
-	private string[] charaName = {"Goemon", "Ebisumaru", "Sasuke"};
+	private string[] charaName = {"Ebisumaru", "Goemon", "Sasuke"};
+
+	public enum CharacterID
+	{
+		Ebisumaru = 0,
+		Goemon = 1,
+		Sasuke = 2
+	}
 
 	private bool playingDeathAnim = false;
 
@@ -56,11 +62,10 @@ public partial class Player : CharacterBody2D
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		audio = GetNode<AudioComponent>("AudioComponent");
-		gm = GetNode<GameManager>("/root/GameManager");
 
 		speed = baseSpeed;
 
-		if (gm.isBossStage) {
+		if (GameManager.instance.isBossStage) {
 			bodySprite.FlipH = true;
 		}
 		else {
@@ -107,7 +112,7 @@ public partial class Player : CharacterBody2D
 			if (!gotSpawnPos) {
 				gotSpawnPos = true;
 				spawnPosition = GlobalPosition;
-				if (lives >= 0 && !gm.isBossStage)
+				if (lives >= 0 && !GameManager.instance.isBossStage)
 					Respawn();
 			}
 		}
@@ -127,7 +132,7 @@ public partial class Player : CharacterBody2D
 				// Play jump or fall animations
 				if (!isAttacking && !takingDamage) {
 					if (velocity.Y < 0.0f) {
-						if (chara == 2) {
+						if (chara == (int)CharacterID.Sasuke) {
 							animPlayer.Play("Sasuke/Jump");
 						}
 						else {
@@ -135,13 +140,13 @@ public partial class Player : CharacterBody2D
 						}
 					}
 					else {
-						if (chara == 0) {
+						if (chara == (int)CharacterID.Goemon) {
 							if (animPlayer.CurrentAnimation != "Fall1" && animPlayer.CurrentAnimation != "Fall2") {
 								animPlayer.Play("Fall1");
 								animPlayer.Queue("Fall2");
 							}
 						}
-						else if (chara == 1 || chara == 2) {
+						else if (chara == (int)CharacterID.Ebisumaru || chara == (int)CharacterID.Sasuke) {
 							animPlayer.Play(charaName[chara] + "/Fall");
 						}
 					}
@@ -292,12 +297,12 @@ public partial class Player : CharacterBody2D
 				// Play appropriate animation for the character
 				if (Input.IsActionPressed("crouch" + playerNum.ToString()) && IsOnFloor()) {
 					animPlayer.Play(charaName[chara] +"/CrouchAttackR");
-					if (chara == 2) {
+					if (chara == (int)CharacterID.Sasuke) {
 						time = 0.35f;
 					}
 				}
 				else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
-					if (chara == 2) {
+					if (chara == (int)CharacterID.Sasuke) {
 						if (IsOnFloor()) {
 							animPlayer.Play("Sasuke/UpAttackR");
 							time = 0.35f;
@@ -305,7 +310,7 @@ public partial class Player : CharacterBody2D
 						else
 							animPlayer.Play("Sasuke/NormalAttackR");
 					}
-					else if (chara != 2) {
+					else {
 						animPlayer.Play(charaName[chara] +"/UpAttackR");
 					}
 				}
@@ -319,12 +324,12 @@ public partial class Player : CharacterBody2D
 				// Play appropriate animation for the character
 				if (Input.IsActionPressed("crouch" + playerNum.ToString()) && IsOnFloor()) {
 					animPlayer.Play(charaName[chara] +"/CrouchAttackL");
-					if (chara == 2) {
+					if (chara == (int)CharacterID.Sasuke) {
 						time = 0.35f;
 					}
 				}
 				else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
-					if (chara == 2) {
+					if (chara == (int)CharacterID.Sasuke) {
 						if (IsOnFloor()) {
 							animPlayer.Play("Sasuke/UpAttackL");
 							time = 0.35f;

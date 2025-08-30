@@ -3,7 +3,6 @@ using System;
 
 public partial class StageSelectScreen : Control
 {
-	private GameManager gm;
 	private TextureButton stageButton, bossButton, impactButton;
 	private Button startButton;
 	private AudioComponent audioComponent;
@@ -14,7 +13,6 @@ public partial class StageSelectScreen : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		gm = GetNode<GameManager>("/root/GameManager");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
 		stageButton = GetNode<TextureButton>("CanvasLayer/Level 1");
 		bossButton = GetNode<TextureButton>("CanvasLayer/Boss");
@@ -22,7 +20,7 @@ public partial class StageSelectScreen : Control
 		startButton = GetNode<Button>("CanvasLayer/StartButton");
 		startButton.Visible = false;
 
-		if (gm.playerNum > 1) {
+		if (GameManager.instance.playerCount > 1) {
 			impactButton.Disabled = true;
 			impactButton.Visible = false;
 		}
@@ -68,16 +66,16 @@ public partial class StageSelectScreen : Control
 
 	private async void StartButtonPressed() {
 		PlayButtonClickedSFX();
-		gm.isBossStage = bossStage;
-		gm.isImpactStage = impactStage;
-		gm.Transition(path);
+		GameManager.instance.isBossStage = bossStage;
+		GameManager.instance.isImpactStage = impactStage;
+		GameManager.instance.Transition(path);
 		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-		gm.gameState = GameManager.State.Stage;
+		GameManager.instance.gameState = GameManager.State.Stage;
 	}
 
 	private void BackButtonPressed() {
 		PlayButtonClickedSFX();
-		gm.Transition("res://Scenes/CharacterSelectScreen.tscn");
+		GameManager.instance.Transition("res://Scenes/CharacterSelectScreen.tscn");
 	}
 
 	private void ShowStartButton() {

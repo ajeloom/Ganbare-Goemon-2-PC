@@ -18,7 +18,7 @@ public partial class EnemySpawn : Node2D
 
 	private void OnScreenEntered() {
 		if (!enemySpawned && GetChildCount() <= 1) {
-			var instance = packedScene.Instantiate();
+			Node instance = packedScene.Instantiate();
 			AddChild(instance, true);
 		}
 	}

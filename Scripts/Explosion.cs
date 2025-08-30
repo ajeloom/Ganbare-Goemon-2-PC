@@ -3,7 +3,6 @@ using System;
 
 public partial class Explosion : Node2D
 {
-	private GameManager gm;
 	private AnimationPlayer animPlayer;
 	private bool isPlayingAnim = false;
 
@@ -13,7 +12,6 @@ public partial class Explosion : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		gm = GetNode<GameManager>("/root/GameManager");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
 

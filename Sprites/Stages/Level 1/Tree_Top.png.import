@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qpnjr5siymfh"
-path="res://.godot/imported/Level1_Ryukyu_Resort.png-b6000abf37a43bf6c152eeaee081793e.ctex"
+uid="uid://mprso21isenp"
+path="res://.godot/imported/Tree_Top.png-fbc6e8d5d0574d16a62edfdbfd2a4b64.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Stages/Level 1/Level1_Ryukyu_Resort.png"
-dest_files=["res://.godot/imported/Level1_Ryukyu_Resort.png-b6000abf37a43bf6c152eeaee081793e.ctex"]
+source_file="res://Sprites/Stages/Level 1/Tree_Top.png"
+dest_files=["res://.godot/imported/Tree_Top.png-fbc6e8d5d0574d16a62edfdbfd2a4b64.ctex"]
 
 [params]
 

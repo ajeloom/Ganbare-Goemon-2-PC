@@ -3,7 +3,6 @@ using System;
 
 public partial class TitleScreen : Control
 {
-	private GameManager gm;
 	private AudioStreamPlayer audio;
 	private AudioComponent audioComponent;
 
@@ -12,8 +11,7 @@ public partial class TitleScreen : Control
 	{
 		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
-		gm = GetNode<GameManager>("/root/GameManager");
-		gm.gameState = GameManager.State.TitleScreen;
+		GameManager.instance.gameState = GameManager.State.TitleScreen;
 
 		// Unpause the game if you return to title from pause screen
 		GetTree().Paused = false;
@@ -27,7 +25,7 @@ public partial class TitleScreen : Control
 	private void PlayButtonPressed() {
 		audio.Playing = false;
 		PlayButtonClickedSFX();
-		gm.Transition("res://Scenes/PlayerNumberScreen.tscn");
+		GameManager.instance.Transition("res://Scenes/PlayerNumberScreen.tscn");
 	}
 
 	private void QuitButtonPressed() {
@@ -36,7 +34,7 @@ public partial class TitleScreen : Control
 
 	private void SettingsButtonPressed() {
 		PlayButtonClickedSFX();
-		gm.Transition("res://Scenes/Settings.tscn");
+		GameManager.instance.Transition("res://Scenes/Settings.tscn");
 	}
 
 	private void ButtonMouseEntered() {

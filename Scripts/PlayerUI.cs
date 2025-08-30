@@ -14,14 +14,12 @@ public partial class PlayerUI : Node2D
 	private TextureProgressBar bar3;
 
 	private Player player;
-	private GameManager gm;
 	
 	private bool initialized = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		gm = GetNode<GameManager>("/root/GameManager");
 		player = GetParent<Player>();
 
 		node = GetNode<Node2D>("CanvasLayer/Node2D");
@@ -44,22 +42,22 @@ public partial class PlayerUI : Node2D
 			initialized = true;
 
 			// Set the position of the UI based on player number
-			if (player.playerNum == 0) {
+			if (player.playerNum == (int)GameManager.PlayerNumber.Player1) {
 				node.Position = new Vector2(0.0f, 0.0f);
 			}
-			else if (player.playerNum == 1) {
+			else if (player.playerNum == (int)GameManager.PlayerNumber.Player2) {
 				node.Position = new Vector2(575.0f, 0.0f);
 			}
-			else if (player.playerNum == 2) {
+			else if (player.playerNum == (int)GameManager.PlayerNumber.Player3) {
 				node.Position = new Vector2(1150.0f, 0.0f);
 			}
 
 			// Set the matching weapon icon
-			if (player.chara == 0)
+			if (player.chara == (int)Player.CharacterID.Goemon)
 				weaponIcon.Texture = (Texture2D)GD.Load("res://Sprites/UI/Player UI/Weapon1Icon.png");
-			else if (player.chara == 1)
+			else if (player.chara == (int)Player.CharacterID.Ebisumaru)
 				weaponIcon.Texture = (Texture2D)GD.Load("res://Sprites/UI/Player UI/Fan1Icon.png");
-			else if (player.chara == 2)
+			else if (player.chara == (int)Player.CharacterID.Sasuke)
 				weaponIcon.Texture = (Texture2D)GD.Load("res://Sprites/UI/Player UI/Kunai1Icon.png");
 
 			// Set the matching icon to the character
@@ -67,7 +65,7 @@ public partial class PlayerUI : Node2D
 		}
 
 		// Display the coins
-		int coins = gm.players[player.playerNum].coins;
+		int coins = GameManager.instance.players[player.playerNum].coins;
 		if (coins < 10) {
 			coinsLabel.Text = Convert.ToString("00" + coins);
 		}
@@ -79,7 +77,7 @@ public partial class PlayerUI : Node2D
 		}
 
 		// Display the lives
-		int lives = gm.players[player.playerNum].lives;
+		int lives = GameManager.instance.players[player.playerNum].lives;
 		if (lives == -1) {
 			livesLabel.Text = Convert.ToString("00");
 		}

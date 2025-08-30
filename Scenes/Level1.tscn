@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://do87prko86xvb"]
+[gd_scene load_steps=11 format=3 uid="uid://do87prko86xvb"]
 
 [ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stages/Level 1/Level1_Background1.png" id="1_8nk3a"]
-[ext_resource type="Texture2D" uid="uid://qpnjr5siymfh" path="res://Sprites/Stages/Level 1/Level1_Ryukyu_Resort.png" id="1_xxir4"]
 [ext_resource type="Texture2D" uid="uid://cgfn6qxbt45wl" path="res://Sprites/Stages/Level 1/Level1_Background2.png" id="2_5gjpm"]
 [ext_resource type="PackedScene" uid="uid://c1ufqqv2rqbcg" path="res://Scenes/Pass.tscn" id="4_qtiqd"]
+[ext_resource type="Texture2D" uid="uid://dm033xpd343mf" path="res://Sprites/Stages/Level 1/Ryuku_Resort.png" id="4_slnnj"]
+[ext_resource type="PackedScene" uid="uid://fvbr2mo7tvkc" path="res://Scenes/TreeTop.tscn" id="6_t3or0"]
 
 [sub_resource type="Animation" id="Animation_500ca"]
 resource_name = "Background"
@@ -64,18 +65,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [false, true]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Ground:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 0, 1]
-}
 
 [sub_resource type="Animation" id="Animation_pvyeg"]
 resource_name = "Background_3"
@@ -106,18 +95,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [false, true]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Ground:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 0]
-}
 
 [sub_resource type="Animation" id="Animation_qmsj1"]
 length = 0.001
@@ -146,18 +123,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Ground:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0ax2v"]
 _data = {
@@ -165,29 +130,6 @@ _data = {
 &"Background_2": SubResource("Animation_4nygg"),
 &"Background_3": SubResource("Animation_pvyeg"),
 &"RESET": SubResource("Animation_qmsj1")
-}
-
-[sub_resource type="Animation" id="Animation_lgc4k"]
-resource_name = "Foreground"
-length = 0.3
-loop_mode = 1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Ground:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_xnmve"]
-_data = {
-&"Foreground": SubResource("Animation_lgc4k")
 }
 
 [node name="Level1" type="StaticBody2D"]
@@ -218,8 +160,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 5120, 173)
 
 [node name="Ground" type="Sprite2D" parent="."]
-texture = ExtResource("1_xxir4")
-vframes = 2
+texture = ExtResource("4_slnnj")
 
 [node name="Base" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-2559, 146, -1471, 146, -1471, 116, -1375, 66, -1152, 67, -1152, 146, -383, 146, -383, 114, -255, 114, -255, 82, -127, 82, -127, 50, 128, 50, 200, 70, 219, 82, 251, 98, 283, 114, 315, 130, 386, 146, 1089, 146, 1089, 114, 1153, 114, 1153, 82, 1248, 82, 1248, 114, 1280, 114, 1280, 146, 2048, 146, 2118, 130, 2150, 114, 2178, 98, 2560, 98, 2560, 156, -2559, 156)
@@ -268,12 +209,6 @@ libraries = {
 }
 autoplay = "Background"
 
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_xnmve")
-}
-autoplay = "Foreground"
-
 [node name="SpawnPoint0" type="Node2D" parent="."]
 position = Vector2(-2489, 123)
 
@@ -285,3 +220,90 @@ position = Vector2(-2549, 123)
 
 [node name="Pass" parent="." instance=ExtResource("4_qtiqd")]
 position = Vector2(2375, 30)
+
+[node name="TreeTop" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-2511.5, 104.5)
+
+[node name="TreeTop2" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-2447.5, 120.5)
+
+[node name="TreeTop3" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-2383.5, 112.5)
+
+[node name="TreeTop4" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-1999.5, 104.5)
+
+[node name="TreeTop5" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-1935.5, 120.5)
+
+[node name="TreeTop6" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-1615.5, 64.5)
+
+[node name="TreeTop7" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-1199.5, 24.5)
+
+[node name="TreeTop8" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-1007.5, 40.5)
+
+[node name="TreeTop9" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-847.5, 32.5)
+
+[node name="TreeTop10" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-367.5, 88.5)
+
+[node name="TreeTop11" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-303.5, 72.5)
+
+[node name="TreeTop12" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-239.5, 40.5)
+
+[node name="TreeTop13" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-175.5, 48.5)
+
+[node name="TreeTop14" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-111.5, 24.5)
+
+[node name="TreeTop15" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(-47.5, 8.5)
+
+[node name="TreeTop16" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(16.5, 16.5)
+
+[node name="TreeTop17" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(80.5, 24.5)
+
+[node name="TreeTop18" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(656.5, 104.5)
+
+[node name="TreeTop19" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(720.5, 120.5)
+
+[node name="TreeTop20" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(784.5, 104.5)
+
+[node name="TreeTop21" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(848.5, 112.5)
+
+[node name="TreeTop22" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(912.5, 104.5)
+
+[node name="TreeTop23" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1200.5, 40.5)
+
+[node name="TreeTop24" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1360.5, 104.5)
+
+[node name="TreeTop25" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1424.5, 120.5)
+
+[node name="TreeTop26" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1488.5, 112.5)
+
+[node name="TreeTop27" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1840.5, 104.5)
+
+[node name="TreeTop28" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1904.5, 112.5)
+
+[node name="TreeTop29" parent="." instance=ExtResource("6_t3or0")]
+position = Vector2(1968.5, 104.5)

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://fvbr2mo7tvkc"]
+
+[ext_resource type="Texture2D" uid="uid://mprso21isenp" path="res://Sprites/Stages/Level 1/Tree_Top.png" id="1_ia05g"]
+[ext_resource type="Script" uid="uid://furubivj3j7b" path="res://Scripts/TreeTop.cs" id="2_jtdub"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jtdub"]
+atlas = ExtResource("1_ia05g")
+region = Rect2(0, 0, 48, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ff65"]
+atlas = ExtResource("1_ia05g")
+region = Rect2(48, 0, 48, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_051wm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtdub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ff65")
+}],
+"loop": true,
+"name": &"Sway",
+"speed": 9.0
+}]
+
+[node name="TreeTop" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_051wm")
+animation = &"Sway"
+script = ExtResource("2_jtdub")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -2.38419e-07)
+scale = Vector2(2.3, 1.6)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="OnScreenEntered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnScreenExited"]

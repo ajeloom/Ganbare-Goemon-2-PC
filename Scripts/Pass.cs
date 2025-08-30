@@ -24,21 +24,20 @@ public partial class Pass : Node2D
 		if (!gotPass) {
 			gotPass = true;
 
-			var gm = GetNode<GameManager>("/root/GameManager");
-			gm.canPause = false;
+			GameManager.instance.canPause = false;
 
 			grabbedAudio.Play();
 
 			Visible = false;
 
-			gm.audio.Stop();
+			GameManager.instance.audio.Stop();
 
-			Timer timer = gm.GetNode<Timer>("UI/Timer");
+			Timer timer = GameManager.instance.GetNode<Timer>("UI/Timer");
 			timer.Stop();
 
 			audio.Play();
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
-			gm.GoToMenu();
+			GameManager.instance.GoToMenu();
 		}
 	}
 }

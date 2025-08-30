@@ -3,7 +3,6 @@ using System;
 
 public partial class Impact : Node2D
 {
-	private GameManager gm;
 	private AnimationPlayer animPlayer;
 	private HealthComponent healthComponent;
 	private Node2D left;
@@ -32,7 +31,6 @@ public partial class Impact : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		gm = GetNode<GameManager>("/root/GameManager");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		left = GetNode<Node2D>("Left");
@@ -116,13 +114,13 @@ public partial class Impact : Node2D
 		}
 		else {
 			isAlive = false;
-			gm.canPause = false;
+			GameManager.instance.canPause = false;
 			SpawnExplosion();
 			if (bigExplosion) {
 				if (!spawnedExplosion) {
 					spawnedExplosion = true;
-					gm.GoToMenu();
-					var scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
+					GameManager.instance.GoToMenu();
+					PackedScene scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
 					Explosion instance = scene.Instantiate<Explosion>();
 					instance.explosion = 1;
 					AddSibling(instance, true);
@@ -180,9 +178,9 @@ public partial class Impact : Node2D
 	private async void SpawnExplosion() {
 		if (!spawnedExplosion && !bigExplosion) {
 			spawnedExplosion = true;
-			gm.audio.Stop();
+			GameManager.instance.audio.Stop();
 			
-			var scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
+			PackedScene scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
 			Node2D instance = scene.Instantiate<Node2D>();
 			instance.GlobalPosition = new Vector2(GetRandomPosition(), GetRandomPosition());
 			AddSibling(instance, true);

@@ -3,6 +3,8 @@ using System;
 
 public partial class GameManager : Node2D
 {
+	public static GameManager instance { get; private set; }
+
 	string savePath = "user://settings.ini";
 	private ConfigFile configFile = new ConfigFile();
 	
@@ -62,7 +64,7 @@ public partial class GameManager : Node2D
 	// For loading the correct music for the stage
 	private bool loadedMusic = false;
 
-	public int playerNum { get; set; }
+	public int playerCount { get; set; }
 	public int characterNum { get; set; }
 
 	public PlayerStruct[] players;
@@ -93,9 +95,18 @@ public partial class GameManager : Node2D
 		"res://Sounds/Music/Boss.mp3"
 	};
 
+	public enum PlayerNumber
+	{
+		Player1 = 0,
+		Player2 = 1,
+		Player3 = 2
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		instance = this;
+
 		Viewport root = GetTree().Root;
 		currentScene = root.GetChild(root.GetChildCount() - 1);
 
@@ -177,17 +188,21 @@ public partial class GameManager : Node2D
 						checkedPlayers = true;
 
 						// Keep track of player lives/coins
-						for (int i = 0; i < playerNum; i++) {
+						for (int i = 0; i < playerCount; i++) {
 							players[i].coins = players[i].node.coins;
 							players[i].lives = players[i].node.lives;
 							players[i].isAlive = players[i].node.isAlive;
 
 							// Load game over
-							if (!players[0].isAlive && !players[1].isAlive && !players[2].isAlive) {
+							if (!players[(int)PlayerNumber.Player1].isAlive
+									&& !players[(int)PlayerNumber.Player2].isAlive
+									&& !players[(int)PlayerNumber.Player3].isAlive) {
 								if (players[i].lives >= 0) {
 									reloadScene();
 								}
-								else if (players[0].lives == -1 && players[1].lives == -1 && players[2].lives == -1) {
+								else if (players[(int)PlayerNumber.Player1].lives == -1
+										&& players[(int)PlayerNumber.Player2].lives == -1
+										&& players[(int)PlayerNumber.Player3].lives == -1) {
 									if (!gameOver) {
 										gameOver = true;
 										canPause = false;
@@ -248,8 +263,8 @@ public partial class GameManager : Node2D
 	}
 
 	public void AddChild(string name, Node parent) {
-		var scene = GD.Load<PackedScene>(name);
-		var instance = scene.Instantiate();
+		PackedScene scene = GD.Load<PackedScene>(name);
+		Node instance = scene.Instantiate();
 		parent.AddChild(instance, true);
 	}
 
@@ -258,7 +273,7 @@ public partial class GameManager : Node2D
 		currentScene.Free();
 
 		// Load a new scene.
-		var nextScene = GD.Load<PackedScene>(name);
+		PackedScene nextScene = GD.Load<PackedScene>(name);
 
 		// Instance the new scene.
 		currentScene = nextScene.Instantiate();
@@ -284,8 +299,8 @@ public partial class GameManager : Node2D
 		CallDeferred(MethodName.LoadScene, path);
 	}
 
-	public void SetNum(int value) {
-		playerNum = value;
+	public void SetPlayerCount(int value) {
+		playerCount = value;
 	}
 
 	// Sets the character for each player
@@ -304,17 +319,22 @@ public partial class GameManager : Node2D
 			Input.MouseMode = Input.MouseModeEnum.Visible;
 
 			if (!isImpactStage) {
-				// Remove extra nodes when in level 1
-				if (!isBossStage) {
-					for (int i = 0; i < 3; i++) {
-						// Remove camera and boundaries
-						Node2D temp = GetChild<Node2D>(GetChildCount() - 1);
+				if (!isBossStage) {	
+					// Remove camera
+					Node2D temp = GetNode<Node2D>("Camera2D");
+					RemoveChild(temp);
+
+					// Remove edge of screen boundaries
+					if (playerCount > 1) {
+						temp = GetNode<Node2D>("Boundary");
+						RemoveChild(temp);
+						temp = GetNode<Node2D>("Boundary2");
 						RemoveChild(temp);
 					}
 				}
 
 				// Remove players
-				for (int i = 0; i < playerNum; i++) {
+				for (int i = 0; i < playerCount; i++) {
 					Node2D temp = GetChild<Node2D>(GetChildCount() - 1);
 					RemoveChild(temp);
 				}
@@ -350,7 +370,7 @@ public partial class GameManager : Node2D
 
 			await ToSignal(GetTree().CreateTimer(2.8f), SceneTreeTimer.SignalName.Timeout);
 			
-			for (int i = 0; i < playerNum; i++) {
+			for (int i = 0; i < playerCount; i++) {
 				Player temp = players[i].node;
 				RemoveChild(temp);
 			}
@@ -416,14 +436,14 @@ public partial class GameManager : Node2D
 
 	private void LoadPlayers(bool isReloading) {
 		for (int i = 0; i < 3; i++) {
-			if (i < playerNum) {
-				if (players[i].character == 0) {
+			if (i < playerCount) {
+				if (players[i].character == (int)Player.CharacterID.Goemon) {
 					AddChild("res://Scenes/Goemon.tscn", this);
 				}
-				else if (players[i].character == 1) {
+				if (players[i].character == (int)Player.CharacterID.Ebisumaru) {
 					AddChild("res://Scenes/Ebisumaru.tscn", this);
 				}
-				else if (players[i].character == 2) {
+				else if (players[i].character == (int)Player.CharacterID.Sasuke) {
 					AddChild("res://Scenes/Sasuke.tscn", this);
 				}
 
@@ -472,9 +492,11 @@ public partial class GameManager : Node2D
 		}
 
 		// Boss stage has its own camera and no timer
-		if (!isBossStage) {			
-			AddChild("res://Scenes/Boundary.tscn", this);
-			AddChild("res://Scenes/Boundary.tscn", this);
+		if (!isBossStage) {
+			if (playerCount > 1) {
+				AddChild("res://Scenes/Boundary.tscn", this);
+				AddChild("res://Scenes/Boundary.tscn", this);
+			}
 
 			// Set the camera to player
 			AddChild("res://Scenes/Camera.tscn", this);
@@ -503,7 +525,7 @@ public partial class GameManager : Node2D
 	}
 	
 	public bool IsPlayerRespawning() {
-		for (int i = 0; i < playerNum; i++) {
+		for (int i = 0; i < playerCount; i++) {
 			if (players[i].lives > -1 && !players[i].isAlive) {
 				return true;
 			}
@@ -515,9 +537,9 @@ public partial class GameManager : Node2D
 		if (!addedCursors) {
 			addedCursors = true;
 
-			for (int i = 0; i < playerNum; i++) {
-				var scene = GD.Load<PackedScene>("res://Scenes/Cursor.tscn");
-				var instance = scene.Instantiate();
+			for (int i = 0; i < playerCount; i++) {
+				PackedScene scene = GD.Load<PackedScene>("res://Scenes/Cursor.tscn");
+				Node instance = scene.Instantiate();
 				AddChild(instance, true);
 
 				// Access the child
@@ -526,6 +548,17 @@ public partial class GameManager : Node2D
 
 				Sprite2D sprite = node.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 				sprite.Frame = i;
+				
+				// Start each player's cursor on a different character
+				if (i == (int)PlayerNumber.Player1) {
+					node.slot = (int)Player.CharacterID.Goemon;
+				}
+				else if (i == (int)PlayerNumber.Player2) {
+					node.slot = (int)Player.CharacterID.Ebisumaru;
+				}
+				else if (i == (int)PlayerNumber.Player3) {
+					node.slot = (int)Player.CharacterID.Sasuke;
+				}
 			}
 
 			deletedCursors = false;
@@ -536,7 +569,7 @@ public partial class GameManager : Node2D
 		if (!deletedCursors) {
 			deletedCursors = true;
 
-			for (int i = 0; i < playerNum; i++) {
+			for (int i = 0; i < playerCount; i++) {
 				// Access the child
 				Node2D node = (Node2D)GetChild(GetChildCount() - 1);
 				RemoveChild(node);
@@ -564,8 +597,8 @@ public partial class GameManager : Node2D
 
 		bool displayCRTFilter = (bool)configFile.GetValue("Settings", "DisplayCRTFilter");
 		if (displayCRTFilter) {
-			var scene = GD.Load<PackedScene>("res://Scenes/CRTFilter.tscn");
-			var instance = scene.Instantiate();
+			PackedScene scene = GD.Load<PackedScene>("res://Scenes/CRTFilter.tscn");
+			Node instance = scene.Instantiate();
 			AddChild(instance);
 		}
 	}

@@ -6,7 +6,6 @@ public partial class Settings : Control
 	string savePath = "user://settings.ini";
 	private ConfigFile configFile = new ConfigFile();
 
-	private GameManager gm;
 	private AudioComponent audioComponent;
 	[Export] private CheckBox CRTCheckBox;
 
@@ -16,7 +15,6 @@ public partial class Settings : Control
 	public override void _Ready()
 	{
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
-		gm = GetNode<GameManager>("/root/GameManager");
 
 		// Load saved settings
 		Load();
@@ -49,7 +47,7 @@ public partial class Settings : Control
 	private void BackButtonPressed()
 	{
 		PlayButtonClickedSFX();
-		gm.Transition("res://Scenes/TitleScreen.tscn");
+		GameManager.instance.Transition("res://Scenes/TitleScreen.tscn");
 	}
 
 	private void ButtonMouseEntered() {
@@ -63,16 +61,16 @@ public partial class Settings : Control
 
 	private void CRTEffectCheckBoxToggled(bool toggledOn)
 	{
-		if (toggledOn && !gm.HasNode("CRTFilter"))
+		if (toggledOn && !GameManager.instance.HasNode("CRTFilter"))
 		{
-			var scene = GD.Load<PackedScene>("res://Scenes/CRTFilter.tscn");
-			var instance = scene.Instantiate();
-			gm.AddChild(instance);
+			PackedScene scene = GD.Load<PackedScene>("res://Scenes/CRTFilter.tscn");
+			Node instance = scene.Instantiate();
+			GameManager.instance.AddChild(instance);
 		}
-		else if (!toggledOn && gm.HasNode("CRTFilter"))
+		else if (!toggledOn && GameManager.instance.HasNode("CRTFilter"))
 		{
-			CanvasLayer layer = gm.GetNode<CanvasLayer>("CRTFilter");
-			gm.RemoveChild(layer);
+			CanvasLayer layer = GameManager.instance.GetNode<CanvasLayer>("CRTFilter");
+			GameManager.instance.RemoveChild(layer);
 		}
 		
 		configFile.SetValue("Settings", "DisplayCRTFilter", CRTCheckBox.ButtonPressed);

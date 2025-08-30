@@ -16,8 +16,8 @@ public partial class BossHP : CanvasLayer
 		health = (int)healthComponent.health;
 
 		for (int i = 0; i < health; i++) {
-			var scene = GD.Load<PackedScene>("res://Scenes/BossHPBar.tscn");
-			var instance = scene.Instantiate();
+			PackedScene scene = GD.Load<PackedScene>("res://Scenes/BossHPBar.tscn");
+			Node instance = scene.Instantiate();
 			AddChild(instance);
 
 			TextureProgressBar bar = GetChild<TextureProgressBar>(i);

@@ -54,7 +54,7 @@ public partial class Ball : CharacterBody2D
 			}
 
 			// Adjust the speed the ball moves based on the target position
-			var direction = GlobalPosition.DirectionTo(targetPosition);
+			Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
 			float speed = Math.Abs(targetPosition.X - Position.X);
 
 			speed *= 2.0f;
@@ -72,7 +72,7 @@ public partial class Ball : CharacterBody2D
 
 				camera.ApplyShake(5.0f);
 
-				var scene = GD.Load<PackedScene>("res://Scenes/Crack.tscn");
+				PackedScene scene = GD.Load<PackedScene>("res://Scenes/Crack.tscn");
 				Node2D instance = scene.Instantiate<Node2D>();
 				instance.GlobalPosition = new Vector2(Position.X, Position.Y - 90.0f);
 				AddSibling(instance, true);

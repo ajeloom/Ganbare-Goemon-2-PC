@@ -6,7 +6,6 @@ public partial class PlayerNumberScreen : Control
 	private int playerNum;
 
 	private Button button1, button2, button3, nextButton;
-	private GameManager gm;
 	private AudioComponent audioComponent;
 
 	// Called when the node enters the scene tree for the first time.
@@ -17,8 +16,7 @@ public partial class PlayerNumberScreen : Control
 		button3 = GetNode<Button>("CanvasLayer/3");
 		nextButton = GetNode<Button>("CanvasLayer/NextButton");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
-		gm = GetNode<GameManager>("/root/GameManager");
-		gm.gameState = GameManager.State.Menu;
+		GameManager.instance.gameState = GameManager.State.Menu;
 		nextButton.Visible = false;
 	}
 
@@ -56,13 +54,13 @@ public partial class PlayerNumberScreen : Control
 
 	private void NextButtonPressed() {
 		PlayButtonClickedSFX();
-		gm.SetNum(playerNum);
-		gm.Transition("res://Scenes/CharacterSelectScreen.tscn");
+		GameManager.instance.SetPlayerCount(playerNum);
+		GameManager.instance.Transition("res://Scenes/CharacterSelectScreen.tscn");
 	}
 
 	private void BackButtonPressed() {
 		PlayButtonClickedSFX();
-		gm.Transition("res://Scenes/TitleScreen.tscn");
+		GameManager.instance.Transition("res://Scenes/TitleScreen.tscn");
 	}
 
 	private void ButtonMouseEntered() {

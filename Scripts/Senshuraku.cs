@@ -25,7 +25,6 @@ public partial class Senshuraku : CharacterBody2D
 
 	private bool playedHurtSound = false;
 
-	private GameManager gm;
 	private AnimationPlayer animPlayer;
 	public HealthComponent healthComponent;
 	private HurtboxComponent hurtboxComponent;
@@ -49,7 +48,6 @@ public partial class Senshuraku : CharacterBody2D
 		Position = new Vector2(0.0f, 7.0f);
 		Scale = new Vector2(0.7f, 0.7f);
 
-		gm = GetNode<GameManager>("/root/GameManager");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
@@ -121,7 +119,7 @@ public partial class Senshuraku : CharacterBody2D
 					doingBallAttack = false;
 					doingSpinAttack = false;
 					gradualSpeed = 0.0f;
-					var direction = GlobalPosition.DirectionTo(backPosition);
+					Vector2 direction = GlobalPosition.DirectionTo(backPosition);
 					velocity = direction * 200.0f;
 					if (Position.Y <= backPosition.Y) {
 						camera.ApplyShake(2.0f);
@@ -215,14 +213,14 @@ public partial class Senshuraku : CharacterBody2D
 			}
 		}
 		
-		var direction = GlobalPosition.DirectionTo(targetPosition);
+		Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
 		velocity = direction * speed;
 	}
 
 	private void SpinAttack() {
 		// Go to the middle of the screen before starting attack
 		if (Position.X >= 5.0f || Position.X <= -5.0) {
-			var direction = GlobalPosition.DirectionTo(new Vector2(0.0f, 7.0f));			
+			Vector2 direction = GlobalPosition.DirectionTo(new Vector2(0.0f, 7.0f));			
 			velocity = direction * 100.0f;
 		}
 		else {
@@ -231,7 +229,7 @@ public partial class Senshuraku : CharacterBody2D
 				animPlayer.Play("SpinAttack");
 			}
 
-			var direction = GlobalPosition.DirectionTo(frontPosition);			
+			Vector2 direction = GlobalPosition.DirectionTo(frontPosition);			
 			velocity = direction * gradualSpeed;
 
 			if (gradualSpeed < 50.0f) {
@@ -267,7 +265,7 @@ public partial class Senshuraku : CharacterBody2D
 	}
 
 	private void LoadScene(string name, float xPos, float yPos) {
-		var scene = GD.Load<PackedScene>(name);
+		PackedScene scene = GD.Load<PackedScene>(name);
 		Node2D instance = scene.Instantiate<Node2D>();
 		instance.GlobalPosition = new Vector2(xPos, yPos);
 		AddSibling(instance, true);
@@ -311,13 +309,13 @@ public partial class Senshuraku : CharacterBody2D
 	private async void EndLevel() {
 		if (!isLevelEnding) {
 			isLevelEnding = true;
-			gm.canPause = false;
+			GameManager.instance.canPause = false;
 
 			animPlayer.Play("Hurt");
-			gm.audio.Stop();
+			GameManager.instance.audio.Stop();
 
 			for (int i = 0; i <= 5; i++) {
-				var scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
+				PackedScene scene = GD.Load<PackedScene>("res://Scenes/Explosion.tscn");
 				Explosion instance = scene.Instantiate<Explosion>();
 				if (i < 5) {
 					instance.explosion = 0;
@@ -336,12 +334,12 @@ public partial class Senshuraku : CharacterBody2D
 			await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 
 			// Load stage clear music
-			gm.audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/StageClear.mp3");
-			gm.audio.VolumeDb = 0.0f;
-			gm.audio.Play();
+			GameManager.instance.audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/StageClear.mp3");
+			GameManager.instance.audio.VolumeDb = 0.0f;
+			GameManager.instance.audio.Play();
 			
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
-			gm.GoToMenu();
+			GameManager.instance.GoToMenu();
 		}
 		
 	}

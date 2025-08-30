@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://byup4otcd28ee"]
+
+[ext_resource type="Texture2D" uid="uid://cjp57a0rwyfph" path="res://Sprites/UI/Menu/CharacterSelect/FanCursor.png" id="1_ls5y8"]
+
+[node name="Fan" type="Sprite2D"]
+scale = Vector2(5, 5)
+texture = ExtResource("1_ls5y8")
+hframes = 3

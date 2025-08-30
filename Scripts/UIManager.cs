@@ -28,9 +28,8 @@ public partial class UIManager : Node2D
 			timer.Stop();
 
 			// Kill all players on screen
-			var gm = GetNode<GameManager>("/root/GameManager");
-			for (int i = 0; i < gm.playerNum; i++) {
-				gm.players[i].node.Die();
+			for (int i = 0; i < GameManager.instance.playerCount; i++) {
+				GameManager.instance.players[i].node.Die();
 			}
 		}
 		

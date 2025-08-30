@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b432wouw8ummd"]
+[gd_scene load_steps=11 format=3 uid="uid://b432wouw8ummd"]
 
 [ext_resource type="Script" uid="uid://d0ncob4lwk07f" path="res://Scripts/Settings.cs" id="1_mjqtt"]
 [ext_resource type="Texture2D" uid="uid://bxl7itvh706c3" path="res://Sprites/UI/Menu/NumberPlayerScreen.png" id="2_ppjuv"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://85jvgio63bek" path="res://Sprites/UI/Menu/Box_Checked.png" id="5_ipgag"]
 [ext_resource type="Texture2D" uid="uid://crb72w82nm0wt" path="res://Sprites/UI/Menu/Box_Unchecked.png" id="6_646k0"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="6_ppjuv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_646k0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_in0el"]
 font = ExtResource("5_efosg")
@@ -49,6 +51,7 @@ offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("4_646k0")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "BACK"
 
 [node name="Label" type="Label" parent="CanvasLayer"]

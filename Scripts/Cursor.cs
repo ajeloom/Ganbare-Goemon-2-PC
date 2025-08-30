@@ -4,146 +4,175 @@ using System;
 public partial class Cursor : Node2D
 {
 	public int playerNum { get; set; }
-	private Sprite2D sprite;
+	public Sprite2D sprite;
 	private AudioComponent audio;
-	private GameManager gm;
 	private CharacterSelectScreen css;
 
 	[Export] public int slot = 0;
 
-	private Vector2 pos = new Vector2(0.0f, 0.0f);
 	public bool characterSelected = false;
-
-	private Vector2 goemonButton = new Vector2(660.0f, 250.0f);
-	private Vector2 ebisumaruButton = new Vector2(960.0f, 250.0f);
-	private Vector2 sasukeButton = new Vector2(1259.0f, 250.0f);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		sprite = GetNode<Sprite2D>("CanvasLayer/Sprite2D");
 		audio = GetNode<AudioComponent>("AudioComponent");
-		gm = GetNode<GameManager>("/root/GameManager");
 		css = GetNode<CharacterSelectScreen>("/root/Character Select Screen");
 	}
 
+	// Show mouse when it is moved
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseMotion eventMouseMotion) {
+			if (eventMouseMotion.Velocity != Vector2.Zero && eventMouseMotion.Position != Vector2.Zero) {
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
+		}
+	}
+
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{	
-		if (characterSelected) {			
+	{
+		if (characterSelected) {
 			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
-				if (slot == 1) {
-					CharacterDeselected("Ebisumaru");
+				if (playerNum == (int)GameManager.PlayerNumber.Player1) {
+					HideMouseCursor();
 				}
-				else if (slot == 2) {
-					CharacterDeselected("Sasuke");
-				}
-				else {
-					CharacterDeselected("Goemon");
-				}
-			}
 
-			if (Input.IsActionJustPressed("start")) {
-				gm.DeleteCursors();
-				gm.selectCharacter = false;
-				gm.GoToScene("res://Scenes/StageSelectScreen.tscn");
+				DeselectedCharacter();
 			}
 		}
 		else {
-			// Position the cursor based on player
-			if (gm.playerNum == 3) {
-				if (playerNum == 0) {
-					pos = new Vector2(-64.0f, 0.0f);
-				}
-				else if (playerNum == 2) {
-					pos = new Vector2(64.0f, 0.0f);
-				}
-			}
-			else if (gm.playerNum == 2) {
-				if (playerNum == 0) {
-					pos = new Vector2(-32.0f, 0.0f);
-				}
-				else if (playerNum == 1) {
-					pos = new Vector2(32.0f, 0.0f);
-				}
-			}
-			
-			// Position the cursor
-			if (slot == 0) {
-				sprite.Position = goemonButton + pos;
-			}
-			else if (slot == 1) {
-				sprite.Position = ebisumaruButton + pos;
-			}
-			else if (slot == 2) {
-				sprite.Position = sasukeButton + pos;
-			}
-
 			// Move the cursor
-			if (Input.IsActionJustPressed("walkLeft" + playerNum.ToString()) && slot > 0) {
-				slot -= 1;
+			if (Input.IsActionJustPressed("walkLeft" + playerNum.ToString())) {
+				if (playerNum == (int)GameManager.PlayerNumber.Player1) {
+					HideMouseCursor();
+				}
+
+				slot = ChangeSlot(slot, "Left");
+
 				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
 			}
-			else if (Input.IsActionJustPressed("walkRight" + playerNum.ToString()) && slot < 2) {
-				slot += 1;
+			else if (Input.IsActionJustPressed("walkRight" + playerNum.ToString())) {
+				if (playerNum == (int)GameManager.PlayerNumber.Player1) {
+					HideMouseCursor();
+				}
+
+				slot = ChangeSlot(slot, "Right");
+
 				audio.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
 			}
 
 			// Player selects a character
 			if (Input.IsActionJustPressed("jump" + playerNum.ToString())) {
+				HideMouseCursor();
+
 				if (!css.buttons[slot].ButtonPressed) {
-					if (slot == 1) {
-						CharacterSelected("Ebisumaru");
+					if (slot == (int)Player.CharacterID.Goemon) {
+						SelectedCharacter("Goemon");
 					}
-					else if (slot == 2) {
-						CharacterSelected("Sasuke");
+					else if (slot == (int)Player.CharacterID.Ebisumaru) {
+						SelectedCharacter("Ebisumaru");
 					}
-					else {
-						CharacterSelected("Goemon");
+					else if (slot == (int)Player.CharacterID.Sasuke) {
+						SelectedCharacter("Sasuke");
 					}
 				}
 			}
 
 			// Exit the CSS
 			if (Input.IsActionJustPressed("attack" + playerNum.ToString())) {
+				Input.MouseMode = Input.MouseModeEnum.Visible;
 				css.BackButtonPressed();
 			}
 		}
 	}
 
-	private void CharacterSelected(string characterName) {
+	public void SelectedCharacter(string characterName) {
+		if (playerNum == (int)GameManager.PlayerNumber.Player1) {
+			css.DisableButtons();
+			css.ShowCancelButton(true);
+		}
+
 		audio.playSFX("res://Sounds/SFX/menuClick.wav", -5.0f);
 		audio.playSFX("res://Sounds/SFX/" + characterName + "/selected.wav", -15.0f);
-		gm.SetCharacter(playerNum, slot);
+		GameManager.instance.SetCharacter(playerNum, slot);
 
 		// Button is pressed
 		css.buttons[slot].ButtonPressed = true;
 
 		// Disable the button from being pressed with mouse
-		css.buttons[slot].TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/" + characterName + "ButtonPressed.png");
 		css.buttons[slot].Disabled = true;
 
-		Sprite2D sprite = GetNode<Sprite2D>("CanvasLayer/Sprite2D");
-		sprite.Frame = sprite.Frame + 3;
+		// Move other cursors on character to different slot
+		css.MoveOtherCursors(playerNum);
 
 		characterSelected = true;
 	}
 
-	private void CharacterDeselected(string characterName) {
-		if (playerNum == 0) {
+	public void DeselectedCharacter() {
+		if (playerNum == (int)GameManager.PlayerNumber.Player1) {
 			// Enable the buttons to be pressed with mouse
 			css.EnableButtons();
+			css.ShowCancelButton(false);
 		}
 		else {
 			css.buttons[slot].ButtonPressed = false;
 
-			css.buttons[slot].TextureDisabled = (Texture2D)GD.Load("res://Sprites/UI/Menu/" + characterName + "Button.png");
 			css.buttons[slot].Disabled = false;
 
-			Sprite2D sprite = GetNode<Sprite2D>("CanvasLayer/Sprite2D");
-			sprite.Frame = sprite.Frame - 3;
-
-			characterSelected = false;	
+			characterSelected = false;
 		}
+	}
+
+	private void HideMouseCursor()
+	{
+		Input.MouseMode = Input.MouseModeEnum.Hidden;
+		Input.WarpMouse(new Vector2(0.0f, 0.0f));
+	}
+
+	private int ChangeSlot(int currentSlot, string direction)
+	{
+		if (direction.Capitalize() == "Right") {
+			while (css.buttons[GetNextSlot(currentSlot)].ButtonPressed) {
+				currentSlot = GetNextSlot(currentSlot);
+			}
+			
+			currentSlot = GetNextSlot(currentSlot);
+		}
+		else if (direction.Capitalize() == "Left") {
+			while (css.buttons[GetPreviousSlot(currentSlot)].ButtonPressed) {
+				currentSlot = GetPreviousSlot(currentSlot);
+			}
+			
+			currentSlot = GetPreviousSlot(currentSlot);
+		}
+
+		return currentSlot;
+	}
+
+	private int GetNextSlot(int slot)
+	{
+		if (slot < 2) {
+			slot += 1;
+		}
+		else if (slot == 2) {
+			slot = 0;
+		}
+
+		return slot;
+	}
+	
+	private int GetPreviousSlot(int slot)
+	{
+		if (slot > 0) {
+			slot -= 1;
+		}
+		else if (slot == 0) {
+			slot = 2;
+		}
+
+		return slot;
 	}
 }

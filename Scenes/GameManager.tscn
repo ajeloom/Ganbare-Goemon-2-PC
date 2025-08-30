@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://nad2u4n88r13"]
+[gd_scene load_steps=10 format=3 uid="uid://nad2u4n88r13"]
 
 [ext_resource type="Script" uid="uid://dsxuh6dk3m8m4" path="res://Scripts/GameManager.cs" id="1_p1civ"]
 [ext_resource type="PackedScene" uid="uid://cfuogc3nkdc80" path="res://Scenes/UI.tscn" id="2_3b0cp"]
@@ -7,6 +7,8 @@
 [ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="3_je8vj"]
 [ext_resource type="PackedScene" uid="uid://c4n08gut6ib5q" path="res://Scenes/FadeTransition.tscn" id="4_xjmtb"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="8_f5c43"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_646k0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lalf3"]
 font = ExtResource("3_je8vj")
@@ -65,6 +67,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_xqbpr")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "RESUME"
 
 [node name="Menu Button" type="Button" parent="CanvasLayer/PauseMenu"]
@@ -82,6 +85,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_xqbpr")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "RETURN TO MENU"
 
 [node name="Quit Button" type="Button" parent="CanvasLayer/PauseMenu"]
@@ -99,6 +103,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_xqbpr")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "QUIT"
 
 [node name="Label" type="Label" parent="CanvasLayer/PauseMenu"]

@@ -11,11 +11,11 @@ public partial class Bunny : CharacterBody2D
 	private HealthComponent healthComponent;
 	private AudioComponent audio;
 	private Sprite2D sprite;
+	private RayCast2D rayCast; // Checks if the edge of the floor is reached
 
 	private bool playedDeath = false;
-	private float lastXPos;
-	private bool gotDisplacement = false;
-	private float direction = -1.0f;
+	private bool isTurning = false;
+	private float direction = Vector2.Left.X;
 	private bool onScreen = false;
 
 	public override void _Ready()
@@ -25,32 +25,30 @@ public partial class Bunny : CharacterBody2D
 		audio = GetNode<AudioComponent>("AudioComponent");
 		sprite = GetNode<Sprite2D>("Sprite2D");
 		sprite.FlipH = false;
+		rayCast = GetNode<RayCast2D>("RayCast2D");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (healthComponent.health > 0.0f) {
-			if (onScreen) {
-				Vector2 velocity = Velocity;
-				if (!IsOnFloor())
-					velocity.Y += gravity * (float)delta;
-
-				if (IsOnFloor()) {
-					velocity.X = direction * speed;
-					animPlayer.Play("walk");
-				}
-
-				if (!gotDisplacement) {
-					gotDisplacement = true;
-					getLastPosX();
-					gotDisplacement = false;
-				}
-
-				Velocity = velocity;
-				MoveAndSlide();
+		if (healthComponent.health > 0.0f && onScreen) {
+			Vector2 velocity = Velocity;
+			if (!IsOnFloor()) {
+				velocity.Y += gravity * (float)delta;
 			}
+
+			if (IsOnFloor()) {
+				velocity.X = direction * speed;
+				animPlayer.Play("walk");
+			}
+
+			if (IsOnWall() || (IsOnFloor() && !rayCast.IsColliding())) {
+				Turn();
+			}
+
+			Velocity = velocity;
+			MoveAndSlide();
 		}
-		else {
+		else if (healthComponent.health <= 0.0f) {
 			if (!playedDeath) {
 				playedDeath = true;
 
@@ -64,12 +62,16 @@ public partial class Bunny : CharacterBody2D
 		}
 	}
 
-	private async void getLastPosX() {
-		lastXPos = Position.X;
-		await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
-		if (lastXPos - Position.X == 0 && onScreen) {
+	private async void Turn() {
+		if (!isTurning) {
+			isTurning = true;
+
 			direction = -direction;
-			sprite.FlipH = (sprite.FlipH) ? false : true;
+			sprite.FlipH = !sprite.FlipH;
+			
+			await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+
+			isTurning = false;
 		}
 	}
 

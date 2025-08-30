@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bku28vrfju6yx"
-path="res://.godot/imported/CharacterSelect3.png-6fda43bf6e7343ac34965450993d846f.ctex"
+uid="uid://dm033xpd343mf"
+path="res://.godot/imported/Ryuku_Resort.png-b426dd9092d0e7d8e74f43634e5af75e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/CharacterSelect/CharacterSelect3.png"
-dest_files=["res://.godot/imported/CharacterSelect3.png-6fda43bf6e7343ac34965450993d846f.ctex"]
+source_file="res://Sprites/Stages/Level 1/Ryuku_Resort.png"
+dest_files=["res://.godot/imported/Ryuku_Resort.png-b426dd9092d0e7d8e74f43634e5af75e.ctex"]
 
 [params]
 

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtoipjv7wxeah"]
+
+[ext_resource type="Texture2D" uid="uid://bnysfpt0722ob" path="res://Sprites/UI/Menu/CharacterSelect/GoemonMenuHover.png" id="1_qmn2u"]
+[ext_resource type="Shader" uid="uid://biu87nwlw8iay" path="res://Shaders/CRTShader4.gdshader" id="2_l2vrq"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qhoqf"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ew8yl"]
+resource_local_to_scene = true
+shader = ExtResource("2_l2vrq")
+shader_parameter/tex = SubResource("ViewportTexture_qhoqf")
+shader_parameter/mask_type = 1
+shader_parameter/curve = 0.5
+shader_parameter/sharpness = 0.666667
+shader_parameter/color_offset = 0.0
+shader_parameter/brightness = 1.0
+shader_parameter/aspect = 0.75
+shader_parameter/min_scanline_thickness = 0.5
+shader_parameter/wobble_strength = 0.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewport"]
+position = Vector2(192.36, 254.17)
+scale = Vector2(4.27, 4.27)
+texture = ExtResource("1_qmn2u")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ew8yl")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2

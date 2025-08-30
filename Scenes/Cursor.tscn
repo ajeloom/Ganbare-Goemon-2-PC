@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dpr78mobjn22d" path="res://Scripts/Cursor.cs" id="1_pcb5b"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="2_8d2vq"]
-[ext_resource type="Texture2D" uid="uid://dp4mibkqdfevv" path="res://Sprites/UI/Menu/Cursors.png" id="3_h0jf2"]
+[ext_resource type="Texture2D" uid="uid://cjp57a0rwyfph" path="res://Sprites/UI/Menu/CharacterSelect/FanCursor.png" id="3_6qa2i"]
 
 [node name="Cursor" type="Node2D"]
-scale = Vector2(4, 4)
 script = ExtResource("1_pcb5b")
 
 [node name="AudioComponent" parent="." instance=ExtResource("2_8d2vq")]
@@ -15,8 +14,6 @@ position = Vector2(-0.25, -0.25)
 layer = 19
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
-visible = false
-scale = Vector2(4, 4)
-texture = ExtResource("3_h0jf2")
+scale = Vector2(5, 5)
+texture = ExtResource("3_6qa2i")
 hframes = 3
-vframes = 2

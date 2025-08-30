@@ -1,7 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bcrwta754hk2"]
+[gd_scene load_steps=18 format=3 uid="uid://bcrwta754hk2"]
 
 [ext_resource type="Script" uid="uid://bpb2p2o4yvjru" path="res://Scripts/CharacterSelectScreen.cs" id="1_tq4jl"]
 [ext_resource type="Texture2D" uid="uid://uh1bf48b76h6" path="res://Sprites/UI/Menu/CharacterSelect/CharacterSelect.png" id="2_r4r73"]
+[ext_resource type="Texture2D" uid="uid://dv7w3hh1o84rx" path="res://Sprites/UI/Menu/CharacterSelect/LightLeft.png" id="3_r4r73"]
+[ext_resource type="Texture2D" uid="uid://b6r1w47urw8oo" path="res://Sprites/UI/Menu/CharacterSelect/LightMiddle.png" id="4_sglen"]
+[ext_resource type="Texture2D" uid="uid://bsicdsc7gl4de" path="res://Sprites/UI/Menu/CharacterSelect/LightRight.png" id="5_spf3u"]
 [ext_resource type="Texture2D" uid="uid://c4qfyc6u6lt5b" path="res://Sprites/UI/Menu/CharacterSelect/EbisumaruMenu.png" id="7_2wa3r"]
 [ext_resource type="Texture2D" uid="uid://cfmewkr0dke2i" path="res://Sprites/UI/Menu/CharacterSelect/GoemonMenu.png" id="7_sglen"]
 [ext_resource type="Texture2D" uid="uid://bnysfpt0722ob" path="res://Sprites/UI/Menu/CharacterSelect/GoemonMenuHover.png" id="8_spf3u"]
@@ -15,6 +18,8 @@
 [sub_resource type="LabelSettings" id="LabelSettings_hwmi2"]
 font = ExtResource("19_eduao")
 font_size = 35
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_646k0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_eduao"]
 font = ExtResource("19_eduao")
@@ -43,6 +48,24 @@ position = Vector2(960, 525)
 scale = Vector2(5, 5)
 texture = ExtResource("2_r4r73")
 
+[node name="LightLeft" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+position = Vector2(565, 460)
+scale = Vector2(5, 5)
+texture = ExtResource("3_r4r73")
+
+[node name="LightMiddle" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+position = Vector2(965, 460)
+scale = Vector2(5, 5)
+texture = ExtResource("4_sglen")
+
+[node name="LightRight" type="Sprite2D" parent="CanvasLayer"]
+visible = false
+position = Vector2(1365, 460)
+scale = Vector2(5, 5)
+texture = ExtResource("5_spf3u")
+
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
@@ -62,9 +85,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -535.0
+offset_left = -135.0
 offset_top = -285.0
-offset_right = -471.0
+offset_right = -71.0
 offset_bottom = -181.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -80,9 +103,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -165.0
+offset_left = -565.0
 offset_top = -210.0
-offset_right = -99.0
+offset_right = -499.0
 offset_bottom = -121.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -121,6 +144,7 @@ offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("20_hwmi2")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "BACK"
 
 [node name="NextButton" type="Button" parent="CanvasLayer"]
@@ -137,6 +161,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("20_hwmi2")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "NEXT"
 
 [node name="CancelButton" type="Button" parent="CanvasLayer"]
@@ -153,6 +178,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("20_hwmi2")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "CANCEL"
 
 [node name="SasukeLabel" type="Label" parent="CanvasLayer"]
@@ -177,9 +203,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -232.0
+offset_left = -632.0
 offset_top = -212.0
-offset_right = 231.0
+offset_right = -169.0
 offset_bottom = -167.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -188,31 +214,61 @@ label_settings = SubResource("LabelSettings_eduao")
 horizontal_alignment = 1
 
 [node name="GoemonLabel" type="Label" parent="CanvasLayer"]
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -555.0
-offset_top = -212.0
-offset_right = -246.0
-offset_bottom = -167.0
+anchor_bottom = 0.5
+offset_left = -154.5
+offset_top = 328.0
+offset_right = 154.5
+offset_bottom = 373.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 text = "GOEMON"
 label_settings = SubResource("LabelSettings_hwmi2")
 horizontal_alignment = 1
 
+[node name="CursorPosition1" type="Node2D" parent="CanvasLayer"]
+position = Vector2(560, 165)
+
+[node name="Position1" type="Node2D" parent="CanvasLayer/CursorPosition1"]
+position = Vector2(-115, 55)
+
+[node name="Position2" type="Node2D" parent="CanvasLayer/CursorPosition1"]
+position = Vector2(115, 55)
+
+[node name="Position3" type="Node2D" parent="CanvasLayer/CursorPosition1"]
+
+[node name="CursorPosition2" type="Node2D" parent="CanvasLayer"]
+position = Vector2(960, 165)
+
+[node name="Position1" type="Node2D" parent="CanvasLayer/CursorPosition2"]
+position = Vector2(-115, 55)
+
+[node name="Position2" type="Node2D" parent="CanvasLayer/CursorPosition2"]
+position = Vector2(115, 55)
+
+[node name="Position3" type="Node2D" parent="CanvasLayer/CursorPosition2"]
+
+[node name="CursorPosition3" type="Node2D" parent="CanvasLayer"]
+position = Vector2(1360, 165)
+
+[node name="Position1" type="Node2D" parent="CanvasLayer/CursorPosition3"]
+position = Vector2(-115, 55)
+
+[node name="Position2" type="Node2D" parent="CanvasLayer/CursorPosition3"]
+position = Vector2(115, 55)
+
+[node name="Position3" type="Node2D" parent="CanvasLayer/CursorPosition3"]
+
 [node name="AudioComponent" parent="." instance=ExtResource("8_yarf4")]
 
 [connection signal="mouse_entered" from="CanvasLayer/GoemonButton" to="." method="GoemonMouseEntered"]
-[connection signal="mouse_exited" from="CanvasLayer/GoemonButton" to="." method="MouseExitedButton"]
 [connection signal="pressed" from="CanvasLayer/GoemonButton" to="." method="GoemonButtonPressed"]
 [connection signal="mouse_entered" from="CanvasLayer/EbisumaruButton" to="." method="EbisumaruMouseEntered"]
-[connection signal="mouse_exited" from="CanvasLayer/EbisumaruButton" to="." method="MouseExitedButton"]
 [connection signal="pressed" from="CanvasLayer/EbisumaruButton" to="." method="EbisumaruButtonPressed"]
 [connection signal="mouse_entered" from="CanvasLayer/SasukeButton" to="." method="SasukeMouseEntered"]
-[connection signal="mouse_exited" from="CanvasLayer/SasukeButton" to="." method="MouseExitedButton"]
 [connection signal="pressed" from="CanvasLayer/SasukeButton" to="." method="SasukeButtonPressed"]
 [connection signal="mouse_entered" from="CanvasLayer/BackButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]

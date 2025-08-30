@@ -3,39 +3,58 @@ using System;
 
 public partial class CharacterSelectScreen : Control
 {
-	private TextureButton button1, button2, button3;
+	private TextureButton goemonButton, ebisumaruButton, sasukeButton;
 	private Button nextButton, cancelButton;
 	private Sprite2D background;
-	private GameManager gm;
 	private AudioComponent audioComponent;
-	private Cursor cursor;
+	private Cursor cursor, cursor2, cursor3;
 
 	public TextureButton[] buttons;
-
-	public int mouseCurrentSlot = 0;
+	public Cursor[] cursors;
+	public int[] slots;
 
 	private bool initialized = false;
-	public bool hoveringButton = false;
 	private bool checkButtons = false;
 	private bool characterSelected = false;
+	private bool checkingCursors = false;
 
 	private string spritePath = "res://Sprites/UI/Menu/CharacterSelect/";
+
+	public Sprite2D lightLeft, lightMiddle, lightRight;
+
+	private Node2D cursorPosition1, cursorPosition2, cursorPosition3;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		button1 = GetNode<TextureButton>("CanvasLayer/GoemonButton");
-		button2 = GetNode<TextureButton>("CanvasLayer/EbisumaruButton");
-		button3 = GetNode<TextureButton>("CanvasLayer/SasukeButton");
+		goemonButton = GetNode<TextureButton>("CanvasLayer/GoemonButton");
+		ebisumaruButton = GetNode<TextureButton>("CanvasLayer/EbisumaruButton");
+		sasukeButton = GetNode<TextureButton>("CanvasLayer/SasukeButton");
 		nextButton = GetNode<Button>("CanvasLayer/NextButton");
 		cancelButton = GetNode<Button>("CanvasLayer/CancelButton");
 		background = GetNode<Sprite2D>("CanvasLayer/Background");
-		gm = GetNode<GameManager>("/root/GameManager");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
 
-		gm.selectCharacter = true;
+		lightLeft = GetNode<Sprite2D>("CanvasLayer/LightLeft");
+		lightMiddle = GetNode<Sprite2D>("CanvasLayer/LightMiddle");
+		lightRight = GetNode<Sprite2D>("CanvasLayer/LightRight");
+
+		cursorPosition1 = GetNode<Node2D>("CanvasLayer/CursorPosition1");
+		cursorPosition2 = GetNode<Node2D>("CanvasLayer/CursorPosition2");
+		cursorPosition3 = GetNode<Node2D>("CanvasLayer/CursorPosition3");
+
+		GameManager.instance.selectCharacter = true;
+
+		cancelButton.Visible = false;
+		nextButton.Visible = false;
 
 		buttons = new TextureButton[3];
+		cursors = new Cursor[3];
+		slots = new int[3];
+
+		slots[0] = 0;
+		slots[1] = 0;
+		slots[2] = 0;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,232 +62,296 @@ public partial class CharacterSelectScreen : Control
 	{
 		if (!initialized) {
 			initialized = true;
-			cursor = GetNode<Cursor>("/root/GameManager/Cursor");
+			cursor = GetNodeOrNull<Cursor>("/root/GameManager/Cursor");
+			cursor2 = GetNodeOrNull<Cursor>("/root/GameManager/Cursor2");
+			cursor3 = GetNodeOrNull<Cursor>("/root/GameManager/Cursor3");
 
-			buttons[0] = button1;
-			buttons[1] = button2;
-			buttons[2] = button3;
+			cursors[(int)GameManager.PlayerNumber.Player1] = cursor;
+			cursors[(int)GameManager.PlayerNumber.Player2] = cursor2;
+			cursors[(int)GameManager.PlayerNumber.Player3] = cursor3;
+
+			buttons[(int)Player.CharacterID.Ebisumaru] = ebisumaruButton;
+			buttons[(int)Player.CharacterID.Goemon] = goemonButton;
+			buttons[(int)Player.CharacterID.Sasuke] = sasukeButton;
 		}
 
-		if (cursor.characterSelected) {
-			// Disable the buttons from being pressed
-			DisableButtons();
+		CheckCursors();
 
-			// if (Input.IsActionJustPressed("back")) {
-			// 	CancelButtonPressed();
-			// }
-		}
-
-		if (!IsCharacterSelected()) {
+		// Show next button when every player has picked a character
+		if (!IsEveryPlayerReady()) {
 			nextButton.Visible = false;
-			cancelButton.Visible = false;
 		}
 		else {
 			nextButton.Visible = true;
-			cancelButton.Visible = true;
+
+			if (Input.IsActionJustPressed("start")) {
+				NextButtonPressed();
+				Input.MouseMode = Input.MouseModeEnum.Visible;
+			}
 		}
 	}
 
-	public void GoemonButtonPressed() {
-		if (!cursor.characterSelected) {
-			cursor.characterSelected = true;
+	public void GoemonButtonPressed()
+	{
+		cursor.SelectedCharacter("Goemon");
+	}
 
-			cursor.slot = 0;
-
-			PlayButtonClickedSFX();
-
-			audioComponent.playSFX("res://Sounds/SFX/Goemon/selected.wav", -15.0f);
-			gm.SetCharacter(0, 0);
-
-			button1.ButtonPressed = true;
-
-			// Disable the other buttons from being pressed
-			button1.TextureDisabled = (Texture2D)GD.Load(spritePath + "GoemonMenuHover.png");
-			DisableButtons();
-
-			Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
-			sprite.Frame = sprite.Frame + 3;
-
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect1.png");
+	private void GoemonMouseEntered()
+	{
+		if (!cursor.characterSelected
+				&& !buttons[(int)Player.CharacterID.Goemon].ButtonPressed) {
+			PlayMovedCursorSFX();
+			cursor.slot = (int)Player.CharacterID.Goemon;
 		}
 	}
 
-	private void GoemonMouseEntered() {
-		if (!cursor.characterSelected) {
-			ButtonMouseEntered();
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect1.png");
-
-			cursor.slot = 0;
-		}
-		hoveringButton = true;
-		mouseCurrentSlot = 0;
+	public void EbisumaruButtonPressed()
+	{
+		cursor.SelectedCharacter("Ebisumaru");
 	}
 
-	public void EbisumaruButtonPressed() {
-		if (!cursor.characterSelected) {
-			cursor.characterSelected = true;
-
-			cursor.slot = 1;
-
-			PlayButtonClickedSFX();
-
-			audioComponent.playSFX("res://Sounds/SFX/Ebisumaru/selected.wav", -15.0f);
-			gm.SetCharacter(0, 1);
-
-			button2.ButtonPressed = true;
-
-			button2.TextureDisabled = (Texture2D)GD.Load(spritePath + "EbisumaruMenuHover.png");
-			DisableButtons();
-
-			Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
-			sprite.Frame = sprite.Frame + 3;
-
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect2.png");
+	private void EbisumaruMouseEntered()
+	{
+		if (!cursor.characterSelected
+				&& !buttons[(int)Player.CharacterID.Ebisumaru].ButtonPressed) {
+			PlayMovedCursorSFX();
+			cursor.slot = (int)Player.CharacterID.Ebisumaru;
 		}
 	}
 
-	private void EbisumaruMouseEntered() {
-		if (!cursor.characterSelected) {
-			ButtonMouseEntered();
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect2.png");
-
-			cursor.slot = 1;
-		}
-		hoveringButton = true;
-		mouseCurrentSlot = 1;
+	public void SasukeButtonPressed()
+	{
+		cursor.SelectedCharacter("Sasuke");
 	}
 
-	public void SasukeButtonPressed() {
-		if (!cursor.characterSelected) {
-			cursor.characterSelected = true;
-
-			cursor.slot = 2;
-
-			PlayButtonClickedSFX();
-
-			audioComponent.playSFX("res://Sounds/SFX/Sasuke/selected.wav", -15.0f);
-			gm.SetCharacter(0, 2);
-
-			button3.ButtonPressed = true;
-
-			button3.TextureDisabled = (Texture2D)GD.Load(spritePath + "SasukeMenuHover.png");
-			DisableButtons();
-
-			Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
-			sprite.Frame = sprite.Frame + 3;
-
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect3.png");
+	private void SasukeMouseEntered()
+	{
+		if (!cursor.characterSelected
+				&& !buttons[(int)Player.CharacterID.Sasuke].ButtonPressed) {
+			PlayMovedCursorSFX();
+			cursor.slot = (int)Player.CharacterID.Sasuke;
 		}
 	}
 
-	private void SasukeMouseEntered() {
-		if (!cursor.characterSelected) {
-			ButtonMouseEntered();
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect3.png");
-
-			cursor.slot = 2;
-		}
-		hoveringButton = true;
-		mouseCurrentSlot = 2;
-	}
-
-	private void NextButtonPressed() {
-		if (IsCharacterSelected()) {
-			PlayButtonClickedSFX();
-			gm.DeleteCursors();
-			gm.selectCharacter = false;
-			gm.Transition("res://Scenes/StageSelectScreen.tscn");
-		}
-	}
-
-	public void BackButtonPressed() {
+	private void NextButtonPressed()
+	{
 		PlayButtonClickedSFX();
-		gm.DeleteCursors();
-		gm.selectCharacter = false;
-		gm.Transition("res://Scenes/PlayerNumberScreen.tscn");
+		GameManager.instance.DeleteCursors();
+		GameManager.instance.selectCharacter = false;
+		GameManager.instance.Transition("res://Scenes/StageSelectScreen.tscn");
+	}
+
+	private void CancelButtonPressed()
+	{
+		cursor.DeselectedCharacter();
+
+		EnableButtons();
+		cancelButton.Visible = false;
+	}
+
+	public void ShowCancelButton(bool value)
+	{
+		cancelButton.Visible = value;
+	}
+
+	public void BackButtonPressed()
+	{
+		PlayButtonClickedSFX();
+		GameManager.instance.DeleteCursors();
+		GameManager.instance.selectCharacter = false;
+		GameManager.instance.Transition("res://Scenes/PlayerNumberScreen.tscn");
 	}
 
 	// This function disables the buttons from
 	// being pressed when a character is picked
-	public void DisableButtons() {
-		button1.Disabled = true;
-		button2.Disabled = true;
-		button3.Disabled = true;
+	public void DisableButtons()
+	{
+		goemonButton.Disabled = true;
+		ebisumaruButton.Disabled = true;
+		sasukeButton.Disabled = true;
 	}
 
 	// This function is used when player deselects their character
-	public void EnableButtons() {
-		// Switch texture of the button to the unselected version
-		if (cursor.slot == 0) {
-			buttons[cursor.slot].TextureDisabled = (Texture2D)GD.Load(spritePath + "GoemonMenu.png");
-		}
-		else if (cursor.slot == 1) {
-			buttons[cursor.slot].TextureDisabled = (Texture2D)GD.Load(spritePath + "EbisumaruMenu.png");
-		}
-		else if (cursor.slot == 2) {
-			buttons[cursor.slot].TextureDisabled = (Texture2D)GD.Load(spritePath + "SasukeMenu.png");
-		}
-
+	public void EnableButtons()
+	{
 		// Make the current button unpressed
 		buttons[cursor.slot].ButtonPressed = false;
 
 		// Allows the buttons to be pushed again
-		if (!checkButtons) {
+		if (!checkButtons)
+		{
 			checkButtons = true;
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++)
+			{
 				// If button is not pressed then enable the button to be pressed
-				if (!buttons[i].ButtonPressed) {
+				if (!buttons[i].ButtonPressed)
+				{
 					buttons[i].Disabled = false;
 				}
 			}
 			checkButtons = false;
 		}
 
-		// Change the cursor the arrow sprite
-		Sprite2D sprite = cursor.GetNode<Sprite2D>("CanvasLayer/Sprite2D");
-		sprite.Frame = sprite.Frame - 3;
-
 		cursor.characterSelected = false;
 	}
 
-	private void MouseExitedButton() {
-		hoveringButton = false;
-
-		if (!button1.ButtonPressed && !button2.ButtonPressed && !button3.ButtonPressed) {
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect.png");
+	private bool IsEveryPlayerReady()
+	{
+		for (int i = 0; i < GameManager.instance.playerCount; i++)
+		{
+			if (!cursors[i].characterSelected)
+			{
+				return false;
+			}
 		}
+
+		return true;
 	}
 
-	private bool IsCharacterSelected() {
-		if (button1.ButtonPressed || button2.ButtonPressed || button3.ButtonPressed) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private void CancelButtonPressed() {
-		EnableButtons();
-
-		// Play sound when mouse is on another character slot
-		if (hoveringButton) {
-			ButtonMouseEntered();
-			cursor.slot = mouseCurrentSlot;
-		}
-		else {
-			background.Texture = (Texture2D)GD.Load(spritePath + "CharacterSelect.png");
-		}
-	
-		button1.ButtonPressed = false;
-		button2.ButtonPressed = false;
-		button3.ButtonPressed = false;
-	}
-
-	private void ButtonMouseEntered() {
+	private void PlayMovedCursorSFX()
+	{
 		audioComponent.playSFX("res://Sounds/SFX/MenuSelect.wav", -15.0f);
 	}
 
-	private void PlayButtonClickedSFX() {
+	private void PlayButtonClickedSFX()
+	{
 		audioComponent.playSFX("res://Sounds/SFX/MenuClick.wav", -10.0f);
+	}
+
+	// Update which characters a light is hitting
+	private void CheckCursors()
+	{
+		if (!checkingCursors) {
+			checkingCursors = true;
+
+			// Reset each slot count
+			slots[(int)Player.CharacterID.Goemon] = 0;
+			slots[(int)Player.CharacterID.Ebisumaru] = 0;
+			slots[(int)Player.CharacterID.Sasuke] = 0;
+
+			// Count how many cursors on each slot
+			for (int i = 0; i < GameManager.instance.playerCount; i++) {
+				Cursor temp = cursors[i];
+
+				if (temp.slot == (int)Player.CharacterID.Goemon) {
+					lightMiddle.Visible = true;
+					goemonButton.TextureNormal = (Texture2D)GD.Load(spritePath + "GoemonMenuHover.png");
+					slots[(int)Player.CharacterID.Goemon]++;
+				}
+				else if (temp.slot == (int)Player.CharacterID.Ebisumaru) {
+					lightLeft.Visible = true;
+					ebisumaruButton.TextureNormal = (Texture2D)GD.Load(spritePath + "EbisumaruMenuHover.png");
+					slots[(int)Player.CharacterID.Ebisumaru]++;
+				}
+				else if (temp.slot == (int)Player.CharacterID.Sasuke) {
+					lightRight.Visible = true;
+					sasukeButton.TextureNormal = (Texture2D)GD.Load(spritePath + "SasukeMenuHover.png");
+					slots[(int)Player.CharacterID.Sasuke]++;
+				}
+			}
+
+			// Remove light on character if no cursor is on them
+			if (slots[(int)Player.CharacterID.Goemon] == 0) {
+				lightMiddle.Visible = false;
+				goemonButton.TextureNormal = (Texture2D)GD.Load(spritePath + "GoemonMenu.png");
+			}
+
+			if (slots[(int)Player.CharacterID.Ebisumaru] == 0) {
+				lightLeft.Visible = false;
+				ebisumaruButton.TextureNormal = (Texture2D)GD.Load(spritePath + "EbisumaruMenu.png");
+			}
+
+			if (slots[(int)Player.CharacterID.Sasuke] == 0) {
+				lightRight.Visible = false;
+				sasukeButton.TextureNormal = (Texture2D)GD.Load(spritePath + "SasukeMenu.png");
+			}
+
+			ArrangeCursors();
+
+			checkingCursors = false;
+		}
+	}
+
+
+	private void ArrangeCursors()
+	{
+		int count1 = 0;
+		int count2 = 0;
+		int count3 = 0;
+
+		for (int i = 0; i < GameManager.instance.playerCount; i++) {
+			Cursor temp = cursors[i];
+
+			if (temp.slot == (int)Player.CharacterID.Ebisumaru) {
+				MoveCursorPosition(temp, cursorPosition1, 0, ref count1);
+			}
+			else if (temp.slot == (int)Player.CharacterID.Goemon) {
+				MoveCursorPosition(temp, cursorPosition2, 1, ref count2);
+			}
+			else if (temp.slot == (int)Player.CharacterID.Sasuke) {
+				MoveCursorPosition(temp, cursorPosition3, 2, ref count3);
+			}
+		}
+	}
+
+	private void MoveCursorPosition(Cursor temp, Node2D cursorPosition, int i, ref int count)
+	{
+		if (slots[i] == 1) {
+			temp.sprite.Position = cursorPosition.GlobalPosition;
+		}
+		else if (slots[i] == 2) {
+			if (count == 0) {
+				Node2D pos = cursorPosition.GetNode<Node2D>("Position1");
+				temp.sprite.Position = pos.GlobalPosition;
+				count++;
+			}
+			else {
+				Node2D pos = cursorPosition.GetNode<Node2D>("Position2");
+				temp.sprite.Position = pos.GlobalPosition;
+			}
+		}
+		else if (slots[i] == 3) {
+			if (count == 0) {
+				Node2D pos = cursorPosition.GetNode<Node2D>("Position1");
+				temp.sprite.Position = pos.GlobalPosition;
+				count++;
+			}
+			else if (count == 1) {
+				Node2D pos = cursorPosition.GetNode<Node2D>("Position2");
+				temp.sprite.Position = pos.GlobalPosition;
+				count++;
+			}
+			else {
+				Node2D pos = cursorPosition.GetNode<Node2D>("Position3");
+				temp.sprite.Position = pos.GlobalPosition;
+			}
+		}
+	}
+
+	// When a character is selected then move any cursors on 
+	// the selected character to next available character 
+	public void MoveOtherCursors(int playerNum)
+	{
+		for (int i = 0; i < GameManager.instance.playerCount; i++) {
+			Cursor temp = cursors[i];
+			if (i != playerNum && cursors[i].slot == cursors[playerNum].slot) {
+				temp.slot = FindNextAvailableSlot(temp.slot);
+			}
+		}
+	}
+
+	public int FindNextAvailableSlot(int currentSlot)
+	{
+		while (buttons[currentSlot].ButtonPressed) {
+			if (currentSlot < 2) {
+				currentSlot += 1;
+			}
+			else if (currentSlot == 2) {
+				currentSlot = 0;
+			}
+		}
+
+		int next = currentSlot;
+		return next;
 	}
 }

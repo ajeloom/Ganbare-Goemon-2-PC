@@ -31,7 +31,6 @@ public partial class Kabuki : CharacterBody2D
 	private bool moveDown = false;
 
 	// Components/Nodes
-	private GameManager gm;
 	private AnimationPlayer animPlayer;
 	//[Export] private AnimationPlayer effectsPlayer;
 	private HealthComponent healthComponent;
@@ -55,11 +54,10 @@ public partial class Kabuki : CharacterBody2D
 
 		targetPosition = new Vector2(320.0f, 140.0f);
 
-		var scene = GD.Load<PackedScene>("res://Scenes/BossHP.tscn");
-		var instance = scene.Instantiate();
+		PackedScene scene = GD.Load<PackedScene>("res://Scenes/BossHP.tscn");
+		Node instance = scene.Instantiate();
 		AddChild(instance);
 
-		gm = GetNode<GameManager>("/root/GameManager");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");	
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
@@ -208,14 +206,14 @@ public partial class Kabuki : CharacterBody2D
 					if (!createNewHP) {
 						createNewHP = true;
 						healthComponent.health = 32.0f;
-						var scene = GD.Load<PackedScene>("res://Scenes/BossHP.tscn");
-						var instance = scene.Instantiate();
+						PackedScene temp = GD.Load<PackedScene>("res://Scenes/BossHP.tscn");
+						Node instance = temp.Instantiate();
 						AddChild(instance);
 					}
 					
 					// Spawn a basket with explosion
-					PackedScene var = GD.Load<PackedScene>("res://Scenes/Basket.tscn");
-					Node2D node = var.Instantiate<Node2D>();
+					PackedScene scene = GD.Load<PackedScene>("res://Scenes/Basket.tscn");
+					Node2D node = scene.Instantiate<Node2D>();
 					node.Position = Position;
 					AddSibling(node);
 
@@ -273,8 +271,8 @@ public partial class Kabuki : CharacterBody2D
 				for (int j = 0; j < 3; j++) {
 					for (int i = 0; i < 8; i++) {
 						// Position them in evenly above the boss
-						PackedScene var = GD.Load<PackedScene>("res://Scenes/Flower.tscn");
-						Node2D node = var.Instantiate<Node2D>();
+						PackedScene scene = GD.Load<PackedScene>("res://Scenes/Flower.tscn");
+						Node2D node = scene.Instantiate<Node2D>();
 						if (i < 4) {
 							node.Position = new Vector2(Position.X - (6 * temp), Position.Y - 57.5f);
 							temp += 1;
@@ -352,7 +350,7 @@ public partial class Kabuki : CharacterBody2D
 	private async void EndLevel() {
 		if (!isLevelEnding) {
 			isLevelEnding = true;
-			gm.canPause = false;
+			GameManager.instance.canPause = false;
 
 			animPlayer.Play("death");
 
@@ -362,12 +360,12 @@ public partial class Kabuki : CharacterBody2D
 			}
 
 			// Load stage clear music
-			gm.audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/StageClear.mp3");
-			gm.audio.VolumeDb = 0.0f;
-			gm.audio.Play();
+			GameManager.instance.audio.Stream = (AudioStream)ResourceLoader.Load("res://Sounds/Music/StageClear.mp3");
+			GameManager.instance.audio.VolumeDb = 0.0f;
+			GameManager.instance.audio.Play();
 			
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
-			gm.GoToMenu();
+			GameManager.instance.GoToMenu();
 		}
 	}
 }
