@@ -27,7 +27,6 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="HitboxComponent" parent="." instance=ExtResource("2_7df4b")]
-position = Vector2(-1, 0)
 collision_layer = 4
 collision_mask = 2
 

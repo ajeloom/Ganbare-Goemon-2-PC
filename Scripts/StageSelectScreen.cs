@@ -6,9 +6,6 @@ public partial class StageSelectScreen : Control
 	private TextureButton stageButton, bossButton, impactButton;
 	private Button startButton;
 	private AudioComponent audioComponent;
-	private string path;
-	private bool bossStage = false;
-	private bool impactStage = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -33,9 +30,7 @@ public partial class StageSelectScreen : Control
 
 	private void LevelButtonPressed() {
 		PlayButtonClickedSFX();
-		bossStage = false;
-		impactStage = false;
-		path = "res://Scenes/Stage1.tscn";
+		GameManager.instance.SetStage((int)GameManager.StageNumber.Stage1);
 		stageButton.ButtonPressed = true;
 		bossButton.ButtonPressed = false;
 		impactButton.ButtonPressed = false;
@@ -44,9 +39,7 @@ public partial class StageSelectScreen : Control
 
 	private void BossButtonPressed() {
 		PlayButtonClickedSFX();
-		bossStage = true;
-		impactStage = false;
-		path = "res://Scenes/boss.tscn";
+		GameManager.instance.SetStage((int)GameManager.StageNumber.BossStage);
 		stageButton.ButtonPressed = false;
 		bossButton.ButtonPressed = true;
 		impactButton.ButtonPressed = false;
@@ -55,22 +48,16 @@ public partial class StageSelectScreen : Control
 
 	private void ImpactButtonPressed() {
 		PlayButtonClickedSFX();
-		bossStage = false;
-		impactStage = true;
-		path = "res://Scenes/ImpactBattle.tscn";
+		GameManager.instance.SetStage((int)GameManager.StageNumber.ImpactStage);
 		stageButton.ButtonPressed = false;
 		bossButton.ButtonPressed = false;
 		impactButton.ButtonPressed = true;
 		ShowStartButton();
 	}
 
-	private async void StartButtonPressed() {
+	private void StartButtonPressed() {
 		PlayButtonClickedSFX();
-		GameManager.instance.isBossStage = bossStage;
-		GameManager.instance.isImpactStage = impactStage;
-		GameManager.instance.Transition(path);
-		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-		GameManager.instance.gameState = GameManager.State.Stage;
+		GameManager.instance.LoadStage();
 	}
 
 	private void BackButtonPressed() {

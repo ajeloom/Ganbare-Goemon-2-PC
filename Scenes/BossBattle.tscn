@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://ctvdt3cnvwaa5"]
 
-[ext_resource type="PackedScene" uid="uid://dxewj87osches" path="res://Scenes/BossCam.tscn" id="3_fjt1y"]
-[ext_resource type="Texture2D" uid="uid://cfgh51awk6goo" path="res://Sprites/Stages/Boss Stage/Background.png" id="4_qnqp1"]
-[ext_resource type="PackedScene" uid="uid://cf6vus17cvgau" path="res://Scenes/Kabuki.tscn" id="5_dkkn2"]
-[ext_resource type="Texture2D" uid="uid://bd2rkyrtjcyl3" path="res://Sprites/Stages/Boss Stage/Ground.png" id="7_5lumd"]
+[ext_resource type="Texture2D" uid="uid://cfgh51awk6goo" path="res://Sprites/Stages/Boss Stage/Background.png" id="1_jhwpj"]
+[ext_resource type="PackedScene" uid="uid://dxewj87osches" path="res://Scenes/BossCam.tscn" id="2_4ht0f"]
+[ext_resource type="Texture2D" uid="uid://bd2rkyrtjcyl3" path="res://Sprites/Stages/Boss Stage/Ground.png" id="3_nh8gt"]
+[ext_resource type="PackedScene" uid="uid://cf6vus17cvgau" path="res://Scenes/Kabuki.tscn" id="4_nkbk1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4isy"]
 size = Vector2(2, 285)
@@ -25,11 +25,11 @@ modulate = Color(0.584314, 0.584314, 0.584314, 1)
 texture_repeat = 2
 position = Vector2(325, 145)
 scale = Vector2(1.6, 1.6)
-texture = ExtResource("4_qnqp1")
+texture = ExtResource("1_jhwpj")
 region_enabled = true
 region_rect = Rect2(0, 0, 930, 166)
 
-[node name="Camera2D" parent="." instance=ExtResource("3_fjt1y")]
+[node name="Camera2D" parent="." instance=ExtResource("2_4ht0f")]
 
 [node name="Invisible Walls" type="StaticBody2D" parent="."]
 
@@ -48,7 +48,7 @@ scale = Vector2(1.6, 1.6)
 
 [node name="Sprite2D" type="Sprite2D" parent="Ground"]
 texture_repeat = 2
-texture = ExtResource("7_5lumd")
+texture = ExtResource("3_nh8gt")
 region_enabled = true
 region_rect = Rect2(0, 0, 405, 30)
 
@@ -57,7 +57,7 @@ position = Vector2(1.52588e-05, 0.625)
 scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_go4x6")
 
-[node name="Kabuki" parent="." instance=ExtResource("5_dkkn2")]
+[node name="Kabuki" parent="." instance=ExtResource("4_nkbk1")]
 position = Vector2(320, 140)
 
 [node name="SpawnPoint0" type="Node2D" parent="."]

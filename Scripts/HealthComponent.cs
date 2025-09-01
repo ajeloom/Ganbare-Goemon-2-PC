@@ -22,6 +22,12 @@ public partial class HealthComponent : Node2D
 	public void Damage(float damageNumber, Node damageDealer) {
 		health -= damageNumber;
 		
+		if (GetParent().IsInGroup("Player")) {
+			Player player = GetParent<Player>();
+			PlayerUI ui = player.GetNode<PlayerUI>("Player UI");
+			ui.UpdateHealth();
+		}
+		
 		if (damageDealer.IsInGroup("Player")) {
 			audioComponent.playSFX("res://Sounds/SFX/Goemon/hit.wav", -15.0f);
 		}
@@ -29,7 +35,7 @@ public partial class HealthComponent : Node2D
 		// Blink red when hurt
 		if (health > 0.0f) {
 			if (GetParent().IsInGroup("Player"))
-				PlayDamageFlashInvincibilityAnimation(1.8f);
+				PlayDamageFlashInvincibilityAnimation(1.2f);
 			else if (GetParent().IsInGroup("Boss"))
 				PlayDamageFlashInvincibilityAnimation(1.8f);
 			else if (GetParent().IsInGroup("ImpactBoss"))
@@ -38,6 +44,10 @@ public partial class HealthComponent : Node2D
 	}
 
 	private async void PlayDamageFlashInvincibilityAnimation(float time) {
+		// Play flash animation after player hurt animation finishes playing
+		if (GetParent().IsInGroup("Player"))
+			await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
+
 		// Wait for the hurt animation to finish		
 		effectsPlayer.Play("Hurt");
 		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);

@@ -1,25 +1,15 @@
 using Godot;
 using System;
 
-public partial class Darumanyo : CharacterBody2D
+public partial class Darumanyo : Enemy
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
-
-
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-
-	[Export] private AnimationPlayer animPlayer;
-	[Export] private HealthComponent healthComponent;
-	[Export] private HitboxComponent hitboxComponent;
-	[Export] private AudioComponent audio;
 	private CollisionShape2D hitbox;
 
 	private bool isExploding = false;
 
 	public override void _Ready()
 	{
+		base._Ready();
 		hitbox = (CollisionShape2D)hitboxComponent.GetChild(0);
 		hitbox.Disabled = false;
 		animPlayer.Play("Idle");
@@ -38,7 +28,7 @@ public partial class Darumanyo : CharacterBody2D
 
 			// Handle Jump.
 			if (IsOnFloor())
-				velocity.Y = JumpVelocity;
+				velocity.Y = jumpVelocity;
 
 			Velocity = velocity;
 			MoveAndSlide();

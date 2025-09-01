@@ -3,16 +3,16 @@ using System;
 
 public partial class Pass : Node2D
 {
-	private AudioStreamPlayer audio;
-	private AudioStreamPlayer grabbedAudio;
+	private AudioStreamPlayer stageClearAudio;
+	private AudioStreamPlayer collectAudio;
 	private bool gotPass = false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Visible = true;
-		audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
-		grabbedAudio = GetNode<AudioStreamPlayer>("Grabbed");
+		stageClearAudio = GetNode<AudioStreamPlayer>("StageClearAudio");
+		collectAudio = GetNode<AudioStreamPlayer>("CollectAudio");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -20,13 +20,14 @@ public partial class Pass : Node2D
 	{
 	}
 
-	private async void AreaEntered(Area2D area) {
+	private async void AreaEntered(Area2D area)
+	{
 		if (!gotPass) {
 			gotPass = true;
 
 			GameManager.instance.canPause = false;
 
-			grabbedAudio.Play();
+			collectAudio.Play();
 
 			Visible = false;
 
@@ -35,7 +36,9 @@ public partial class Pass : Node2D
 			Timer timer = GameManager.instance.GetNode<Timer>("UI/Timer");
 			timer.Stop();
 
-			audio.Play();
+			GameManager.instance.endingLevel = true;
+
+			stageClearAudio.Play();
 			await ToSignal(GetTree().CreateTimer(4.5f), SceneTreeTimer.SignalName.Timeout);
 			GameManager.instance.GoToMenu();
 		}

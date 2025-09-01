@@ -1,16 +1,8 @@
 using Godot;
 using System;
 
-public partial class Bunny : CharacterBody2D
+public partial class Bunny : Enemy
 {
-	[Export] public float speed = 65.0f;
-	[Export] public float jumpVelocity = -400.0f;
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-
-	private AnimationPlayer animPlayer;
-	private HealthComponent healthComponent;
-	private AudioComponent audio;
-	private Sprite2D sprite;
 	private RayCast2D rayCast; // Checks if the edge of the floor is reached
 
 	private bool playedDeath = false;
@@ -20,12 +12,19 @@ public partial class Bunny : CharacterBody2D
 
 	public override void _Ready()
 	{
-		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-		healthComponent = GetNode<HealthComponent>("HealthComponent");
-		audio = GetNode<AudioComponent>("AudioComponent");
-		sprite = GetNode<Sprite2D>("Sprite2D");
-		sprite.FlipH = false;
+		base._Ready();
 		rayCast = GetNode<RayCast2D>("RayCast2D");
+
+		// Move in the direction towards the player when they enter the screen
+		Camera cam = GameManager.instance.GetNode<Camera>("Camera2D");
+		if (cam.Position.X < GlobalPosition.X) {
+			direction = Vector2.Left.X;
+			sprite.FlipH = false;
+		}
+		else {
+			direction = Vector2.Right.X;
+			sprite.FlipH = true;
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -53,9 +52,9 @@ public partial class Bunny : CharacterBody2D
 				playedDeath = true;
 
 				animPlayer.Play("death");
-				audio.playSFX("res://Sounds/SFX/explosion.wav", -15.0f);				
+				audio.playSFX("res://Sounds/SFX/explosion.wav", -15.0f);
 			}
-			
+
 			if (!animPlayer.IsPlaying()) {
 				QueueFree();
 			}
@@ -68,7 +67,7 @@ public partial class Bunny : CharacterBody2D
 
 			direction = -direction;
 			sprite.FlipH = !sprite.FlipH;
-			
+
 			await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
 
 			isTurning = false;

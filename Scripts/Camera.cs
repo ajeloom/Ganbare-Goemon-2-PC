@@ -11,7 +11,10 @@ public partial class Camera : Camera2D
 	private bool gotAveragePos = false;
 	private float[] posArray;
 
-	private Node2D player1;
+	private Player player1;
+
+	[Export] private float offset = 75.0f;
+	[Export] private float camSpeed = 5.0f;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -36,8 +39,8 @@ public partial class Camera : Camera2D
 					gotAveragePos = true;
 
 					// Store the x-position of all the players in an array
-					posArray = new float[3];
-					for (int i = 0; i < 3; i++) {
+					posArray = new float[GameManager.instance.playerCount];
+					for (int i = 0; i < GameManager.instance.playerCount; i++) {
 						if (GameManager.instance.players[i].isAlive)
 							posArray[i] = GameManager.instance.players[i].node.Position.X;
 						else
@@ -56,6 +59,14 @@ public partial class Camera : Camera2D
 			}
 			else if (GameManager.instance.playerCount == 1) {
 				averageX = player1.Position.X;
+				
+				// Experimental camera that tries to mimic the one from the original game
+				// float direction = player1.Velocity.Normalized().X;
+				// if (direction != 0.0f) {
+				// 	averageX = player1.Position.X + (direction * offset);
+				// }
+				
+				// Position = Position.Lerp(new Vector2(averageX, 0.0f), (float)delta * camSpeed);
 			}
 			
 			Position = new Vector2(averageX, 0.0f);

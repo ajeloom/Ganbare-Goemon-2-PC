@@ -210,7 +210,7 @@ public partial class CharacterSelectScreen : Control
 
 	private void PlayMovedCursorSFX()
 	{
-		audioComponent.playSFX("res://Sounds/SFX/MenuSelect.wav", -15.0f);
+		audioComponent.playSFX("res://Sounds/SFX/MenuSelect.wav", -18.0f);
 	}
 
 	private void PlayButtonClickedSFX()

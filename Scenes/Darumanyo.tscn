@@ -1,18 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqdecnyl4cnt4"]
+[gd_scene load_steps=12 format=3 uid="uid://c51brs6xkwcsj"]
 
+[ext_resource type="PackedScene" uid="uid://gci6tujscbay" path="res://Scenes/Enemy.tscn" id="1_5eq20"]
 [ext_resource type="Texture2D" uid="uid://j8my4hsoly8b" path="res://Sprites/Enemies/Darumanyo/Darumanyo.png" id="1_r1jwx"]
 [ext_resource type="Script" uid="uid://boo2vpoj88x1p" path="res://Scripts/Darumanyo.cs" id="1_yommi"]
-[ext_resource type="PackedScene" uid="uid://dcdrc4ngnlgmq" path="res://Scenes/HitboxComponent.tscn" id="3_q5koc"]
-[ext_resource type="PackedScene" uid="uid://cu3fw5o2gyray" path="res://Scenes/HurtboxComponent.tscn" id="4_4bxx2"]
-[ext_resource type="PackedScene" uid="uid://61a12d5735bo" path="res://Scenes/HealthComponent.tscn" id="5_4u8ql"]
 [ext_resource type="Texture2D" uid="uid://cp3ctm1jld6ng" path="res://Sprites/Effects/Explosion.png" id="6_v5q1d"]
-[ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="7_4xjds"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rjj4e"]
 
-[sub_resource type="Animation" id="Animation_sl4td"]
+[sub_resource type="Animation" id="Animation_ucavh"]
 resource_name = "Explosion"
-step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -62,11 +58,10 @@ tracks/3/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_3utrm"]
+[sub_resource type="Animation" id="Animation_x8dk7"]
 resource_name = "Idle"
 length = 0.8
 loop_mode = 1
-step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -116,7 +111,7 @@ tracks/3/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_71fr8"]
+[sub_resource type="Animation" id="Animation_luo8q"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -179,71 +174,52 @@ tracks/4/keys = {
 "values": [false]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_y2yeo"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_luo8q"]
 _data = {
-&"Explosion": SubResource("Animation_sl4td"),
-&"Idle": SubResource("Animation_3utrm"),
-&"RESET": SubResource("Animation_71fr8")
+&"Explosion": SubResource("Animation_ucavh"),
+&"Idle": SubResource("Animation_x8dk7"),
+&"RESET": SubResource("Animation_luo8q")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7cdvu"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_luo8q"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hjutb"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ucavh"]
 
-[node name="Darumanyo" type="CharacterBody2D" node_paths=PackedStringArray("animPlayer", "healthComponent", "hitboxComponent", "audio") groups=["Enemy"]]
-z_index = -1
-scale = Vector2(1.6, 1.6)
-collision_layer = 4
+[node name="Darumanyo" instance=ExtResource("1_5eq20")]
 script = ExtResource("1_yommi")
-animPlayer = NodePath("AnimationPlayer")
-healthComponent = NodePath("HealthComponent")
-hitboxComponent = NodePath("HitboxComponent")
-audio = NodePath("Audio Component")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("1_r1jwx")
 hframes = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("CircleShape2D_rjj4e")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" parent="." index="2"]
 libraries = {
-&"": SubResource("AnimationLibrary_y2yeo")
+&"": SubResource("AnimationLibrary_luo8q")
 }
 autoplay = "Idle"
 
-[node name="HealthComponent" parent="." node_paths=PackedStringArray("animPlayer") instance=ExtResource("5_4u8ql")]
-health = 1.0
-animPlayer = NodePath("../AnimationPlayer")
+[node name="HealthComponent" parent="." index="3"]
+health = 1000.0
 
-[node name="HurtboxComponent" parent="." instance=ExtResource("4_4bxx2")]
+[node name="HurtboxComponent" parent="." index="4"]
 visible = false
-collision_layer = 4
-collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-shape = SubResource("CircleShape2D_7cdvu")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent" index="0"]
+shape = SubResource("CircleShape2D_luo8q")
 
-[node name="HitboxComponent" parent="." instance=ExtResource("3_q5koc")]
+[node name="HitboxComponent" parent="." index="5"]
 visible = false
-collision_layer = 4
-collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-shape = SubResource("CircleShape2D_hjutb")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_ucavh")
 
-[node name="Explosion" type="Sprite2D" parent="."]
+[node name="Explosion" parent="." index="7"]
 visible = false
-z_index = 1
-z_as_relative = false
 texture = ExtResource("6_v5q1d")
 hframes = 7
 
-[node name="Audio Component" parent="." instance=ExtResource("7_4xjds")]
-position = Vector2(0, 0.625)
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." index="8"]
 rect = Rect2(-15, -15, 30, 30)
-
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnScreenExited"]

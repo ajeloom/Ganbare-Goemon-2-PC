@@ -18,6 +18,7 @@ public partial class Player : CharacterBody2D
 	private HurtboxComponent hurtboxComponent;
 	public HealthComponent healthComponent;
 	private AudioComponent audio;
+	private PlayerUI playerUI;
 
 	// Variables for taking damage
 	private Vector2 lastDirection = new Vector2(0.0f, 0.0f);
@@ -62,10 +63,11 @@ public partial class Player : CharacterBody2D
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		audio = GetNode<AudioComponent>("AudioComponent");
+		playerUI = GetNode<PlayerUI>("Player UI");
 
 		speed = baseSpeed;
 
-		if (GameManager.instance.isBossStage) {
+		if (GameManager.instance.selectedStage == (int)GameManager.StageNumber.BossStage) {
 			bodySprite.FlipH = true;
 		}
 		else {
@@ -73,25 +75,18 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void _Process(double delta)
 	{
-		Vector2 velocity = Velocity;
-
 		if (healthComponent.health <= 0.0f) {
 			isAlive = false;
-
-			// Stop any horizontal movement	
-			velocity.X = 0.0f;
 
 			// Play death animation
 			if (!playingDeathAnim) {
 				playingDeathAnim = true;
 
-				// Player flies up a bit
-				velocity.Y = -300.0f;
-
 				if (lives >= 0) {
 					lives--;
+					playerUI.UpdateLives();
 					audio.playSFX("res://Sounds/SFX/deathRing.wav", -12.5f);
 					audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/death.wav", -12.5f);
 				}
@@ -99,9 +94,7 @@ public partial class Player : CharacterBody2D
 
 			// Fall down through the floor
 			if (!IsOnFloor()) {
-				velocity.Y += 700.0f * (float)delta;
-
-				if (velocity.Y < 0.0f) {
+				if (Velocity.Y < 0.0f) {
 					animPlayer.Play("DeathUp");
 				}
 				else {
@@ -112,26 +105,18 @@ public partial class Player : CharacterBody2D
 			if (!gotSpawnPos) {
 				gotSpawnPos = true;
 				spawnPosition = GlobalPosition;
-				if (lives >= 0 && !GameManager.instance.isBossStage)
+				if (lives >= 0 && GameManager.instance.selectedStage != (int)GameManager.StageNumber.BossStage)
 					Respawn();
 			}
 		}
 		else {
 			isAlive = true;
-			velocity.X = horizontalMovement();
 
 			// Add the gravity.
 			if (!IsOnFloor()) {
-				velocity.Y += gravity * (float)delta;
-
-				// Player can do short hop by not holding the jump button
-				if (Input.IsActionJustReleased("jump" + playerNum.ToString()) && velocity.Y < -250.0f) {
-					velocity.Y += 1500 * 6.0f * (float)delta;
-				}
-
 				// Play jump or fall animations
 				if (!isAttacking && !takingDamage) {
-					if (velocity.Y < 0.0f) {
+					if (Velocity.Y < 0.0f) {
 						if (chara == (int)CharacterID.Sasuke) {
 							animPlayer.Play("Sasuke/Jump");
 						}
@@ -150,6 +135,61 @@ public partial class Player : CharacterBody2D
 							animPlayer.Play(charaName[chara] + "/Fall");
 						}
 					}
+				}
+			}
+			else {
+				// Play one of these animations if the player is not moving
+				if (Velocity.X == 0.0f && !isAttacking && !takingDamage) {
+					if (Input.IsActionPressed("crouch" + playerNum.ToString())) {
+						animPlayer.Play("Crouch");
+					}
+					else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
+						animPlayer.Play("LookUp");
+					}
+					else {
+						animPlayer.Play("Idle");
+					}
+				}
+			}
+
+			if (takingDamage) {
+				animPlayer.Play("Hurt");
+				Hurt();
+			}
+
+			takingDamage = hurtboxComponent.tookDamage;
+		}
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		Vector2 velocity = Velocity;
+
+		if (healthComponent.health <= 0.0f) {
+			// Stop any horizontal movement	
+			velocity.X = 0.0f;
+
+			// Play death animation
+			if (!playingDeathAnim) {
+				// Player flies up a bit
+				velocity.Y = -300.0f;
+			}
+
+			// Fall down through the floor
+			if (!IsOnFloor()) {
+				velocity.Y += 700.0f * (float)delta;
+			}
+		}
+		else {
+			velocity.X = GetHorizontalMovement();
+
+			// Add the gravity.
+			if (!IsOnFloor()) {
+				velocity.Y += gravity * (float)delta;
+
+				// Player can do short hop by not holding the jump button
+				if (Input.IsActionJustReleased("jump" + playerNum.ToString()) && velocity.Y < -250.0f) {
+					velocity.Y += 1500 * 6.0f * (float)delta;
 				}
 			}
 			else {
@@ -174,25 +214,9 @@ public partial class Player : CharacterBody2D
 					else if (speed <= baseSpeed)
 						speed = baseSpeed;          // Make sure speed does not go below baseSpeed
 				}
-
-				// Play one of these animations if the player is not moving
-				if (velocity.X == 0.0f && !isAttacking && !takingDamage) {
-					if (Input.IsActionPressed("crouch" + playerNum.ToString())) {
-						animPlayer.Play("Crouch");
-					}
-					else if (Input.IsActionPressed("lookUp" + playerNum.ToString())) {
-						animPlayer.Play("LookUp");
-					}
-					else {
-						animPlayer.Play("Idle");
-					}
-				}
 			}
 
 			if (takingDamage) {
-				animPlayer.Play("Hurt");
-				Hurt();
-
 				// Player bounces up everytime they hit the floor
 				if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
 					bounces++;
@@ -215,21 +239,20 @@ public partial class Player : CharacterBody2D
 			else if (Input.IsActionJustReleased("attack" + playerNum.ToString())) {
 				holdingRunButton = false;
 			}
-
-			takingDamage = hurtboxComponent.tookDamage;
 		}
 
 		Velocity = velocity;
 		MoveAndSlide();
 	}
-
+	
 	/*
 	 * Player can move when not taking damage or attacking
 	 * Stop movement when attacking on the ground
 	 * You can move in the direction you are attacking towards in the air
 	 * Player can't turn during the attack animation 
 	*/
-	private float horizontalMovement() {
+	private float GetHorizontalMovement()
+	{
 		Vector2 direction = Vector2.Zero;
 
 		// Player can only move when not attacking or taking damage
@@ -237,18 +260,18 @@ public partial class Player : CharacterBody2D
 			if (Input.IsActionPressed("walkRight" + playerNum.ToString()) && !attackingLeft) {
 				// Turn the sprite towards the right direction
 				bodySprite.FlipH = false;
-				
+
 				// Set the direction of the player
 				direction = lastDirection = new Vector2(1.0f, 0.0f);
 
 				if (!isAttacking) {
 					// Play movement animation if not attacking
-					movementAnimation();
+					PlayMovementAnimation();
 				}
 				else if (isAttacking && IsOnFloor()) {
 					// Stop player if they attack on the ground
 					return Mathf.MoveToward(Velocity.X, 0, speed);
-				}					
+				}
 			}
 			else if (Input.IsActionPressed("walkLeft" + playerNum.ToString()) && !attackingRight) {
 				bodySprite.FlipH = true;
@@ -256,11 +279,11 @@ public partial class Player : CharacterBody2D
 				direction = lastDirection = new Vector2(-1.0f, 0.0f);
 
 				if (!isAttacking) {
-					movementAnimation();
+					PlayMovementAnimation();
 				}
 				else if (isAttacking && IsOnFloor()) {
 					return Mathf.MoveToward(Velocity.X, 0, speed);
-				}			
+				}
 			}
 		}
 
@@ -271,7 +294,8 @@ public partial class Player : CharacterBody2D
 			return Mathf.MoveToward(Velocity.X, 0, speed);
 	}
 
-	private void movementAnimation() {
+	private void PlayMovementAnimation()
+	{
 		// Play a movement animation based on the player's input
 		if (IsOnFloor()) {
 			if (Input.IsActionPressed("crouch" + playerNum.ToString()))
@@ -283,7 +307,8 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private async void Attacking() {
+	private async void Attacking()
+	{
 		if (!isAttacking && !takingDamage && !holdingRunButton) {
 			isAttacking = true;
 
@@ -356,7 +381,8 @@ public partial class Player : CharacterBody2D
 	}
 
 	// Only plays the hurt sound once
-	private async void Hurt() {
+	private async void Hurt()
+	{
 		if (!playingHurtSFX) {
 			playingHurtSFX = true;
 			audio.playSFX("res://Sounds/SFX/" + charaName[chara] + "/hurt.wav", -12.5f);
@@ -365,17 +391,20 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private async void Respawn() {
+	private async void Respawn()
+	{
 		await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout);
 		Velocity = new Vector2(0.0f, 0.0f);
 		GlobalPosition = spawnPosition;
 		healthComponent.health = 12.0f;
+		playerUI.UpdateHealth();
 		animPlayer.Play("Idle");
 		gotSpawnPos = false;
 		playingDeathAnim = false;
 	}
 
-	public void Die() {
+	public void Die()
+	{
 		healthComponent.health = 0.0f;
 	}
 }
