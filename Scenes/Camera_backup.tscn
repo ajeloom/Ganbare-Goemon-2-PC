@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn5nk2rv7s1ff"]
+
+[ext_resource type="Script" uid="uid://ds53gdoctkhj1" path="res://Scripts/Camera.cs" id="1_wn58e"]
+
+[node name="Camera2D" type="Camera2D"]
+process_mode = 1
+zoom = Vector2(3, 3)
+limit_left = 0
+limit_top = 0
+limit_right = 8192
+limit_bottom = 360
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+editor_draw_limits = true
+script = ExtResource("1_wn58e")

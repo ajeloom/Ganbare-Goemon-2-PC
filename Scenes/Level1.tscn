@@ -58,22 +58,19 @@ _data = {
 
 [node name="Level1" type="StaticBody2D"]
 z_index = -2
-position = Vector2(4096, 50)
-scale = Vector2(1.6, 1.6)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+offset = Vector2(0, 86.5)
+transform = Transform2D(1, 0, 0, 1, 0, 86.5)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-scale = Vector2(1.6, 1.6)
-motion_scale = Vector2(0.4, 0.4)
-motion_offset = Vector2(0, 50)
+motion_scale = Vector2(0.125, 0)
 
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture_repeat = 2
-position = Vector2(0, 55)
 texture = ExtResource("1_8nk3a")
 region_enabled = true
-region_rect = Rect2(0, 0, 5120, 173)
+region_rect = Rect2(0, 0, 10240, 173)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -82,146 +79,157 @@ libraries = {
 autoplay = "Background"
 
 [node name="Ground" type="Sprite2D" parent="."]
+position = Vector2(2559.5, 31.5)
 texture = ExtResource("4_slnnj")
 
 [node name="Base" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-2559, 146, -1471, 146, -1471, 116, -1375, 66, -1152, 67, -1152, 146, -383, 146, -383, 114, -255, 114, -255, 82, -127, 82, -127, 50, 128, 50, 200, 70, 219, 82, 251, 98, 283, 114, 315, 130, 386, 146, 1089, 146, 1089, 114, 1153, 114, 1153, 82, 1248, 82, 1248, 114, 1280, 114, 1280, 146, 2048, 146, 2118, 130, 2150, 114, 2178, 98, 2560, 98, 2560, 156, -2559, 156)
+position = Vector2(2559, 32)
+polygon = PackedVector2Array(-2559, 146, -1471, 146, -1471, 116, -1375, 66, -1151, 67, -1151, 146, -383, 146, -383, 114, -255, 114, -255, 82, -127, 82, -127, 50, 128, 50, 200, 70, 219, 82, 251, 98, 283, 114, 315, 130, 386, 146, 1089, 146, 1089, 114, 1153, 114, 1153, 82, 1249, 82, 1249, 114, 1281, 114, 1281, 146, 2048, 146, 2118, 130, 2150, 114, 2178, 98, 2561, 98, 2561, 156, -2559, 156)
 
 [node name="Platform 1" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-1862, 98, -1721, 98, -1721, 99, -1862, 99)
+position = Vector2(2559, 0)
+polygon = PackedVector2Array(-1862, 130, -1721, 130, -1721, 131, -1862, 131)
 one_way_collision = true
 
 [node name="Platform 2" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(-1670, 98, -1529, 98, -1529, 99, -1670, 99)
 one_way_collision = true
 
 [node name="Platform 3" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(-1152, 114, -1017, 114, -1017, 115, -1152, 115)
 one_way_collision = true
 
 [node name="Platform 4" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(-1062, 66, -953, 66, -953, 67, -1062, 67)
 one_way_collision = true
 
 [node name="Platform 5" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(-902, 66, -793, 66, -793, 67, -902, 67)
 one_way_collision = true
 
 [node name="Platform 6" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(-742, 50, -633, 50, -633, 51, -742, 51)
 one_way_collision = true
 
 [node name="Platform 7" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(1530, 50, 1639, 50, 1639, 51, 1530, 51)
 one_way_collision = true
 
 [node name="Platform 8" type="CollisionPolygon2D" parent="."]
+position = Vector2(2559, 32)
 polygon = PackedVector2Array(1690, 50, 1799, 50, 1799, 51, 1690, 51)
 one_way_collision = true
 
 [node name="Invisible Wall 1" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-2559, 156, -2559, -32, -2561, -32, -2561, 156)
+polygon = PackedVector2Array(0, 0, 0, 188, -2, 188, -2, 0)
 
 [node name="Invisible Wall 2" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(2560, 156, 2560, -32, 2562, -32, 2562, 156)
+polygon = PackedVector2Array(5120, 188, 5120, 0, 5122, 0, 5122, 188)
 
 [node name="SpawnPoint0" type="Node2D" parent="."]
-position = Vector2(-2489, 123)
+position = Vector2(10, 154)
 
 [node name="SpawnPoint1" type="Node2D" parent="."]
-position = Vector2(-2519, 123)
+position = Vector2(40, 154)
 
 [node name="SpawnPoint2" type="Node2D" parent="."]
-position = Vector2(-2549, 123)
+position = Vector2(70, 154)
 
 [node name="Pass" parent="." instance=ExtResource("4_qtiqd")]
-position = Vector2(2375, 30)
+position = Vector2(4992, 75)
 
 [node name="BackgroundSprites" type="Node2D" parent="."]
+position = Vector2(2559.5, 0)
 
 [node name="TreeTop" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-2511.5, 104.5)
+position = Vector2(-2511.5, 136)
 
 [node name="TreeTop2" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-2447.5, 120.5)
+position = Vector2(-2447.5, 152)
 
 [node name="TreeTop3" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-2383.5, 112.5)
+position = Vector2(-2383.5, 144)
 
 [node name="TreeTop4" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-1999.5, 104.5)
+position = Vector2(-1999.5, 136)
 
 [node name="TreeTop5" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-1935.5, 120.5)
+position = Vector2(-1935.5, 152)
 
 [node name="TreeTop6" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-1615.5, 64.5)
+position = Vector2(-1615.5, 96)
 
 [node name="TreeTop7" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-1199.5, 24.5)
+position = Vector2(-1199.5, 56)
 
 [node name="TreeTop8" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-1007.5, 40.5)
+position = Vector2(-1007.5, 72)
 
 [node name="TreeTop9" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-847.5, 32.5)
+position = Vector2(-847.5, 64)
 
 [node name="TreeTop10" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-367.5, 88.5)
+position = Vector2(-367.5, 120)
 
 [node name="TreeTop11" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-303.5, 72.5)
+position = Vector2(-303.5, 104)
 
 [node name="TreeTop12" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-239.5, 40.5)
+position = Vector2(-239.5, 72)
 
 [node name="TreeTop13" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-175.5, 48.5)
+position = Vector2(-175.5, 80)
 
 [node name="TreeTop14" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-111.5, 24.5)
+position = Vector2(-111.5, 56)
 
 [node name="TreeTop15" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(-47.5, 8.5)
+position = Vector2(-47.5, 40)
 
 [node name="TreeTop16" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(16.5, 16.5)
+position = Vector2(16.5, 48)
 
 [node name="TreeTop17" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(80.4998, 24.5)
+position = Vector2(80.5, 56)
 
 [node name="TreeTop18" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(656.5, 104.5)
+position = Vector2(656.5, 136)
 
 [node name="TreeTop19" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(720.5, 120.5)
+position = Vector2(720.5, 152)
 
 [node name="TreeTop20" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(784.5, 104.5)
+position = Vector2(784.5, 136)
 
 [node name="TreeTop21" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(848.5, 112.5)
+position = Vector2(848.5, 144)
 
 [node name="TreeTop22" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(912.5, 104.5)
+position = Vector2(912.5, 136)
 
 [node name="TreeTop23" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1200.5, 40.5)
+position = Vector2(1200.5, 72)
 
 [node name="TreeTop24" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1360.5, 104.5)
+position = Vector2(1360.5, 136)
 
 [node name="TreeTop25" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1424.5, 120.5)
+position = Vector2(1424.5, 152)
 
 [node name="TreeTop26" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1488.5, 112.5)
+position = Vector2(1488.5, 144)
 
 [node name="TreeTop27" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1840.5, 104.5)
+position = Vector2(1840.5, 136)
 
 [node name="TreeTop28" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1904.5, 112.5)
+position = Vector2(1904.5, 144)
 
 [node name="TreeTop29" parent="BackgroundSprites" instance=ExtResource("6_t3or0")]
-position = Vector2(1968.5, 104.5)
+position = Vector2(1968.5, 136)

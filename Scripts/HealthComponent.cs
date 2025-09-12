@@ -27,6 +27,14 @@ public partial class HealthComponent : Node2D
 			PlayerUI ui = player.GetNode<PlayerUI>("Player UI");
 			ui.UpdateHealth();
 		}
+		else if (GetParent().IsInGroup("Impact")) {
+			Impact impact = GetParent<Impact>();
+			impact.UpdateImpactHP(health);
+		}
+		else if (GetParent().IsInGroup("ImpactBoss")) {
+			Impact impact = (Impact)damageDealer;
+			impact.UpdateBossHP(health);
+		}
 		
 		if (damageDealer.IsInGroup("Player")) {
 			audioComponent.playSFX("res://Sounds/SFX/Goemon/hit.wav", -15.0f);

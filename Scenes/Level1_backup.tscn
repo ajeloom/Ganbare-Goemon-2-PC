@@ -1,0 +1,227 @@
+[gd_scene load_steps=9 format=3 uid="uid://ch4rfwg2uhws8"]
+
+[ext_resource type="Texture2D" uid="uid://dke30mdlfmse1" path="res://Sprites/Stages/Level 1/Level1_Background1.png" id="1_vgq7k"]
+[ext_resource type="Texture2D" uid="uid://cgfn6qxbt45wl" path="res://Sprites/Stages/Level 1/Level1_Background2.png" id="2_on1xl"]
+[ext_resource type="Texture2D" uid="uid://dm033xpd343mf" path="res://Sprites/Stages/Level 1/Ryuku_Resort.png" id="3_ytuxd"]
+[ext_resource type="PackedScene" uid="uid://c1ufqqv2rqbcg" path="res://Scenes/Pass.tscn" id="4_ocrtr"]
+[ext_resource type="PackedScene" uid="uid://fvbr2mo7tvkc" path="res://Scenes/TreeTop.tscn" id="5_kv8wr"]
+
+[sub_resource type="Animation" id="Animation_t3or0"]
+resource_name = "Background"
+length = 0.26667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("1_vgq7k"), ExtResource("2_on1xl")]
+}
+
+[sub_resource type="Animation" id="Animation_ysn8j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ParallaxBackground/ParallaxLayer/Background:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_vgq7k")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ParallaxBackground/ParallaxLayer/Background:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6ll4n"]
+_data = {
+&"Background": SubResource("Animation_t3or0"),
+&"RESET": SubResource("Animation_ysn8j")
+}
+
+[node name="Level1" type="StaticBody2D"]
+z_index = -2
+position = Vector2(4096, 50)
+scale = Vector2(1.6, 1.6)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(1.6, 1.6)
+motion_scale = Vector2(0.4, 0.4)
+motion_offset = Vector2(0, 50)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_repeat = 2
+position = Vector2(0, 55)
+texture = ExtResource("1_vgq7k")
+region_enabled = true
+region_rect = Rect2(0, 0, 5120, 173)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6ll4n")
+}
+autoplay = "Background"
+
+[node name="Ground" type="Sprite2D" parent="."]
+texture = ExtResource("3_ytuxd")
+
+[node name="Base" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-2559, 146, -1471, 146, -1471, 116, -1375, 66, -1152, 67, -1152, 146, -383, 146, -383, 114, -255, 114, -255, 82, -127, 82, -127, 50, 128, 50, 200, 70, 219, 82, 251, 98, 283, 114, 315, 130, 386, 146, 1089, 146, 1089, 114, 1153, 114, 1153, 82, 1248, 82, 1248, 114, 1280, 114, 1280, 146, 2048, 146, 2118, 130, 2150, 114, 2178, 98, 2560, 98, 2560, 156, -2559, 156)
+
+[node name="Platform 1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1862, 98, -1721, 98, -1721, 99, -1862, 99)
+one_way_collision = true
+
+[node name="Platform 2" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1670, 98, -1529, 98, -1529, 99, -1670, 99)
+one_way_collision = true
+
+[node name="Platform 3" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1152, 114, -1017, 114, -1017, 115, -1152, 115)
+one_way_collision = true
+
+[node name="Platform 4" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1062, 66, -953, 66, -953, 67, -1062, 67)
+one_way_collision = true
+
+[node name="Platform 5" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-902, 66, -793, 66, -793, 67, -902, 67)
+one_way_collision = true
+
+[node name="Platform 6" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-742, 50, -633, 50, -633, 51, -742, 51)
+one_way_collision = true
+
+[node name="Platform 7" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(1530, 50, 1639, 50, 1639, 51, 1530, 51)
+one_way_collision = true
+
+[node name="Platform 8" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(1690, 50, 1799, 50, 1799, 51, 1690, 51)
+one_way_collision = true
+
+[node name="Invisible Wall 1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-2559, 156, -2559, -32, -2561, -32, -2561, 156)
+
+[node name="Invisible Wall 2" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(2560, 156, 2560, -32, 2562, -32, 2562, 156)
+
+[node name="SpawnPoint0" type="Node2D" parent="."]
+position = Vector2(-2489, 123)
+
+[node name="SpawnPoint1" type="Node2D" parent="."]
+position = Vector2(-2519, 123)
+
+[node name="SpawnPoint2" type="Node2D" parent="."]
+position = Vector2(-2549, 123)
+
+[node name="Pass" parent="." instance=ExtResource("4_ocrtr")]
+position = Vector2(2375, 30)
+
+[node name="BackgroundSprites" type="Node2D" parent="."]
+
+[node name="TreeTop" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-2511.5, 104.5)
+
+[node name="TreeTop2" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-2447.5, 120.5)
+
+[node name="TreeTop3" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-2383.5, 112.5)
+
+[node name="TreeTop4" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-1999.5, 104.5)
+
+[node name="TreeTop5" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-1935.5, 120.5)
+
+[node name="TreeTop6" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-1615.5, 64.5)
+
+[node name="TreeTop7" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-1199.5, 24.5)
+
+[node name="TreeTop8" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-1007.5, 40.5)
+
+[node name="TreeTop9" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-847.5, 32.5)
+
+[node name="TreeTop10" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-367.5, 88.5)
+
+[node name="TreeTop11" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-303.5, 72.5)
+
+[node name="TreeTop12" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-239.5, 40.5)
+
+[node name="TreeTop13" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-175.5, 48.5)
+
+[node name="TreeTop14" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-111.5, 24.5)
+
+[node name="TreeTop15" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(-47.5, 8.5)
+
+[node name="TreeTop16" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(16.5, 16.5)
+
+[node name="TreeTop17" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(80.4998, 24.5)
+
+[node name="TreeTop18" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(656.5, 104.5)
+
+[node name="TreeTop19" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(720.5, 120.5)
+
+[node name="TreeTop20" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(784.5, 104.5)
+
+[node name="TreeTop21" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(848.5, 112.5)
+
+[node name="TreeTop22" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(912.5, 104.5)
+
+[node name="TreeTop23" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1200.5, 40.5)
+
+[node name="TreeTop24" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1360.5, 104.5)
+
+[node name="TreeTop25" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1424.5, 120.5)
+
+[node name="TreeTop26" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1488.5, 112.5)
+
+[node name="TreeTop27" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1840.5, 104.5)
+
+[node name="TreeTop28" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1904.5, 112.5)
+
+[node name="TreeTop29" parent="BackgroundSprites" instance=ExtResource("5_kv8wr")]
+position = Vector2(1968.5, 104.5)

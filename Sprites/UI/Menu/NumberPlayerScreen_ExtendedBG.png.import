@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw1226wd2a5mh"
-path="res://.godot/imported/ImpactBossButtonHover.png-9863a50b09f580d3c6de2374c9218dc1.ctex"
+uid="uid://clepemwgvrvyi"
+path="res://.godot/imported/NumberPlayerScreen_ExtendedBG.png-67d8c53d65a635061de4fc96a946eb71.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/StageSelect/ImpactBossButtonHover.png"
-dest_files=["res://.godot/imported/ImpactBossButtonHover.png-9863a50b09f580d3c6de2374c9218dc1.ctex"]
+source_file="res://Sprites/UI/Menu/NumberPlayerScreen_ExtendedBG.png"
+dest_files=["res://.godot/imported/NumberPlayerScreen_ExtendedBG.png-67d8c53d65a635061de4fc96a946eb71.ctex"]
 
 [params]
 

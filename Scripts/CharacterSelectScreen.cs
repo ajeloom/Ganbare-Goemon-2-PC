@@ -5,7 +5,6 @@ public partial class CharacterSelectScreen : Control
 {
 	private TextureButton goemonButton, ebisumaruButton, sasukeButton;
 	private Button nextButton, cancelButton;
-	private Sprite2D background;
 	private AudioComponent audioComponent;
 	private Cursor cursor, cursor2, cursor3;
 
@@ -20,7 +19,7 @@ public partial class CharacterSelectScreen : Control
 
 	private string spritePath = "res://Sprites/UI/Menu/CharacterSelect/";
 
-	public Sprite2D lightLeft, lightMiddle, lightRight;
+	public TextureRect lightLeft, lightMiddle, lightRight;
 
 	private Node2D cursorPosition1, cursorPosition2, cursorPosition3;
 
@@ -32,16 +31,15 @@ public partial class CharacterSelectScreen : Control
 		sasukeButton = GetNode<TextureButton>("CanvasLayer/SasukeButton");
 		nextButton = GetNode<Button>("CanvasLayer/NextButton");
 		cancelButton = GetNode<Button>("CanvasLayer/CancelButton");
-		background = GetNode<Sprite2D>("CanvasLayer/Background");
 		audioComponent = GetNode<AudioComponent>("AudioComponent");
 
-		lightLeft = GetNode<Sprite2D>("CanvasLayer/LightLeft");
-		lightMiddle = GetNode<Sprite2D>("CanvasLayer/LightMiddle");
-		lightRight = GetNode<Sprite2D>("CanvasLayer/LightRight");
+		lightLeft = GetNode<TextureRect>("CanvasLayer/LightLeft");
+		lightMiddle = GetNode<TextureRect>("CanvasLayer/LightMiddle");
+		lightRight = GetNode<TextureRect>("CanvasLayer/LightRight");
 
-		cursorPosition1 = GetNode<Node2D>("CanvasLayer/CursorPosition1");
-		cursorPosition2 = GetNode<Node2D>("CanvasLayer/CursorPosition2");
-		cursorPosition3 = GetNode<Node2D>("CanvasLayer/CursorPosition3");
+		cursorPosition1 = GetNode<Node2D>("CursorPosition1");
+		cursorPosition2 = GetNode<Node2D>("CursorPosition2");
+		cursorPosition3 = GetNode<Node2D>("CursorPosition3");
 
 		GameManager.instance.selectCharacter = true;
 

@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://dnc6mv6cynn7x" path="res://Sprites/UI/Boss HP/HP_Boss_Progress1.png" id="3_2rqiu"]
 
 [node name="TextureProgressBar" type="TextureProgressBar"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 4.0
+offset_bottom = 6.0
 max_value = 1.0
 value = 1.0
 texture_under = ExtResource("1_nuy4y")

@@ -67,6 +67,7 @@ public partial class Senshuraku : CharacterBody2D
 		if (healthComponent.health <= 0.0f) {
 			if (!playedHurtSound) {
 				playedHurtSound = true;
+				hurtbox.Disabled = true;
 				audio.playSFX("res://Sounds/SFX/punch.wav", -15.0f);
 			}
 

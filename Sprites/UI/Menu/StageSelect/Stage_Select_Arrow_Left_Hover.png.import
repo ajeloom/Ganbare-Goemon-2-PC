@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddl0axlnry24w"
-path="res://.godot/imported/ImpactBossButton.png-6401436ed6e331b28a861f8479dfcdf5.ctex"
+uid="uid://beoaj8q8leerq"
+path="res://.godot/imported/Stage_Select_Arrow_Left_Hover.png-eb19e2db95e2ff94001222b3c6f28c62.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/StageSelect/ImpactBossButton.png"
-dest_files=["res://.godot/imported/ImpactBossButton.png-6401436ed6e331b28a861f8479dfcdf5.ctex"]
+source_file="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Left_Hover.png"
+dest_files=["res://.godot/imported/Stage_Select_Arrow_Left_Hover.png-eb19e2db95e2ff94001222b3c6f28c62.ctex"]
 
 [params]
 

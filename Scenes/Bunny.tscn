@@ -251,7 +251,7 @@ height = 31.5
 
 [node name="Bunny" instance=ExtResource("1_4l7yl")]
 script = ExtResource("2_fisup")
-speed = 65.0
+speed = 35.0
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_0mti8")

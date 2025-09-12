@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbxbf53ndhjlv"]
+[gd_scene load_steps=3 format=3 uid="uid://dbxbf53ndhjlv"]
 
 [ext_resource type="Script" uid="uid://3cdi2udnxxor" path="res://Scripts/BossHP.cs" id="1_f1bqp"]
+[ext_resource type="Texture2D" uid="uid://cx25t2amnavm7" path="res://Sprites/UI/Boss HP/EnemyText.png" id="2_rj73j"]
 
 [node name="Boss HP" type="CanvasLayer"]
 script = ExtResource("1_f1bqp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(17, 5)
+texture = ExtResource("2_rj73j")

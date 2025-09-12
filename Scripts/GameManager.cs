@@ -8,7 +8,7 @@ public partial class GameManager : Node2D
 	string savePath = "user://settings.ini";
 	private ConfigFile configFile = new ConfigFile();
 
-	private Control pauseMenu;
+	private CanvasLayer pauseMenu;
 	public AudioStreamPlayer audio;
 	private CanvasLayer canvas;
 	private Control transition;
@@ -117,7 +117,7 @@ public partial class GameManager : Node2D
 		Viewport root = GetTree().Root;
 		currentScene = root.GetChild(root.GetChildCount() - 1);
 
-		pauseMenu = GetNode<Control>("/root/GameManager/CanvasLayer/PauseMenu");
+		pauseMenu = GetNode<CanvasLayer>("/root/GameManager/PauseCanvasLayer");
 		pauseMenu.Visible = false;
 
 		canvas = GetNode<CanvasLayer>("/root/GameManager/UI/CanvasLayer");
@@ -568,6 +568,14 @@ public partial class GameManager : Node2D
 			Node instance = scene.Instantiate();
 			AddChild(instance);
 		}
+		
+		bool widescreen = (bool)configFile.GetValue("Settings", "Widescreen");
+		if (widescreen) {
+			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.KeepHeight;
+		}
+		else {
+			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.Keep;
+		}
 	}
 
 	private bool DoesPlayersHaveLives()
@@ -588,11 +596,6 @@ public partial class GameManager : Node2D
 			Node2D temp = GetChild<Node2D>(GetChildCount() - 1);
 			RemoveChild(temp);
 		}
-	}
-
-	public void SetStage(int stageNum)
-	{
-		selectedStage = stageNum;
 	}
 
 	private void SetupGame(bool isReloading)
@@ -640,6 +643,51 @@ public partial class GameManager : Node2D
 		}
 		
 		stageFullyLoaded = true;
+	}
+
+	public void NextStage()
+	{
+		if (playerCount == 1) {
+			if (selectedStage < 2) {
+				selectedStage++;
+			}
+			else {
+				selectedStage = 0;
+			}
+		}
+		else {
+			if (selectedStage == 1) {
+				selectedStage = 0;
+			}
+			else if (selectedStage == 0) {
+				selectedStage = 1;
+			}
+		}
+	}
+
+	public void PreviousStage()
+	{
+		if (playerCount == 1) {
+			if (selectedStage > 0) {
+				selectedStage--;
+			}
+			else {
+				selectedStage = 2;
+			}
+		}
+		else {
+			if (selectedStage == 0) {
+				selectedStage = 1;
+			}
+			else if (selectedStage == 1) {
+				selectedStage = 0;
+			}
+		}
+	}
+
+	public void SetStage(int stageNum)
+	{
+		selectedStage = stageNum;
 	}
 
 	public async void LoadStage()

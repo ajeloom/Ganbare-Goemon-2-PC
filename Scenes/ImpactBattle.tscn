@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://wd66kngccjyk"]
+[gd_scene load_steps=6 format=3 uid="uid://wd66kngccjyk"]
 
+[ext_resource type="Texture2D" uid="uid://cq3uufrogwp8k" path="res://Sprites/Stages/Impact Stage/ImpactBattleBG_Blur.png" id="1_ctx3g"]
 [ext_resource type="Texture2D" uid="uid://gtgvqh3tl35q" path="res://Sprites/Stages/Impact Stage/ImpactBattleBG.png" id="1_jeqhw"]
 [ext_resource type="PackedScene" uid="uid://crrpstbmmg26i" path="res://Scenes/Senshuraku.tscn" id="2_34ygy"]
 [ext_resource type="PackedScene" uid="uid://xsoj6go7jf0r" path="res://Scenes/Impact.tscn" id="3_6ugix"]
@@ -8,36 +9,26 @@
 [node name="Impact Battle" type="Node2D"]
 process_mode = 1
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -317.0
-offset_top = -256.0
-offset_right = 316.0
-offset_bottom = 237.0
-color = Color(0, 0, 0, 1)
-
 [node name="Background" type="Sprite2D" parent="."]
-scale = Vector2(1.6, 1.6)
 texture = ExtResource("1_jeqhw")
 
 [node name="Senshuraku" parent="." instance=ExtResource("2_34ygy")]
+scale = Vector2(0.7, 0.7)
 
 [node name="Impact" parent="." instance=ExtResource("3_6ugix")]
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-offset_left = -388.0
-offset_top = -256.0
-offset_right = -206.0
-offset_bottom = 237.0
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="."]
-offset_left = 206.0
-offset_top = -256.0
-offset_right = 364.0
-offset_bottom = 237.0
-color = Color(0, 0, 0, 1)
-
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -25.585)
-zoom = Vector2(3.516, 3.516)
 script = ExtResource("4_p5556")
+
+[node name="LeftSideBlur" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(-256, 55.5)
+scale = Vector2(1, 2)
+texture = ExtResource("1_ctx3g")
+
+[node name="RightSideBlur" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(256, 55.5)
+scale = Vector2(1, 2)
+texture = ExtResource("1_ctx3g")
+region_rect = Rect2(0, 0, 1080, 222)

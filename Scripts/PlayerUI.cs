@@ -4,7 +4,7 @@ using System;
 public partial class PlayerUI : Node2D
 {
 	// UI variables
-	private Node2D node;
+	private CanvasLayer canvas;
 	private Label coinsLabel;
 	private Label livesLabel;
 	private Sprite2D weaponIcon;
@@ -22,17 +22,17 @@ public partial class PlayerUI : Node2D
 	{
 		player = GetParent<Player>();
 
-		node = GetNode<Node2D>("CanvasLayer/Node2D");
+		canvas = GetNode<CanvasLayer>("CanvasLayer");
 
-		coinsLabel = GetNode<Label>("CanvasLayer/Node2D/Coins Label");
-		livesLabel = GetNode<Label>("CanvasLayer/Node2D/Lives Label");
+		coinsLabel = GetNode<Label>("CanvasLayer/Coins Label");
+		livesLabel = GetNode<Label>("CanvasLayer/Lives Label");
 
-		weaponIcon = GetNode<Sprite2D>("CanvasLayer/Node2D/Weapon Icon");
-		charaIcon = GetNode<Sprite2D>("CanvasLayer/Node2D/Icon");
+		weaponIcon = GetNode<Sprite2D>("CanvasLayer/Weapon Icon");
+		charaIcon = GetNode<Sprite2D>("CanvasLayer/Icon");
 
-		bar1 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 1");
-		bar2 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 2");
-		bar3 = GetNode<TextureProgressBar>("CanvasLayer/Node2D/HP Bar 3");
+		bar1 = GetNode<TextureProgressBar>("CanvasLayer/HP Bar 1");
+		bar2 = GetNode<TextureProgressBar>("CanvasLayer/HP Bar 2");
+		bar3 = GetNode<TextureProgressBar>("CanvasLayer/HP Bar 3");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -44,13 +44,13 @@ public partial class PlayerUI : Node2D
 	{
 		// Set the position of the UI based on player number
 		if (playerNum == (int)GameManager.PlayerNumber.Player1) {
-			node.Position = new Vector2(0.0f, 0.0f);
+			canvas.Offset = new Vector2(0.0f, 0.0f);
 		}
 		else if (playerNum == (int)GameManager.PlayerNumber.Player2) {
-			node.Position = new Vector2(575.0f, 0.0f);
+			canvas.Offset = new Vector2(73.0f, 0.0f);
 		}
 		else if (playerNum == (int)GameManager.PlayerNumber.Player3) {
-			node.Position = new Vector2(1150.0f, 0.0f);
+			canvas.Offset = new Vector2(146.0f, 0.0f);
 		}
 
 		// Set the matching weapon icon

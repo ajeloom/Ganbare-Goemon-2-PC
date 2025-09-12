@@ -12,125 +12,129 @@ z_index = -1
 [node name="Level1" parent="." instance=ExtResource("3_x6vg2")]
 
 [node name="EnemySpawn" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(647, 247)
+position = Vector2(400.44, 155)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn2" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(810, 247)
+position = Vector2(493, 155)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn3" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(978, 247)
+position = Vector2(621, 155)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn4" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(1053, 247)
+position = Vector2(655, 155)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn5" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(1273, 170)
+position = Vector2(781, 105)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn6" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(1440, 247)
+position = Vector2(909, 155)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn7" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(1561, 170)
+position = Vector2(975, 105)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn8" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2091, 119)
+position = Vector2(1257, 73)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn9" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2159, 120)
+position = Vector2(1292, 73)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn10" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2227, 120)
+position = Vector2(1326, 73)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn11" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2456, 196)
+position = Vector2(1531, 121)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn12" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2653, 247)
+position = Vector2(1628, 153)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn13" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2814, 119)
+position = Vector2(1693, 151)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn14" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(2957, 247)
+position = Vector2(1693, 73)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn15" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(3070, 93)
+position = Vector2(1842, 57)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn16" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(3669, 195)
+position = Vector2(1853, 153)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn17" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(3874, 144)
+position = Vector2(2232, 121)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn18" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(4281, 93)
+position = Vector2(2375, 89)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn19" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(4364, 106)
+position = Vector2(2637, 57)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn20" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(4439, 129)
+position = Vector2(2672, 57)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn21" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(5155, 247)
+position = Vector2(2707, 57)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn22" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(5655, 247)
+position = Vector2(3118, 153)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn23" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(6405, 246)
+position = Vector2(3405, 153)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn24" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(6706, 93)
+position = Vector2(3951, 153)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn25" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(6962, 93)
+position = Vector2(4189, 57)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn26" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(7523, 194)
+position = Vector2(4284, 57)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawn27" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(7857, 170)
+position = Vector2(4749, 105)
+packedScene = ExtResource("3_r1pxf")
+
+[node name="EnemySpawn28" parent="." instance=ExtResource("2_t1u3b")]
+position = Vector2(4924, 105)
 packedScene = ExtResource("3_r1pxf")
 
 [node name="EnemySpawnD" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(6452, 268)
+position = Vector2(4032, 153)
 packedScene = ExtResource("5_nvyme")
 
 [node name="EnemySpawnD2" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(6887, 268)
+position = Vector2(4176, 153)
 packedScene = ExtResource("5_nvyme")
 
 [node name="EnemySpawnD3" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(7090, 268)
+position = Vector2(4304, 153)
 packedScene = ExtResource("5_nvyme")
 
 [node name="EnemySpawnD4" parent="." instance=ExtResource("2_t1u3b")]
-position = Vector2(7304, 268)
+position = Vector2(4432, 153)
 packedScene = ExtResource("5_nvyme")

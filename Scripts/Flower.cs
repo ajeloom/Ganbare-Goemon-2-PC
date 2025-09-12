@@ -7,6 +7,8 @@ public partial class Flower : CharacterBody2D
 
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
+	[Export] private float flyUpSpeed = 400.0f;
+
 	private bool isRising = true;
 	private bool gotAnimation = false;
 	private bool isDestroyed = false;
@@ -23,7 +25,7 @@ public partial class Flower : CharacterBody2D
 		animPlayer.Play("Rise");
 		isRising = true;
 
-		targetPosition = new Vector2(GetRandomXPosition(), -50.0f);
+		targetPosition = new Vector2(GetRandomXPosition(), GlobalPosition.Y - 100.0f - GetRandomYPosition());
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,8 +47,10 @@ public partial class Flower : CharacterBody2D
 		}
 		else {
 			if (isRising) {
-				Vector2 direction = GlobalPosition.DirectionTo(targetPosition);
-				velocity = direction * 400.0f;
+				GlobalPosition = GlobalPosition.MoveToward(targetPosition, (float)delta * flyUpSpeed);
+				if (GlobalPosition == targetPosition) {
+					isRising = false;
+				}
 			}
 			else {
 				velocity.X = 0.0f;
@@ -59,14 +63,22 @@ public partial class Flower : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	private async void ScreenExited() {
-		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-		isRising = false;
-	}
-
 	private float GetRandomXPosition() {
 		Random rnd = new Random();
-		int num = rnd.Next(642);
+		int num = rnd.Next(128);
+
+		int negative = rnd.Next(2);
+		if (negative < 1) {
+			num = -num;
+		}
+
+		return num; 
+	}
+	
+	private float GetRandomYPosition() {
+		Random rnd = new Random();
+		int num = rnd.Next(45) + 1;
+
 		return num; 
 	}
 
@@ -74,7 +86,7 @@ public partial class Flower : CharacterBody2D
 		if (!gotAnimation) {
 			gotAnimation = true;
 			Random rnd = new Random();
-			int num = rnd.Next(2);
+			int num = rnd.Next(3);
 
 			if (num == 0) {
 				animPlayer.Play("Fall1");
@@ -82,8 +94,8 @@ public partial class Flower : CharacterBody2D
 			else if (num == 1) {
 				animPlayer.Play("Fall2");
 			}
-			else {
-				animPlayer.Play("Rise");
+			else if (num == 2) {
+				animPlayer.Play("Fall3");
 			}
 		}
 	}

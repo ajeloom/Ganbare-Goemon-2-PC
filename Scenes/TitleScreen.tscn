@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0f0vpigi0th6"]
+[gd_scene load_steps=10 format=3 uid="uid://d0f0vpigi0th6"]
 
 [ext_resource type="Script" uid="uid://dnbvqk1t5elg1" path="res://Scripts/TitleScreen.cs" id="1_2u0nv"]
 [ext_resource type="Texture2D" uid="uid://b7vro831dhubx" path="res://Sprites/UI/Menu/Title.png" id="2_8n4dn"]
+[ext_resource type="Texture2D" uid="uid://b0d23i64knx3p" path="res://Sprites/UI/Menu/Title_ExtendedBG.png" id="4_7whhf"]
 [ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="9_g7thj"]
 [ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="10_kqa1d"]
 [ext_resource type="AudioStream" uid="uid://bu44a3htxavq6" path="res://Sounds/Music/TitleScreen.mp3" id="11_ki880"]
@@ -11,30 +12,45 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_qfyqv"]
 font = ExtResource("10_kqa1d")
-font_size = 45
+font_size = 7
 
 [node name="Title Screen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_2u0nv")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ExtendedBG" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+texture = ExtResource("4_7whhf")
+expand_mode = 2
 
-[node name="Background" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(960, 525)
-scale = Vector2(5, 5)
+[node name="Title" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -111.0
+offset_right = 128.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_8n4dn")
+stretch_mode = 2
 
 [node name="StartButton" type="Button" parent="CanvasLayer"]
 anchors_preset = 7
@@ -42,10 +58,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -175.0
-offset_top = -270.0
-offset_right = 175.0
-offset_bottom = -220.0
+offset_left = -24.0
+offset_top = -45.0
+offset_right = 24.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("9_g7thj")
@@ -54,31 +70,24 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "START"
 
 [node name="QuitButton" type="Button" parent="CanvasLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 385.1
-offset_top = 5.0
-offset_right = 635.1
-offset_bottom = 55.0
-grow_horizontal = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -41.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 16.0
+grow_horizontal = 0
 theme = ExtResource("9_g7thj")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "QUIT"
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -175.0
-offset_top = -205.0
-offset_right = 175.0
-offset_bottom = -155.0
-grow_horizontal = 2
-grow_vertical = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 73.0
+offset_bottom = 16.0
 theme = ExtResource("9_g7thj")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
@@ -90,12 +99,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -421.0
-offset_top = 187.0
-offset_right = 421.0
-offset_bottom = 233.0
+offset_left = -64.0
+offset_top = 55.5
+offset_right = 64.0
+offset_bottom = 62.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(64, 3.5)
 text = "GANBARE GOEMON 2"
 label_settings = SubResource("LabelSettings_qfyqv")
 horizontal_alignment = 1

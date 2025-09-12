@@ -23,11 +23,10 @@ GameManager="*res://Scenes/GameManager.tscn"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
-window/size/mode=3
+window/size/viewport_width=256
+window/size/viewport_height=222
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep_height"
 mouse_cursor/custom_image="uid://b76rwrr2hkevd"
 mouse_cursor/custom_image_hotspot=Vector2(15, 15)
 
@@ -184,7 +183,6 @@ back={
 [physics]
 
 2d/run_on_separate_thread=true
-2d/default_gravity=1500.0
 
 [rendering]
 

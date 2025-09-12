@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1snme6vtoxbo"
-path="res://.godot/imported/BossButton.png-2c233089897cbc99a1295c61da3f9491.ctex"
+uid="uid://bpi24m3uqopt"
+path="res://.godot/imported/Stage1_Blur.png-91d7daea782e0ceb243188be191030f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/StageSelect/BossButton.png"
-dest_files=["res://.godot/imported/BossButton.png-2c233089897cbc99a1295c61da3f9491.ctex"]
+source_file="res://Sprites/UI/Menu/StageSelect/Stage1_Blur.png"
+dest_files=["res://.godot/imported/Stage1_Blur.png-91d7daea782e0ceb243188be191030f0.ctex"]
 
 [params]
 

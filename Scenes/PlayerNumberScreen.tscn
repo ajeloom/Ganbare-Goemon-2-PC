@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpif61mntayjk"]
+[gd_scene load_steps=9 format=3 uid="uid://dpif61mntayjk"]
 
 [ext_resource type="Script" uid="uid://bsx5bccuep6js" path="res://Scripts/PlayerNumberScreen.cs" id="1_uwfy5"]
+[ext_resource type="Texture2D" uid="uid://clepemwgvrvyi" path="res://Sprites/UI/Menu/NumberPlayerScreen_ExtendedBG.png" id="2_in0el"]
 [ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="5_5jb8c"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="6_in0el"]
 [ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="6_uuo7i"]
@@ -10,30 +11,45 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_in0el"]
 font = ExtResource("5_5jb8c")
-font_size = 45
+font_size = 7
 
 [node name="Player Number Screen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_uwfy5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ExtendedBG" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+texture = ExtResource("2_in0el")
+expand_mode = 2
 
-[node name="Background" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(960, 525)
-scale = Vector2(5, 5)
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -111.0
+offset_right = 128.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("13_eyhly")
+stretch_mode = 2
 
 [node name="1" type="Button" parent="CanvasLayer"]
 anchors_preset = 8
@@ -41,13 +57,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = 60.0
-offset_right = -150.0
-offset_bottom = 160.0
+offset_left = -38.0
+offset_top = -7.5
+offset_right = -22.0
+offset_bottom = 7.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(16, 16)
 theme = ExtResource("6_uuo7i")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 toggle_mode = true
@@ -59,13 +74,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = 60.0
-offset_right = 50.0
-offset_bottom = 160.0
+offset_left = -8.0
+offset_top = -7.5
+offset_right = 8.0
+offset_bottom = 7.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(16, 16)
 theme = ExtResource("6_uuo7i")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 toggle_mode = true
@@ -77,29 +91,28 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 150.0
-offset_top = 60.0
-offset_right = 250.0
-offset_bottom = 160.0
+offset_left = 22.0
+offset_top = -7.5
+offset_right = 38.0
+offset_bottom = 7.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(16, 16)
 theme = ExtResource("6_uuo7i")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 toggle_mode = true
 text = "3"
 
 [node name="NextButton" type="Button" parent="CanvasLayer"]
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -280.0
-offset_right = 192.0
-offset_bottom = -180.0
-grow_horizontal = 2
+offset_left = -41.0
+offset_top = -16.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 0
 grow_vertical = 0
 pivot_offset = Vector2(39.5, 15.5)
 theme = ExtResource("6_uuo7i")
@@ -108,30 +121,29 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "NEXT"
 
 [node name="BackButton" type="Button" parent="CanvasLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -635.0
-offset_top = 5.0
-offset_right = -385.0
-offset_bottom = 80.0
-grow_horizontal = 2
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 41.0
+offset_bottom = 16.0
 theme = ExtResource("6_uuo7i")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "BACK"
 
-[node name="Label2" type="Label" parent="CanvasLayer"]
+[node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -437.5
-offset_top = 150.0
-offset_right = 437.5
-offset_bottom = 195.0
+offset_left = -68.0
+offset_top = 50.0
+offset_right = 68.0
+offset_bottom = 57.0
 grow_horizontal = 2
+scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(68, 3.5)
 text = "NUMBER OF PLAYERS"
 label_settings = SubResource("LabelSettings_in0el")
+horizontal_alignment = 1
 
 [node name="AudioComponent" parent="." instance=ExtResource("6_in0el")]
 

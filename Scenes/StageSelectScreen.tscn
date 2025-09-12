@@ -1,23 +1,21 @@
-[gd_scene load_steps=17 format=3 uid="uid://bkl1rlube4wq3"]
+[gd_scene load_steps=15 format=3 uid="uid://bkl1rlube4wq3"]
 
 [ext_resource type="Script" uid="uid://csk65ggt6ewvy" path="res://Scripts/StageSelectScreen.cs" id="1_08dsc"]
+[ext_resource type="Texture2D" uid="uid://bpi24m3uqopt" path="res://Sprites/UI/Menu/StageSelect/Stage1_Blur.png" id="2_swijt"]
 [ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="3_hxjbx"]
-[ext_resource type="Texture2D" uid="uid://cph7km5rk2ih0" path="res://Sprites/UI/Menu/StageSelect/Stage1Button.png" id="3_kh54r"]
-[ext_resource type="Texture2D" uid="uid://d1snme6vtoxbo" path="res://Sprites/UI/Menu/StageSelect/BossButton.png" id="4_eonhy"]
-[ext_resource type="Texture2D" uid="uid://bmtyo4ketcomy" path="res://Sprites/UI/Menu/StageSelect/Stage1ButtonHover.png" id="4_f1522"]
-[ext_resource type="Texture2D" uid="uid://ddl0axlnry24w" path="res://Sprites/UI/Menu/StageSelect/ImpactBossButton.png" id="5_2sbr7"]
-[ext_resource type="Texture2D" uid="uid://dufqrjp51i6ia" path="res://Sprites/UI/Menu/StageSelect/Stage1ButtonPressed.png" id="5_yum7n"]
-[ext_resource type="Texture2D" uid="uid://csxk40fsku0kc" path="res://Sprites/UI/Menu/StageSelect/BossButtonHover.png" id="6_p04fn"]
-[ext_resource type="Texture2D" uid="uid://b347n2n48b162" path="res://Sprites/UI/Menu/StageSelect/BossButtonPressed.png" id="8_hxjbx"]
-[ext_resource type="Texture2D" uid="uid://cw1226wd2a5mh" path="res://Sprites/UI/Menu/StageSelect/ImpactBossButtonHover.png" id="8_pnbxr"]
-[ext_resource type="Texture2D" uid="uid://dupmk4nlxkt0j" path="res://Sprites/UI/Menu/StageSelect/ImpactBossButtonDisabled.png" id="9_vbfva"]
-[ext_resource type="Texture2D" uid="uid://bai0xebmtiu0o" path="res://Sprites/UI/Menu/StageSelect/ImpactBossButtonPressed.png" id="11_ooxb1"]
+[ext_resource type="Texture2D" uid="uid://dybv8mn5gp4pq" path="res://Sprites/UI/Menu/StageSelect/Stage1.png" id="3_i0mvn"]
+[ext_resource type="Texture2D" uid="uid://dc3b2idgmisc6" path="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Left_Pressed.png" id="7_21c7a"]
+[ext_resource type="Texture2D" uid="uid://beoaj8q8leerq" path="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Left_Hover.png" id="8_aa023"]
+[ext_resource type="Texture2D" uid="uid://c6ehmx1eai18e" path="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Right_Pressed.png" id="9_uho5o"]
 [ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="11_uho5o"]
+[ext_resource type="Texture2D" uid="uid://bw61w5c0b65oq" path="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Right_Hover.png" id="11_yum7n"]
 [ext_resource type="PackedScene" uid="uid://bcxqnq5bd7yxb" path="res://Scenes/AudioComponent.tscn" id="12_aa023"]
+[ext_resource type="Texture2D" uid="uid://g6etyawpmiy7" path="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Left.png" id="16_xmq5o"]
+[ext_resource type="Texture2D" uid="uid://daafysx8ifv4v" path="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Right.png" id="17_i0mvn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_h8wmo"]
 font = ExtResource("3_hxjbx")
-font_size = 35
+font_size = 7
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 15
 shadow_color = Color(0, 0, 0, 0.392157)
@@ -26,121 +24,122 @@ shadow_color = Color(0, 0, 0, 0.392157)
 
 [node name="Stage Select Screen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_08dsc")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ExtendedBG" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+texture = ExtResource("2_swijt")
+expand_mode = 2
+
+[node name="StageSprite" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -111.0
+offset_right = 128.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_i0mvn")
+stretch_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -280.0
-offset_top = 200.0
-offset_right = 280.0
-offset_bottom = 235.0
+offset_left = -56.0
+offset_top = 15.0
+offset_right = 56.0
+offset_bottom = 22.0
 grow_horizontal = 2
 text = "SELECT A STAGE"
 label_settings = SubResource("LabelSettings_h8wmo")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Level 1" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -840.0
-offset_top = -190.0
-offset_right = -360.0
-offset_bottom = 110.0
-grow_horizontal = 2
-grow_vertical = 2
-toggle_mode = true
-texture_normal = ExtResource("3_kh54r")
-texture_pressed = ExtResource("5_yum7n")
-texture_hover = ExtResource("4_f1522")
-
-[node name="Boss" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -190.0
-offset_right = 240.0
-offset_bottom = 110.0
-grow_horizontal = 2
-grow_vertical = 2
-toggle_mode = true
-texture_normal = ExtResource("4_eonhy")
-texture_pressed = ExtResource("8_hxjbx")
-texture_hover = ExtResource("6_p04fn")
-
-[node name="Impact" type="TextureButton" parent="CanvasLayer"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 360.0
-offset_top = -190.0
-offset_right = 840.0
-offset_bottom = 110.0
-grow_horizontal = 2
-grow_vertical = 2
-toggle_mode = true
-texture_normal = ExtResource("5_2sbr7")
-texture_pressed = ExtResource("11_ooxb1")
-texture_hover = ExtResource("8_pnbxr")
-texture_disabled = ExtResource("9_vbfva")
-
 [node name="StartButton" type="Button" parent="CanvasLayer"]
-offset_left = 768.0
-offset_top = 740.0
-offset_right = 1152.0
-offset_bottom = 840.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = -26.0
+offset_right = 24.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 0
 theme = ExtResource("11_uho5o")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "START"
 
 [node name="BackButton" type="Button" parent="CanvasLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -955.0
-offset_top = 5.0
-offset_right = -705.0
-offset_bottom = 80.0
-grow_horizontal = 2
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 41.0
+offset_bottom = 16.0
 theme = ExtResource("11_uho5o")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
 text = "BACK"
 
+[node name="LeftArrowButton" type="TextureButton" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -15.5
+offset_right = -83.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("16_xmq5o")
+texture_pressed = ExtResource("7_21c7a")
+texture_hover = ExtResource("8_aa023")
+
+[node name="RightArrowButton" type="TextureButton" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 82.5
+offset_top = -15.5
+offset_right = 101.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("17_i0mvn")
+texture_pressed = ExtResource("9_uho5o")
+texture_hover = ExtResource("11_yum7n")
+
 [node name="AudioComponent" parent="." instance=ExtResource("12_aa023")]
 
-[connection signal="mouse_entered" from="CanvasLayer/Level 1" to="." method="ButtonMouseEntered"]
-[connection signal="pressed" from="CanvasLayer/Level 1" to="." method="LevelButtonPressed"]
-[connection signal="mouse_entered" from="CanvasLayer/Boss" to="." method="ButtonMouseEntered"]
-[connection signal="pressed" from="CanvasLayer/Boss" to="." method="BossButtonPressed"]
-[connection signal="mouse_entered" from="CanvasLayer/Impact" to="." method="ButtonMouseEntered"]
-[connection signal="pressed" from="CanvasLayer/Impact" to="." method="ImpactButtonPressed"]
 [connection signal="mouse_entered" from="CanvasLayer/StartButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/StartButton" to="." method="StartButtonPressed"]
 [connection signal="mouse_entered" from="CanvasLayer/BackButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/LeftArrowButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/LeftArrowButton" to="." method="LeftArrowButtonPressed"]
+[connection signal="mouse_entered" from="CanvasLayer/RightArrowButton" to="." method="ButtonMouseEntered"]
+[connection signal="pressed" from="CanvasLayer/RightArrowButton" to="." method="RightArrowButtonPressed"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmtyo4ketcomy"
-path="res://.godot/imported/Stage1ButtonHover.png-ff26b21394fa379ee24fd1a6614a15a1.ctex"
+uid="uid://s1pu3kwh1e0c"
+path="res://.godot/imported/Impact_Stage.png-5d73875c543b6cd8ff94d1dc18498309.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/StageSelect/Stage1ButtonHover.png"
-dest_files=["res://.godot/imported/Stage1ButtonHover.png-ff26b21394fa379ee24fd1a6614a15a1.ctex"]
+source_file="res://Sprites/UI/Menu/StageSelect/Impact_Stage.png"
+dest_files=["res://.godot/imported/Impact_Stage.png-5d73875c543b6cd8ff94d1dc18498309.ctex"]
 
 [params]
 

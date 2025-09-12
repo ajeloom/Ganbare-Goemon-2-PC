@@ -8,12 +8,10 @@
 script = ExtResource("1_pcb5b")
 
 [node name="AudioComponent" parent="." instance=ExtResource("2_8d2vq")]
-position = Vector2(-0.25, -0.25)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 19
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
-scale = Vector2(5, 5)
 texture = ExtResource("3_6qa2i")
 hframes = 3

@@ -5,10 +5,10 @@ public partial class Player : CharacterBody2D
 {
 	// Movement variables
 	private float speed;
-	[Export] private float baseSpeed = 150.0f;
-	private float maxSpeed = 250.0f;
+	[Export] private float baseSpeed = 70.0f;
+	private float maxSpeed = 110.0f;
 
-	[Export] private float jumpVelocity = -500.0f;
+	[Export] private float jumpVelocity = -400.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	private float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -188,8 +188,8 @@ public partial class Player : CharacterBody2D
 				velocity.Y += gravity * (float)delta;
 
 				// Player can do short hop by not holding the jump button
-				if (Input.IsActionJustReleased("jump" + playerNum.ToString()) && velocity.Y < -250.0f) {
-					velocity.Y += 1500 * 6.0f * (float)delta;
+				if (Input.IsActionJustReleased("jump" + playerNum.ToString()) && velocity.Y < -200.0f) {
+					velocity.Y += 1000 * 6.0f * (float)delta;
 				}
 			}
 			else {
@@ -220,7 +220,7 @@ public partial class Player : CharacterBody2D
 				// Player bounces up everytime they hit the floor
 				if ((IsOnFloor() && bounces < 2) || (!IsOnFloor() && bounces == 0)) {
 					bounces++;
-					velocity.Y = -205.0f;
+					velocity.Y = -123.0f;
 				}
 
 				// Player bounces away from the enemy

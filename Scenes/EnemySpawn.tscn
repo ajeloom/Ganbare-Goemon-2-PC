@@ -6,8 +6,7 @@
 script = ExtResource("1_gojuh")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-scale = Vector2(1.6, 1.6)
-rect = Rect2(-35, -35, 70, 70)
+rect = Rect2(-25, -25, 50, 50)
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="OnScreenEntered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnScreenExited"]

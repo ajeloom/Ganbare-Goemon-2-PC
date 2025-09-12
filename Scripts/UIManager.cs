@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class UIManager : Node2D
+public partial class UIManager : Control
 {
 	private int setTime = 99;
 	private int timeLeft;
@@ -11,7 +11,7 @@ public partial class UIManager : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		timeLabel = GetNode<Label>("CanvasLayer/Control/Time Label");
+		timeLabel = GetNode<Label>("CanvasLayer/Time Label");
 		timer = GetNode<Timer>("Timer");
 	}
 

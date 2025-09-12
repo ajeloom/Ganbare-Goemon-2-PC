@@ -451,7 +451,6 @@ size = Vector2(9, 7)
 
 [node name="Flower" type="CharacterBody2D" groups=["Enemy"]]
 z_index = -1
-scale = Vector2(1.6, 1.6)
 collision_layer = 4
 script = ExtResource("1_84yqe")
 
@@ -474,8 +473,6 @@ autoplay = "Rise"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("RectangleShape2D_g2b16")
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="HealthComponent" parent="." instance=ExtResource("5_hlyqt")]
 health = 1.0
@@ -502,5 +499,3 @@ disabled = true
 stream = ExtResource("7_b3tsy")
 volume_db = -60.0
 pitch_scale = 3.0
-
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="ScreenExited"]

@@ -5,6 +5,7 @@ public partial class Ball : CharacterBody2D
 {
 	private HealthComponent healthComponent;
 	private HurtboxComponent hurtboxComponent;
+	private CollisionShape2D hurtbox;
 	private HitboxComponent hitboxComponent;
 	private AnimationPlayer animPlayer;
 	private ScreenShake camera;
@@ -21,6 +22,7 @@ public partial class Ball : CharacterBody2D
 	{
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		hurtboxComponent = GetNode<HurtboxComponent>("HurtboxComponent");
+		hurtbox = GetNode<CollisionShape2D>("HurtboxComponent/CollisionShape2D");
 		hitboxComponent = GetNode<HitboxComponent>("HitboxComponent");
 		animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		camera = GetNode<ScreenShake>("/root/Impact Battle/Camera2D");
@@ -28,16 +30,12 @@ public partial class Ball : CharacterBody2D
 		Scale = new Vector2(0.245f, 0.245f);
 
 		targetPosition = new Vector2(GetRandomXPosition(), 60.0f);
+		RandomColor();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
-		if (!changedColor) {
-			changedColor = true;
-			RandomColor();
-		}
-
 		if (healthComponent.health > 0.0f) {
 			// Scale the ball based on how far or close they are (w/ y-position)
 			if (Position.Y < 0.0f)
@@ -46,11 +44,11 @@ public partial class Ball : CharacterBody2D
 				Scale = new Vector2(0.035f * Position.Y, 0.035f * Position.Y);
 
 			// Hurtbox can be hit when ball gets close
-			if (Scale.X < 1.0f) {
-				hurtboxComponent.Monitorable = false;
+			if (Scale.Y < 1.0f) {
+				hurtbox.Disabled = true;
 			}
 			else {
-				hurtboxComponent.Monitorable = true;
+				hurtbox.Disabled = false;
 			}
 
 			// Adjust the speed the ball moves based on the target position
@@ -107,7 +105,7 @@ public partial class Ball : CharacterBody2D
 
 	private float GetRandomXPosition() {
 		Random rnd = new Random();
-		int num = rnd.Next(205);
+		int num = rnd.Next(128);
 
 		int negative = rnd.Next(2);
 		if (negative == 0) {

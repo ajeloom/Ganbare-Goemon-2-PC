@@ -8,8 +8,10 @@ public partial class Settings : Control
 
 	private AudioComponent audioComponent;
 	[Export] private CheckBox CRTCheckBox;
+	[Export] private CheckBox WideScreenCheckBox;
 
 	private bool displayCRTFilter;
+	private bool widescreen;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -21,6 +23,8 @@ public partial class Settings : Control
 
 		CRTCheckBox.ButtonPressed = displayCRTFilter;
 		CRTEffectCheckBoxToggled(CRTCheckBox.ButtonPressed);
+
+		WideScreenCheckBox.ButtonPressed = widescreen;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,6 +46,7 @@ public partial class Settings : Control
 		}
 
 		displayCRTFilter = (bool)configFile.GetValue("Settings", "DisplayCRTFilter");
+		widescreen = (bool)configFile.GetValue("Settings", "Widescreen");
 	}
 
 	private void BackButtonPressed()
@@ -72,8 +77,21 @@ public partial class Settings : Control
 			CanvasLayer layer = GameManager.instance.GetNode<CanvasLayer>("CRTFilter");
 			GameManager.instance.RemoveChild(layer);
 		}
-		
+
 		configFile.SetValue("Settings", "DisplayCRTFilter", CRTCheckBox.ButtonPressed);
+		Save();
+	}
+
+	private void WidescreenToggled(bool toggledOn)
+	{
+		if (toggledOn) {
+			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.KeepHeight;
+		}
+		else {
+			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.Keep;
+		}
+		
+		configFile.SetValue("Settings", "Widescreen", WideScreenCheckBox.ButtonPressed);
 		Save();
 	}
 }

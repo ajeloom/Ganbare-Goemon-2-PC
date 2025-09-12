@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://b432wouw8ummd"]
+[gd_scene load_steps=12 format=3 uid="uid://b432wouw8ummd"]
 
 [ext_resource type="Script" uid="uid://d0ncob4lwk07f" path="res://Scripts/Settings.cs" id="1_mjqtt"]
+[ext_resource type="Texture2D" uid="uid://clepemwgvrvyi" path="res://Sprites/UI/Menu/NumberPlayerScreen_ExtendedBG.png" id="2_646k0"]
 [ext_resource type="Texture2D" uid="uid://bxl7itvh706c3" path="res://Sprites/UI/Menu/NumberPlayerScreen.png" id="2_ppjuv"]
 [ext_resource type="Theme" uid="uid://br5bwway6rwhr" path="res://ButtonTheme.tres" id="4_646k0"]
 [ext_resource type="FontFile" uid="uid://27gupsgirx7e" path="res://Sprites/UI/Menu/TitleFont.png" id="5_efosg"]
@@ -12,43 +13,55 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_in0el"]
 font = ExtResource("5_efosg")
-font_size = 45
+font_size = 7
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ipgag"]
 
-[node name="Settings" type="Control" node_paths=PackedStringArray("CRTCheckBox")]
+[node name="Settings" type="Control" node_paths=PackedStringArray("CRTCheckBox", "WideScreenCheckBox")]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_mjqtt")
-CRTCheckBox = NodePath("CanvasLayer/CRTCheckBox")
+CRTCheckBox = NodePath("CanvasLayer/CRTEffect")
+WideScreenCheckBox = NodePath("CanvasLayer/Widescreen")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ExtendedBG" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+texture = ExtResource("2_646k0")
+expand_mode = 2
 
-[node name="Background" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(960, 525)
-scale = Vector2(5, 5)
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -111.0
+offset_right = 128.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_ppjuv")
+stretch_mode = 2
 
 [node name="BackButton" type="Button" parent="CanvasLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -635.0
-offset_top = 5.0
-offset_right = -385.0
-offset_bottom = 80.0
-grow_horizontal = 2
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 41.0
+offset_bottom = 16.0
 theme = ExtResource("4_646k0")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_646k0")
@@ -58,37 +71,58 @@ text = "BACK"
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -206.0
-offset_top = 150.0
-offset_right = 206.0
-offset_bottom = 195.0
+offset_left = -32.0
+offset_top = 50.0
+offset_right = 32.0
+offset_bottom = 57.0
 grow_horizontal = 2
+scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(32, 3.5)
 text = "SETTINGS"
 label_settings = SubResource("LabelSettings_in0el")
 horizontal_alignment = 1
 
-[node name="CRTCheckBox" type="CheckBox" parent="CanvasLayer"]
+[node name="CRTEffect" type="CheckBox" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -53.0
-offset_top = -15.5
-offset_right = 53.0
-offset_bottom = 15.5
+offset_left = -54.0
+offset_top = -12.0
+offset_right = 54.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_646k0")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/h_separation = 15
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ipgag")
 theme_override_icons/checked = ExtResource("5_ipgag")
 theme_override_icons/unchecked = ExtResource("6_646k0")
 text = "CRT EFFECT"
 
+[node name="Widescreen" type="CheckBox" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.0
+offset_top = 8.0
+offset_right = 58.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_646k0")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ipgag")
+theme_override_icons/checked = ExtResource("5_ipgag")
+theme_override_icons/unchecked = ExtResource("6_646k0")
+text = "WIDESCREEN"
+
 [node name="AudioComponent" parent="." instance=ExtResource("6_ppjuv")]
 
 [connection signal="mouse_entered" from="CanvasLayer/BackButton" to="." method="ButtonMouseEntered"]
 [connection signal="pressed" from="CanvasLayer/BackButton" to="." method="BackButtonPressed"]
-[connection signal="toggled" from="CanvasLayer/CRTCheckBox" to="." method="CRTEffectCheckBoxToggled"]
+[connection signal="toggled" from="CanvasLayer/CRTEffect" to="." method="CRTEffectCheckBoxToggled"]
+[connection signal="toggled" from="CanvasLayer/Widescreen" to="." method="WidescreenToggled"]

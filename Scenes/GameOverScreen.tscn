@@ -4,7 +4,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vllb"]
 font = ExtResource("1_d4r0f")
-font_size = 75
+font_size = 14
 font_color = Color(1, 0, 0, 1)
 
 [node name="Game Over Screen" type="Control"]
@@ -32,11 +32,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -386.0
-offset_top = -37.5
-offset_right = 386.0
-offset_bottom = 37.5
+offset_left = -62.0
+offset_top = -6.0
+offset_right = 62.0
+offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "GAME OVER"
 label_settings = SubResource("LabelSettings_5vllb")
+horizontal_alignment = 1

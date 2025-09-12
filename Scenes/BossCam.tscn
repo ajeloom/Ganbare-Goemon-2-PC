@@ -6,5 +6,4 @@
 scale = Vector2(1.6, 1.6)
 anchor_mode = 0
 ignore_rotation = false
-zoom = Vector2(3, 3)
 script = ExtResource("1_odcmp")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cph7km5rk2ih0"
-path="res://.godot/imported/Stage1Button.png-edc36311e9543e1ec020f84060bef844.ctex"
+uid="uid://c6ehmx1eai18e"
+path="res://.godot/imported/Stage_Select_Arrow_Right_Pressed.png-f4f051dfda6e79135a1206ba5bd5a3f7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Menu/StageSelect/Stage1Button.png"
-dest_files=["res://.godot/imported/Stage1Button.png-edc36311e9543e1ec020f84060bef844.ctex"]
+source_file="res://Sprites/UI/Menu/StageSelect/Stage_Select_Arrow_Right_Pressed.png"
+dest_files=["res://.godot/imported/Stage_Select_Arrow_Right_Pressed.png-f4f051dfda6e79135a1206ba5bd5a3f7.ctex"]
 
 [params]
 
