@@ -8,10 +8,12 @@ public partial class Settings : Control
 
 	private AudioComponent audioComponent;
 	[Export] private CheckBox CRTCheckBox;
-	[Export] private CheckBox WideScreenCheckBox;
+	[Export] private CheckBox WidescreenCheckBox;
+	[Export] private CheckBox FullscreenCheckBox;
 
 	private bool displayCRTFilter;
 	private bool widescreen;
+	private bool fullscreen;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -24,7 +26,8 @@ public partial class Settings : Control
 		CRTCheckBox.ButtonPressed = displayCRTFilter;
 		CRTEffectCheckBoxToggled(CRTCheckBox.ButtonPressed);
 
-		WideScreenCheckBox.ButtonPressed = widescreen;
+		WidescreenCheckBox.ButtonPressed = widescreen;
+		FullscreenCheckBox.ButtonPressed = fullscreen;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,6 +50,7 @@ public partial class Settings : Control
 
 		displayCRTFilter = (bool)configFile.GetValue("Settings", "DisplayCRTFilter");
 		widescreen = (bool)configFile.GetValue("Settings", "Widescreen");
+		fullscreen = (bool)configFile.GetValue("Settings", "Fullscreen");
 	}
 
 	private void BackButtonPressed()
@@ -91,7 +95,20 @@ public partial class Settings : Control
 			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.Keep;
 		}
 		
-		configFile.SetValue("Settings", "Widescreen", WideScreenCheckBox.ButtonPressed);
+		configFile.SetValue("Settings", "Widescreen", WidescreenCheckBox.ButtonPressed);
+		Save();
+	}
+
+	private void FullscreenToggled(bool toggledOn)
+	{
+		if (toggledOn) {
+			GetTree().Root.Mode = Window.ModeEnum.ExclusiveFullscreen;
+		}
+		else {
+			GetTree().Root.Mode = Window.ModeEnum.Windowed;
+		}
+		
+		configFile.SetValue("Settings", "Fullscreen", FullscreenCheckBox.ButtonPressed);
 		Save();
 	}
 }

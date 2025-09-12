@@ -576,6 +576,14 @@ public partial class GameManager : Node2D
 		else {
 			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.Keep;
 		}
+		
+		bool fullscreen = (bool)configFile.GetValue("Settings", "Fullscreen");
+		if (fullscreen) {
+			GetTree().Root.Mode = Window.ModeEnum.ExclusiveFullscreen;
+		}
+		else {
+			GetTree().Root.Mode = Window.ModeEnum.Windowed;
+		}
 	}
 
 	private bool DoesPlayersHaveLives()
