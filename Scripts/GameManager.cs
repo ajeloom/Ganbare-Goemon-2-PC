@@ -95,15 +95,13 @@ public partial class GameManager : Node2D
 		"res://Sounds/Music/ImpactBoss.mp3"
 	};
 
-	public enum PlayerNumber
-	{
+	public enum PlayerNumber {
 		Player1 = 0,
 		Player2 = 1,
 		Player3 = 2
 	}
 
-	public enum StageNumber
-	{
+	public enum StageNumber {
 		Stage1 = 0,
 		BossStage = 1,
 		ImpactStage = 2
@@ -131,8 +129,6 @@ public partial class GameManager : Node2D
 
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 
-		// Initialize player array
-		players = new PlayerStruct[3];
 
 		// Load title screen
 		GoToScene("res://Scenes/TitleScreen.tscn");
@@ -175,13 +171,11 @@ public partial class GameManager : Node2D
 							players[i].isAlive = players[i].node.isAlive;
 						}
 
-						if (!players[(int)PlayerNumber.Player1].isAlive
-								&& !players[(int)PlayerNumber.Player2].isAlive
-								&& !players[(int)PlayerNumber.Player3].isAlive) {
+						if (IsEveryPlayerDead()) {
 							Timer timer = GetNode<Timer>("UI/Timer");
 							timer.Stop();
 
-							if (DoesPlayersHaveLives()) {
+							if (DoesAnyPlayerHaveLives()) {
 								// Reload the scene if all players are dead 
 								// at the same time but still have lives
 								reloadScene();
@@ -209,26 +203,18 @@ public partial class GameManager : Node2D
 
 				break;
 		}
-
-		// Change the layer of the transition control node to not block any buttons
-		if (isTransitioning) {
-			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
-			layer.Layer = 20;
-		}
-		else {
-			CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
-			layer.Layer = 10;
-		}
 	}
 
-	private void PauseGame() {
+	private void PauseGame()
+	{
 		isPaused = true;
 		Input.MouseMode = Input.MouseModeEnum.Visible;
 		pauseMenu.Visible = true;
 		GetTree().Paused = true;
 	}
 
-	private void ResumeButtonPressed() {
+	private void ResumeButtonPressed()
+	{
 		PlayButtonClickedSFX();
 		isPaused = false;
 		pauseMenu.Visible = false;
@@ -236,23 +222,27 @@ public partial class GameManager : Node2D
 		Input.MouseMode = Input.MouseModeEnum.Hidden;
 	}
 
-	private void MenuButtonPressed() {
+	private void MenuButtonPressed()
+	{
 		PlayButtonClickedSFX();
 		pauseMenu.Visible = false;
 		GoToMenu();
 	}
 
-	private void QuitButtonPressed() {
+	private void QuitButtonPressed()
+	{
 		GetTree().Quit();
 	}
 
-	public void AddChild(string name, Node parent) {
+	public void AddChild(string name, Node parent)
+	{
 		PackedScene scene = GD.Load<PackedScene>(name);
 		Node instance = scene.Instantiate();
 		parent.AddChild(instance, true);
 	}
 
-	public void LoadScene(string name) {
+	public void LoadScene(string name)
+	{
 		// It is now safe to remove the current scene.
 		currentScene.Free();
 
@@ -283,16 +273,20 @@ public partial class GameManager : Node2D
 		CallDeferred(MethodName.LoadScene, path);
 	}
 
-	public void SetPlayerCount(int value) {
+	public void SetPlayerCount(int value)
+	{
 		playerCount = value;
+		players = new PlayerStruct[playerCount];
 	}
 
 	// Sets the character for each player
-	public void SetCharacter(int playerNum, int value) {
+	public void SetCharacter(int playerNum, int value)
+	{
 		players[playerNum].character = value;
 	}
 
-	public async void GoToMenu() {
+	public async void GoToMenu()
+	{
 		if (!exitGame) {
 			exitGame = true;
 
@@ -326,8 +320,6 @@ public partial class GameManager : Node2D
 			}
 
 			// Reset values
-			players = new PlayerStruct[3];
-
 			isPaused = false;
 			selectCharacter = false;
 
@@ -343,17 +335,19 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	private async void reloadScene() {
+	private async void reloadScene()
+	{
 		if (!reloadingLevel) {
 			reloadingLevel = true;
 			canPause = false;
 
 			await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
-			SmallTransition("FadeOut");
+
+			Transition(stages[selectedStage]);
+
+			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
 			audio.Stop();
-
-			await ToSignal(GetTree().CreateTimer(2.4f), SceneTreeTimer.SignalName.Timeout);
 
 			if (selectedStage == (int)StageNumber.Stage1) {
 				// Remove camera
@@ -371,34 +365,21 @@ public partial class GameManager : Node2D
 			}
 
 			RemovePlayers();
-
-			GoToScene(stages[selectedStage]);
-
 			SetupGame(true);
 
-			SmallTransition("FadeIn");
 			canPause = true;
 			reloadingLevel = false;
 		}
 	}
 
-	// For transitioning during game reloads
-	public async void SmallTransition(string name) {
-		if (!isTransitioning) {
-			isTransitioning = true;
-			transitionAP.Play(name);
-
-			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-
-			isTransitioning = false;
-		}
-	}
-
 	// For transitioning between two scenes
-	public async void Transition(string nextScene) {
+	public async void Transition(string nextScene)
+	{
+		CanvasLayer layer = transition.GetNode<CanvasLayer>("CanvasLayer");
 		if (!isTransitioning) {
 			isTransitioning = true;
 			transitionAP.Play("Fade");
+			layer.Layer = 20; // Block buttons from being pressed
 
 			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
@@ -408,90 +389,85 @@ public partial class GameManager : Node2D
 
 			isTransitioning = false;
 		}
+		
+		layer.Layer = 10; // Allow buttons to be pressed
 	}
 
-	private async void GameOver() {
+	private async void GameOver()
+	{
 		// Wait for all players to be off screen
 		await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
-		SmallTransition("FadeOut");
 
-		// Wait for fade out transition to end
-		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-		GoToScene("res://Scenes/GameOverScreen.tscn");
-		SmallTransition("FadeIn");
+		Transition("res://Scenes/GameOverScreen.tscn");
 
-		await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout);
 		GoToMenu();
 	}
 
-	private void LoadPlayers(bool isReloading) {
-		for (int i = 0; i < 3; i++) {
-			if (i < playerCount) {
-				if (players[i].character == (int)Player.CharacterID.Goemon) {
-					AddChild("res://Scenes/Goemon.tscn", this);
-				}
-				if (players[i].character == (int)Player.CharacterID.Ebisumaru) {
-					AddChild("res://Scenes/Ebisumaru.tscn", this);
-				}
-				else if (players[i].character == (int)Player.CharacterID.Sasuke) {
-					AddChild("res://Scenes/Sasuke.tscn", this);
-				}
+	private void LoadPlayers(bool isReloading)
+	{
+		for (int i = 0; i < playerCount; i++) {
+			if (players[i].character == (int)Player.CharacterID.Goemon) {
+				AddChild("res://Scenes/Goemon.tscn", this);
+			}
+			if (players[i].character == (int)Player.CharacterID.Ebisumaru) {
+				AddChild("res://Scenes/Ebisumaru.tscn", this);
+			}
+			else if (players[i].character == (int)Player.CharacterID.Sasuke) {
+				AddChild("res://Scenes/Sasuke.tscn", this);
+			}
 
-				Player temp = GetChild<Player>(GetChildCount() - 1);
-				temp.playerNum = i;
+			Player temp = GetChild<Player>(GetChildCount() - 1);
+			temp.playerNum = i;
 
-				if (isReloading) {
-					temp.coins = players[i].coins;
-					temp.lives = players[i].lives;
-					temp.chara = players[i].character;
-					players[i].node = temp;
-					if (players[i].lives > -1) {
-						temp.isAlive = true;
-					}
-					else {
-						temp.isAlive = false;
-						temp.healthComponent.health = 0.0f;
-						temp.Position = new Vector2(0.0f, 5000.0f);
-						continue;
-					}
+			if (isReloading) {
+				temp.coins = players[i].coins;
+				temp.lives = players[i].lives;
+				temp.chara = players[i].character;
+				players[i].node = temp;
+				if (players[i].lives > -1) {
+					temp.isAlive = true;
 				}
 				else {
-					// Initialize the variables
-					temp.coins = 100;
-					temp.lives = 2;
-					temp.isAlive = true;
-					temp.chara = players[i].character;
-					players[i] = new PlayerStruct(temp, temp.chara, i, temp.lives, temp.coins, temp.isAlive);
-				}
-				
-				PlayerUI ui = temp.GetNode<PlayerUI>("Player UI");
-				ui.InitializeUI(i, players[i].character);
-				ui.UpdateLives();
-
-				// Get spawn point
-				if (selectedStage == (int)StageNumber.Stage1)
-				{
-					Node2D node = GetNode<Node2D>("/root/Stage1/Level1/SpawnPoint" + i);
-
-					// Set player location to spawn point
-					temp.Position = node.GlobalPosition;
-				}
-				else if (selectedStage == (int)StageNumber.BossStage)
-				{
-					Node2D node = GetNode<Node2D>("/root/Boss Fight/SpawnPoint" + i);
-
-					// Set player location to spawn point
-					temp.Position = node.GlobalPosition;
+					temp.isAlive = false;
+					temp.healthComponent.health = 0.0f;
+					temp.Position = new Vector2(0.0f, 5000.0f);
+					continue;
 				}
 			}
 			else {
-				// Set empty values into the unused player slot
-				players[i] = new PlayerStruct(null, 0, i, -1, 0, false);
+				// Initialize the variables
+				temp.coins = 100;
+				temp.lives = 2;
+				temp.isAlive = true;
+				temp.chara = players[i].character;
+				players[i] = new PlayerStruct(temp, temp.chara, i, temp.lives, temp.coins, temp.isAlive);
+			}
+
+			PlayerUI ui = temp.GetNode<PlayerUI>("Player UI");
+			ui.InitializeUI(i, players[i].character);
+			ui.UpdateLives();
+
+			// Get spawn point
+			if (selectedStage == (int)StageNumber.Stage1)
+			{
+				Node2D node = GetNode<Node2D>("/root/Stage1/Level1/SpawnPoint" + i);
+
+				// Set player location to spawn point
+				temp.Position = node.GlobalPosition;
+			}
+			else if (selectedStage == (int)StageNumber.BossStage)
+			{
+				Node2D node = GetNode<Node2D>("/root/Boss Fight/SpawnPoint" + i);
+
+				// Set player location to spawn point
+				temp.Position = node.GlobalPosition;
 			}
 		}
 	}
 
-	public bool IsPlayerRespawning() {
+	public bool IsPlayerRespawning()
+	{
 		for (int i = 0; i < playerCount; i++) {
 			if (players[i].lives > -1 && !players[i].isAlive) {
 				return true;
@@ -499,8 +475,31 @@ public partial class GameManager : Node2D
 		}
 		return false;
 	}
+	
+	private bool IsEveryPlayerDead()
+	{
+		for (int i = 0; i < playerCount; i++) {
+			if (players[i].isAlive) {
+				return false;
+			}
+		}
 
-	private void PickCharacter() {
+		return true;
+	}
+	
+	private bool DoesAnyPlayerHaveLives()
+	{
+		for (int i = 0; i < playerCount; i++) {
+			if (players[i].lives >= 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void PickCharacter()
+	{
 		if (!addedCursors) {
 			addedCursors = true;
 
@@ -532,7 +531,8 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	public void DeleteCursors() {
+	public void DeleteCursors()
+	{
 		if (!deletedCursors) {
 			deletedCursors = true;
 
@@ -546,11 +546,13 @@ public partial class GameManager : Node2D
 		}
 	}
 
-	private void ButtonMouseEntered() {
+	private void ButtonMouseEntered()
+	{
 		audioComponent.playSFX("res://Sounds/SFX/MenuSelect.wav", -15.0f);
 	}
 
-	private void PlayButtonClickedSFX() {
+	private void PlayButtonClickedSFX()
+	{
 		audioComponent.playSFX("res://Sounds/SFX/MenuClick.wav", -10.0f);
 	}
 
@@ -568,7 +570,7 @@ public partial class GameManager : Node2D
 			Node instance = scene.Instantiate();
 			AddChild(instance);
 		}
-		
+
 		bool widescreen = (bool)configFile.GetValue("Settings", "Widescreen");
 		if (widescreen) {
 			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.KeepHeight;
@@ -576,7 +578,7 @@ public partial class GameManager : Node2D
 		else {
 			GetTree().Root.ContentScaleAspect = Window.ContentScaleAspectEnum.Keep;
 		}
-		
+
 		bool fullscreen = (bool)configFile.GetValue("Settings", "Fullscreen");
 		if (fullscreen) {
 			GetTree().Root.Mode = Window.ModeEnum.ExclusiveFullscreen;
@@ -584,17 +586,6 @@ public partial class GameManager : Node2D
 		else {
 			GetTree().Root.Mode = Window.ModeEnum.Windowed;
 		}
-	}
-
-	private bool DoesPlayersHaveLives()
-	{
-		if (players[(int)PlayerNumber.Player1].lives >= 0
-				|| players[(int)PlayerNumber.Player2].lives >= 0
-				|| players[(int)PlayerNumber.Player3].lives >= 0) {
-			return true;
-		}
-
-		return false;
 	}
 
 	private void RemovePlayers()
@@ -618,9 +609,9 @@ public partial class GameManager : Node2D
 		else {
 			canvas.Visible = true;
 			LoadPlayers(isReloading);
-			
+
 			if (selectedStage == (int)StageNumber.Stage1) {
-				
+
 				if (playerCount > 1) {
 					AddChild("res://Scenes/Boundary.tscn", this);
 					AddChild("res://Scenes/Boundary.tscn", this);
@@ -635,7 +626,7 @@ public partial class GameManager : Node2D
 				ui.SetTime(99);
 				ui.ResetTimer();
 				timer.Start();
-				
+
 				// Load stage music
 				LoadMusic(songs[selectedStage], -5.0f);
 			}
@@ -649,7 +640,7 @@ public partial class GameManager : Node2D
 				LoadMusic(songs[selectedStage], -15.0f);
 			}
 		}
-		
+
 		stageFullyLoaded = true;
 	}
 
